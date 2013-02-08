@@ -17,7 +17,7 @@ You can also supply a custom validator:
 
 {docx}
 def doWithConfigOptions = {
-    'concurrentConnections'(type: Integer, defaultValue: 10, 
+    'concurrentConnections'(type: Integer, defaultValue: 10,
         validator: { v -> v < 500 ? null : 'concurrent.connections.too.big' }
 }
 {docx}

@@ -16,7 +16,7 @@
                 </div>
 
                 <h1>Navigation</h1>
-                
+
                 <p>The current active path is "${nav.activePath().encodeAsHTML()}", which means the active node is ${nav.activeNode()?.id.encodeAsHTML()}</p>
 
                 <h2>Test navigation for the active path</h2>
@@ -42,7 +42,7 @@
 
                 <h2>Available navigation scopes</h2>
                 <ul>
-                <g:each in="${navScopes}" var="scope"> 
+                <g:each in="${navScopes}" var="scope">
                     <li>${scope.name.encodeAsHTML()}
                     <nav:items scope="${scope}" var="item">
                         id: ${item.id.encodeAsHTML()}
@@ -61,17 +61,17 @@
                     </li>
                 </g:each>
                 </ul>
-            
+
                 <h2>Nodes by id cache</h2>
                 <ul>
-                <g:each in="${navNodesById}" var="n"> 
+                <g:each in="${navNodesById}" var="n">
                     <li>${n.key.encodeAsHTML()} &raquo; ${n.value.name.encodeAsHTML()} <g:if test="${n.value instanceof org.grails.plugin.platform.navigation.NavigationItem}"> (${n.value.linkArgs.encodeAsHTML()})</g:if></li>
                 </g:each>
                 </ul>
 
                 <h2>Nodes by controller/action</h2>
                 <ul>
-                <g:each in="${navNodesByControllerAction}" var="n"> 
+                <g:each in="${navNodesByControllerAction}" var="n">
                     <li>${n.key.encodeAsHTML()} &raquo; ${n.value.name.encodeAsHTML()} (${n.value.linkArgs.encodeAsHTML()})</li>
                 </g:each>
                 </ul>

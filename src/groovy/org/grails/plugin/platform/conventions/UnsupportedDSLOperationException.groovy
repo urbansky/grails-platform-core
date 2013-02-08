@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -19,7 +19,7 @@ package org.grails.plugin.platform.conventions
 
 class UnsupportedDSLOperationException extends RuntimeException {
     DSLCommand command
-    
+
     UnsupportedDSLOperationException(String msg, DSLCommand command) {
         super(msg)
         this.command = command

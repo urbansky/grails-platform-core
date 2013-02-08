@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -28,6 +28,6 @@ interface Conventions {
      * @todo This is broken under Grails 1.3 currently
      */
     List<String> discoverCodeBlockConventions(Class actualClass, Class annotation, boolean allowArgs)
-    
+
     GrailsClass findArtefactBySimpleClassName(String classNameNoPackage, String artefactType)
 }

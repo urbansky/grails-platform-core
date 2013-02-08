@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -36,7 +36,7 @@ import java.util.Map;
  * <p/>
  * [Does stuff]
  */
-public class GormBridgePublisher implements ApplicationListener {
+public class GormBridgePublisher implements ApplicationListener<ApplicationEvent> {
 
     private GormTopicSupport gormTopicSupport;
     private Events grailsEvents;

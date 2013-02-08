@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -21,7 +21,7 @@ import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.slf4j.LoggerFactory
 
 /**
- * Builder that evaluates a DSL Closure and produces a structure representing the 
+ * Builder that evaluates a DSL Closure and produces a structure representing the
  * method calls and property access, with child nodes for methods taking a closure
  */
 class StandardDSLDelegate {
@@ -104,4 +104,4 @@ class StandardDSLDelegate {
 
         this.@__results << new DSLGetValueCommand(name: name)
     }
-}   
+}

@@ -1,3 +1,8 @@
 .DS_Store
 /PlatformCore.sublime-workspace
 /plugin.xml
+*.log
+target
+.settings
+*.zip
+web-app/WEB-INF

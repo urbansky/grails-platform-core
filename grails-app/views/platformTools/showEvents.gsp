@@ -5,7 +5,7 @@
     </head>
     <body>
         <h1>Events</h1>
-        
+
         <p>The following events are registered:</p>
         <ul>
         <g:each in="${events}" var="eventDef">

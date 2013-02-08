@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -17,20 +17,14 @@
  */
 package org.grails.plugin.platform.events.utils;
 
-import org.springframework.aop.TargetClassAware;
 import org.springframework.aop.framework.Advised;
-import org.springframework.aop.support.AopUtils;
 
 /**
- * Created with IntelliJ IDEA.
- * User: smaldini
- * Date: 8/3/12
- * Time: 3:30 PM
- * To change this template use File | Settings | File Templates.
+ * @author smaldini
  */
 public class EventsUtils {
 
-    static public Object unproxy(Object candidate) {
+    public static Object unproxy(Object candidate) {
 
         if (candidate instanceof Advised) {
             try {

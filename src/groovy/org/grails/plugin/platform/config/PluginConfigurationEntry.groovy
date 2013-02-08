@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -23,15 +23,15 @@ package org.grails.plugin.platform.config
 class PluginConfigurationEntry {
     String plugin
     String key
-    
+
     String legacyPrefix // Pre-platform config prefix if any
 
     Class type
-    
+
     def defaultValue
-    
+
     Closure validator    // optional
-    
+
     String getFullConfigKey() {
         "plugin.${plugin}.${key}"
     }

@@ -15,21 +15,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import org.codehaus.groovy.grails.plugins.PluginManagerHolder
+import org.grails.plugin.platform.config.PluginConfigurationFactory
+import org.grails.plugin.platform.conventions.ConventionsImpl
 import org.grails.plugin.platform.events.EventsImpl
 import org.grails.plugin.platform.events.dispatcher.GormTopicSupport1X
 import org.grails.plugin.platform.events.dispatcher.GormTopicSupport2X
 import org.grails.plugin.platform.events.publisher.DefaultEventsPublisher
 import org.grails.plugin.platform.events.publisher.GormBridgePublisher
 import org.grails.plugin.platform.events.registry.DefaultEventsRegistry
+import org.grails.plugin.platform.injection.InjectionImpl
+import org.grails.plugin.platform.navigation.NavigationImpl
+import org.grails.plugin.platform.security.SecurityImpl
+import org.grails.plugin.platform.ui.UiExtensions
 
 class PlatformCoreGrailsPlugin {
-    // the plugin version
     def version = "1.0.RC5"
-
-    // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.3 > *"
-
-    // resources that are excluded from plugin packaging
     def pluginExcludes = [
             "grails-app/conf/Test*.groovy",
             "grails-app/i18n/test.properties",
@@ -55,14 +57,11 @@ class PlatformCoreGrailsPlugin {
     def title = "Plugin Platform Core"
     def author = "Marc Palmer"
     def authorEmail = "marc@grailsrocks.com"
-    def description = '''\
-Grails Plugin Platform Core APIs
-'''
+    def description = 'Grails Plugin Platform Core APIs'
 
     def loadBefore = ['core'] // Before rest of beans are initialized
     def loadAfter = ['logging'] // After logging though, we need that
 
-    // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/platform-core"
 
     def license = "APACHE"
@@ -83,9 +82,9 @@ Grails Plugin Platform Core APIs
     void initPlatform(application) {
         if (!platformInitialized) {
             // The terrible things we have to do...
-            def hackyInstance = org.grails.plugin.platform.config.PluginConfigurationFactory.instance
+            def hackyInstance = PluginConfigurationFactory.instance
             hackyInstance.grailsApplication = application
-            hackyInstance.pluginManager = org.codehaus.groovy.grails.plugins.PluginManagerHolder.pluginManager
+            hackyInstance.pluginManager = PluginManagerHolder.pluginManager
             hackyInstance.applyConfig()
 
             // Trigger doPlatformBuildInit(pluginManager)
@@ -111,7 +110,7 @@ Grails Plugin Platform Core APIs
         def config = application.config.plugin.platformCore
 
         // Config API
-        grailsPluginConfiguration(org.grails.plugin.platform.config.PluginConfigurationFactory) { bean ->
+        grailsPluginConfiguration(PluginConfigurationFactory) { bean ->
             bean.factoryMethod = 'getInstance'
             grailsApplication = ref('grailsApplication')
         }
@@ -121,32 +120,32 @@ Grails Plugin Platform Core APIs
 
         // Security API
         if (!config.security.disabled) {
-            grailsSecurity(org.grails.plugin.platform.security.SecurityImpl)
+            grailsSecurity(SecurityImpl)
         }
 
         // Injection API
-        grailsInjection(org.grails.plugin.platform.injection.InjectionImpl) {
+        grailsInjection(InjectionImpl) {
             grailsApplication = ref('grailsApplication')
         }
 
         // Navigation API
         if (!config.navigation.disabled) {
-            grailsNavigation(org.grails.plugin.platform.navigation.NavigationImpl) {
+            grailsNavigation(NavigationImpl) {
                 grailsApplication = ref('grailsApplication')
                 grailsConventions = ref('grailsConventions')
             }
         }
 
         // Convention API
-        grailsConventions(org.grails.plugin.platform.conventions.ConventionsImpl) {
+        grailsConventions(ConventionsImpl) {
             grailsApplication = ref('grailsApplication')
         }
 
         // UI Helper API
         if (!config.ui.disabled) {
-            grailsUiExtensions(org.grails.plugin.platform.ui.UiExtensions)
+            grailsUiExtensions(UiExtensions)
         }
-        
+
         // Events API
         if (!config.events.disabled) {
             task.executor(id: "grailsTopicExecutor", 'pool-size': config.events.poolSize)
@@ -271,7 +270,6 @@ Grails Plugin Platform Core APIs
 
         }
     }
-
 
     static getNavigationArtefactHandler() {
         softLoadClass('org.grails.plugin.platform.navigation.NavigationArtefactHandler')

@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -21,13 +21,13 @@ package org.grails.plugin.platform.conventions
  * Encapsulate a DSL command that represents a nested block of commands
  *
  * something {
- *    other = foo   
+ *    other = foo
  *    bar a:b
  * }
  * -or with arguments-
  *
  * something(a, b) {
- *    other = foo   
+ *    other = foo
  *    bar a:b
  * }
  */

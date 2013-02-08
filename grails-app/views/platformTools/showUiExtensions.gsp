@@ -7,7 +7,7 @@
         <div class="row>">
             <div class="span12">
                 <h1>UI Extensions</h1>
-                
+
                 <h2>Display messages</h2>
                 <p>The controller message was:</p>
                 <p:tagDemo tag="p:displayMessage"/>

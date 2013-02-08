@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -32,11 +32,14 @@ import java.util.Map;
  * [Does stuff]
  */
 public class EventMessage<D> implements Serializable {
-    final private String namespace;
-    final private String event;
-    final private D data;
-    final private Boolean gormSession;
-    final private Map<String, String> headers;
+
+    private static final long serialVersionUID = 1;
+
+    private final String namespace;
+    private final String event;
+    private final D data;
+    private final Boolean gormSession;
+    private final Map<String, String> headers;
 
     public EventMessage(String event, D data) {
         this(event, data, null);
@@ -62,16 +65,13 @@ public class EventMessage<D> implements Serializable {
         return data;
     }
 
-
     public String getNamespace() {
         return namespace;
     }
 
-
     public String getEvent() {
         return event;
     }
-
 
     public boolean isGormSession() {
         return gormSession;

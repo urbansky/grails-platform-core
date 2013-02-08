@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -18,13 +18,14 @@
 package org.grails.plugin.platform.util
 
 import grails.util.Environment
+
 import org.slf4j.LoggerFactory
 
 class TagLibUtils {
     static final log = LoggerFactory.getLogger(TagLibUtils)
 
     static final String EMPTY = ''
-    
+
     static valueToGroovy(v, boolean quoteString = false) {
         def vString
         if (v instanceof Map) {
@@ -62,8 +63,8 @@ class TagLibUtils {
     /**
      * Convert a Map of attributes to a HTML attribute list String
      * @param attrs The map of attributes
-     * @return A string of the form: x="y" p="q" 
-     */ 
+     * @return A string of the form: x="y" p="q"
+     */
     static attrsToString(Map attrs) {
         final resultingAttributes = []
         for (e in attrs.entrySet()) {
@@ -75,7 +76,7 @@ class TagLibUtils {
         }
         return resultingAttributes ? " ${resultingAttributes.join(' ')}" : EMPTY
     }
-    
+
     /**
      * Convert a value of unknown type into a Set of values. If it is already a Set, nothing is done.
      * If it is a String, it will be split on commas and each value trimmed, and put into a Set
@@ -84,7 +85,7 @@ class TagLibUtils {
     static attrSetOfItems(String attrName, value, Set defaultValue = null) {
         if (value) {
             if (value instanceof Set) {
-                return value 
+                return value
             } else if (value instanceof String) {
                 return value.split(',')*.trim() as Set
             } else if (value instanceof Collection) {
@@ -92,7 +93,7 @@ class TagLibUtils {
             } else {
                 throw new IllegalArgumentException("Tag [$attrName] expected a comma-delimited string, collection or Set")
             }
-        } 
+        }
         return defaultValue
     }
 
@@ -112,10 +113,10 @@ class TagLibUtils {
             } else {
                 throw new IllegalArgumentException("Tag [$attrName] expected a comma-delimited string, collection or Set")
             }
-        } 
+        }
         return defaultValue
     }
-    
+
     /**
      * Resolve a tag string of the form x:yyyyy into a tag namespace and tag name, with optional no-namespacing for
      * implicit g: tags
@@ -125,22 +126,21 @@ class TagLibUtils {
         def ns
         def tagName
         switch (parts.size()) {
-            case 1: 
+            case 1:
                 ns = "g"
                 tagName = parts[0]
-                break;
+                break
             case 2:
                 ns = parts[0]
                 tagName = parts[1]
-                break;
+                break
             default:
                 throwTagError "The name needs to have a g: namespace tag name or a 'namespace:tagName' value"
-                break;
+                break
         }
         return [ns, tagName]
     }
-    
-    
+
     /**
      * Generate a request-unique id
      */
@@ -149,7 +149,7 @@ class TagLibUtils {
         request.'plugin.platformCore.request.id.counter' = ++id
         return id
     }
-    
+
     static void warning(String tagName, String message) {
         if (Environment.current == Environment.DEVELOPMENT) {
             log.warn "Tag [$tagName]: $message"
@@ -157,6 +157,6 @@ class TagLibUtils {
     }
 
     static executeViewCallback(context, Closure callback) {
-        
+
     }
 }

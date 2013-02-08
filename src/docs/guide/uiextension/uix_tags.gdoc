@@ -11,7 +11,7 @@ The [smartLink|uiExtensionTags] tag renders links for controllers and actions, a
 {docx}
 
 These will use i18n messages located by convention of the form: @action.*controllerName*.*actionName*@
-    
+
 h3. Label tag
 
 The label tag will render a <label> with the text optionally loaded from i18n:

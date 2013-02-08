@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -17,32 +17,31 @@
  */
 package org.grails.plugin.platform.security
 
+import org.codehaus.groovy.grails.commons.GrailsDomainClass
+import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
-import org.slf4j.LoggerFactory
-import org.codehaus.groovy.grails.commons.GrailsDomainClass
 
 /**
  * Bean for registering and accessing security information
- * 
- * A security-provider plugin must be installed
  *
+ * A security-provider plugin must be installed
  */
 class SecurityImpl implements Security, ApplicationContextAware {
-    
+
     final log = LoggerFactory.getLogger(Security)
 
-    def grailsSecurityBridge 
+    def grailsSecurityBridge
     ApplicationContext applicationContext
-    
+
     void setApplicationContext(ApplicationContext context) {
         this.@applicationContext = context
         if (context.containsBean('grailsSecurityBridge')) {
             grailsSecurityBridge = context.getBean('grailsSecurityBridge')
         }
     }
-    
-    def injectedMethods = { 
+
+    def injectedMethods = {
         def self = this
         'controller, service, domain, tagLib' { Class clazz, artefact ->
             boolean isDomain = artefact instanceof GrailsDomainClass
@@ -52,7 +51,7 @@ class SecurityImpl implements Security, ApplicationContextAware {
             getSecurityInfo(staticMethod:isDomain) {  ->
                 self.getUserInfo()
             }
-            copyFrom(self, ['userExists', 'withUser', 'userHasAnyRole', 'userHasAllRoles', 'userIsAllowed'], 
+            copyFrom(self, ['userExists', 'withUser', 'userHasAnyRole', 'userHasAllRoles', 'userIsAllowed'],
                 [staticMethod:isDomain])
         }
     }
@@ -60,8 +59,8 @@ class SecurityImpl implements Security, ApplicationContextAware {
     boolean hasProvider() {
         grailsSecurityBridge != null
     }
-    
-    /** 
+
+    /**
      * Determine whether a user with the given id already exists or not
      */
     boolean userExists(identity) {
@@ -137,7 +136,7 @@ class SecurityImpl implements Security, ApplicationContextAware {
             throw new NotPermittedException(object, action)
         }
     }
-    
+
     def ifUserHasRole(role, Closure code) {
         getSecurityBridge()?.userHasRole(role) ? code() : null
     }
@@ -151,7 +150,7 @@ class SecurityImpl implements Security, ApplicationContextAware {
         def allowed = getSecurityBridge()?.userIsAllowed(object, action)
         allowed ? code() : null
     }
-    
+
     SecurityBridge getSecurityBridge(boolean throwIfNone = false) {
         if (!grailsSecurityBridge) {
             def msg = """\
@@ -168,7 +167,7 @@ a grailsSecurityBridge bean."""
         }
         grailsSecurityBridge
     }
-    
+
     /**
      * Create a link to the specified security action
      * @param action One of "login", "logout", "signup"
@@ -177,5 +176,4 @@ a grailsSecurityBridge bean."""
     Map createLink(String action) {
         getSecurityBridge(true).createLink(action)
     }
-    
 }

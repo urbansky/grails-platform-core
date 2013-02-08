@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -20,18 +20,18 @@ package org.grails.plugin.platform.conventions
 import org.slf4j.LoggerFactory
 
 /**
- * Builder that evaluates a DSL Closure and produces a structure representing the 
+ * Builder that evaluates a DSL Closure and produces a structure representing the
  * method calls and property access, with child nodes for methods taking a closure
  *
  * Just instantiate this and call build() with the DSL closure.
  * Iteratate over the List<DSLCommand> you get back, checking the type of nodes
- * to see what calls were made. 
- * 
+ * to see what calls were made.
+ *
  * NOTE: DSLCommand is polymorphic so if using in if/switch statements be careful
  * of ordering - put more specific types FIRST to avoid surprises
  */
 class StandardDSLBuilder {
-    
+
     final log = LoggerFactory.getLogger(StandardDSLBuilder)
     def grailsApplication
 

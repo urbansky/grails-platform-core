@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -17,10 +17,16 @@
  */
 package org.grails.plugin.platform.navigation
 
-import org.grails.plugin.platform.util.PluginUtils
-import org.grails.plugin.platform.conventions.*
 import grails.util.GrailsNameUtils
 
+import org.grails.plugin.platform.conventions.DSLBlockCommand
+import org.grails.plugin.platform.conventions.DSLCallCommand
+import org.grails.plugin.platform.conventions.DSLCommand
+import org.grails.plugin.platform.conventions.DSLEvaluator
+import org.grails.plugin.platform.conventions.DSLNamedArgsBlockCommand
+import org.grails.plugin.platform.conventions.DSLNamedArgsCallCommand
+import org.grails.plugin.platform.conventions.DSLSetValueCommand
+import org.grails.plugin.platform.util.PluginUtils
 import org.slf4j.LoggerFactory
 
 /**
@@ -31,22 +37,22 @@ import org.slf4j.LoggerFactory
  * default item is list, sub item Create, actions list, show, edit, update map activate list, create and saave activate Create
  */
 class NavigationImpl implements Navigation {
-    
+
     static LINK_TAG_ATTRIBUTES = ['controller', 'action', 'mapping', 'uri', 'url', 'view']
-    
+
     final log = LoggerFactory.getLogger(NavigationImpl)
 
     Map<String, NavigationScope> rootScopes
     Map<String, NavigationScope> nodesById
     Map<String, NavigationScope> nodesByControllerAction
-    
+
     def grailsApplication
     def grailsConventions
-    
+
     List<NavigationScope> getScopes() {
         rootScopes.values() as List
     }
-    
+
     void setActivePath(request, String path) {
         if (log.debugEnabled) {
             log.debug "Setting navigation active path for this request to: $path"
@@ -68,7 +74,7 @@ class NavigationImpl implements Navigation {
         if (log.debugEnabled) {
             log.debug "Getting default action for [$controllerName]"
         }
-        return artef?.defaultAction ?: 'index' 
+        return artef?.defaultAction ?: 'index'
     }
 
     /**
@@ -80,41 +86,43 @@ class NavigationImpl implements Navigation {
         if (log.debugEnabled) {
             log.debug "Setting navigation active path from current request controller/action [$controllerName] and [$action]"
         }
-        
-        if (controllerName) {
-            if (!action) {
-                action = getDefaultControllerAction(controllerName)
-            }
-            
-            def path 
-            // See if we can reverse map from controller/action to an activation path
-            def node = nodeForControllerAction(controllerName, action)
-            if (node) {
-                path = node.id
-            }
 
-            if (log.debugEnabled) {
-                log.debug "Setting navigation active path from current request controller/action [$controllerName] and [$action], found node [$node] and setting active path to [$path]"
-            }
-            if (path) {
-                setActivePathWasAuto(request, true)
-                setActivePath(request, path)
-            }
+        if (!controllerName) {
+            return
+        }
+
+        if (!action) {
+            action = getDefaultControllerAction(controllerName)
+        }
+
+        def path
+        // See if we can reverse map from controller/action to an activation path
+        def node = nodeForControllerAction(controllerName, action)
+        if (node) {
+            path = node.id
+        }
+
+        if (log.debugEnabled) {
+            log.debug "Setting navigation active path from current request controller/action [$controllerName] and [$action], found node [$node] and setting active path to [$path]"
+        }
+        if (path) {
+            setActivePathWasAuto(request, true)
+            setActivePath(request, path)
         }
     }
-    
+
     String getActivePathWasAuto(request) {
         request['plugin.platformCore.navigation.activePath.auto']
     }
-    
+
     void setActivePathWasAuto(request, boolean value) {
         request['plugin.platformCore.navigation.activePath.auto'] = true
     }
-    
+
     String getActivePath(request) {
         request['plugin.platformCore.navigation.activePath']
     }
-    
+
     NavigationScope getActiveNode(request) {
         request['plugin.platformCore.navigation.activeNode']
     }
@@ -122,20 +130,16 @@ class NavigationImpl implements Navigation {
     NavigationScope getFirstNodeOfPath(String path) {
         getFirstAncestor(path)
     }
-    
+
     NavigationScope getFirstActiveNode(request) {
         getFirstAncestor(getActiveNode(request)?.id)
     }
-    
+
     NavigationScope getFirstAncestor(String path) {
         def parts = splitPath(path)
-        if (parts) {
-            return nodeForId(parts[0])
-        } else {
-            return null
-        }
+        return parts ? nodeForId(parts[0]) : null
     }
-    
+
     NavigationScope scopeByName(String name) {
         return rootScopes[name]
     }
@@ -154,7 +158,7 @@ class NavigationImpl implements Navigation {
             return null
         }
     }
-    
+
     List<NavigationScope> nodesForPath(String path) {
         if (log.debugEnabled) {
             log.debug "Getting nodesForPath [$path]"
@@ -172,23 +176,23 @@ class NavigationImpl implements Navigation {
         }
         return nodes
     }
-    
+
     NavigationScope getPrimaryScopeFor(path) {
         (path ? getFirstNodeOfPath(path) : getFirstActiveNode(request))?.scope
     }
-    
+
     NavigationScope nodeForControllerAction(String controller, String action) {
         nodesByControllerAction["$controller:$action".toString()]
     }
-    
+
     void reloadAll() {
         log.info "Reloading navigation structure"
         clearScopes()
         clearCaches()
-        
+
         loadDSL()
         loadControllers()
-        
+
         updateSortOrder()
         updateCaches()
     }
@@ -199,7 +203,7 @@ class NavigationImpl implements Navigation {
         // Can't work out how/if we can optimize this at the moment due to overrides etc
         reloadAll()
     }
-    
+
     void clearCaches() {
         if (log.debugEnabled) {
             log.debug "Clearing navigation caches"
@@ -207,16 +211,16 @@ class NavigationImpl implements Navigation {
         nodesByControllerAction = [:]
         nodesById = [:]
     }
-    
+
     void clearScopes() {
         if (log.debugEnabled) {
             log.debug "Clearing navigation scopes"
         }
         rootScopes = [:]
     }
-    
+
     void updateSortOrder() {
-        for (scope in rootScopes.values()) { 
+        for (scope in rootScopes.values()) {
             scope.finalizeItems()
         }
     }
@@ -225,7 +229,7 @@ class NavigationImpl implements Navigation {
         if (log.debugEnabled) {
             log.debug "Updating navigation caches for root scopes: ${rootScopes.keySet()}"
         }
-        for (scope in rootScopes.values()) { 
+        for (scope in rootScopes.values()) {
             for (node in scope.children) {
                 updateCachesForItem(node)
             }
@@ -248,7 +252,7 @@ class NavigationImpl implements Navigation {
             updateCachesForItem(child)
         }
     }
-    
+
     void loadDSL(Class dslClass) {
         if (log.debugEnabled) {
             log.debug "Loading navigation DSL from calss ${dslClass}"
@@ -267,7 +271,7 @@ class NavigationImpl implements Navigation {
         if (log.debugEnabled) {
             log.debug "Loading navigation artefacts..."
         }
-        
+
         for (artefact in grailsApplication.navigationClasses) {
             if (log.debugEnabled) {
                 log.debug "Loading navigation artefact [${artefact.clazz}] (class instance hash: ${System.identityHashCode(artefact.clazz)})"
@@ -282,18 +286,18 @@ class NavigationImpl implements Navigation {
         parseDSL(commands, null, definingPlugin)
         updateCaches()
     }
-    
+
     boolean hasNonControllerLinkArgs(Map args) {
-        args.containsKey('uri') || 
-        args.containsKey('url') || 
-        args.containsKey('view') || 
+        args.containsKey('uri') ||
+        args.containsKey('url') ||
+        args.containsKey('view') ||
         args.containsKey('mapping')
     }
-    
+
     void realizeLinkArguments(String itemName, Map linkArgs, NavigationScope parent) {
         boolean isControllerLinking = !hasNonControllerLinkArgs(linkArgs)
         boolean itemNameUsed = false
-        
+
         // Inherit controller from parent
         if (isControllerLinking && !linkArgs.controller) {
             // inherit controller
@@ -304,8 +308,8 @@ class NavigationImpl implements Navigation {
                 linkArgs.controller = itemName
                 itemNameUsed = true
             }
-        }  
-        
+        }
+
         if (isControllerLinking && !linkArgs.action) {
             if (!itemNameUsed) {
                 linkArgs.action = itemName // Use node name as action if we have controller
@@ -314,13 +318,13 @@ class NavigationImpl implements Navigation {
                 linkArgs.action = getDefaultControllerAction(linkArgs.controller)
             }
         }
-        
+
         // Workaround lack of "view" support in g:link
         if (!isControllerLinking && linkArgs.view) {
             linkArgs.uri = '/'+linkArgs.remove('view')
         }
     }
-    
+
     NavigationItem addItemFromArgs(String name, Map arguments, NavigationScope parent, String definingPlugin) {
         def actionList
 
@@ -332,7 +336,7 @@ class NavigationImpl implements Navigation {
                 actionList = arguments.action.split(',')*.trim()
             }
         }
-        
+
         def childActionList
         if (actionList) {
             childActionList = actionList
@@ -346,7 +350,7 @@ class NavigationImpl implements Navigation {
                 linkArgs[p] = arguments[p]
             }
         }
-        
+
         realizeLinkArguments(name, linkArgs, parent)
 
         // @todo In future, cache the generated URL for the given linkArgs, using linkGenerator (? reload problems)
@@ -365,10 +369,10 @@ class NavigationImpl implements Navigation {
         if (log.debugEnabled) {
             log.debug "Adding item ${item.name} with parent ${parent?.id} with args $nodeArgs"
         }
-        
+
         // Create the node
         def primaryNode = addItem(parent, item)
-        
+
         // Now if it has any auto-children do those
         if (childActionList?.size() > 1) {
             int n = 0
@@ -409,7 +413,7 @@ class NavigationImpl implements Navigation {
                         // Are we creating a top-level scope?
                         def newParent
                         if (!parent) {
-                            if (c.arguments && 
+                            if (c.arguments &&
                                 !((c.arguments.size() == 1) && c.arguments.containsKey('global')) ) {
                                 throw new IllegalArgumentException( "You cannot define a root scope and pass it arguments. Arguments are for nodes only")
                             }
@@ -419,25 +423,25 @@ class NavigationImpl implements Navigation {
                             // Add this parent node, before the children
 
                             def args
-                            
+
                             // If there are no args, name = controller name
                             if (c instanceof DSLBlockCommand) {
                                 args = [controller:c.name]
                             } else {
                                 args = c.arguments
                             }
-                            
+
                             // We do not support '*' publicly
                             if (args.action == '*') {
                                 args.remove('action')
                             }
-                            
+
                             newParent = addItemFromArgs(c.name, args, parent, definingPlugin)
                         }
                         // Now add any children
                         parseDSL(c.children, newParent, definingPlugin)
                     }
-                    break;
+                    break
                 case DSLSetValueCommand:
                     throw new IllegalArgumentException( "We don't support property setting or simple method calls in this DSL. Your DSL tried to set [${c.name}] to ${c.value}")
                 case DSLCallCommand:
@@ -464,14 +468,14 @@ class NavigationImpl implements Navigation {
                     } else {
                         throw new IllegalArgumentException( "We don't support method calls with positional arguments in this DSL. Your DSL tried to call [${c.name}] with ${c.arguments}")
                     }
-                    break;
+                    break
                 case DSLNamedArgsCallCommand:
                     if (!parent) {
                         throw new IllegalArgumentException( "We don't support named argument method calls unless you are in a scope. Your DSL tried to call [$c.name]($c.arguments)")
-                    } 
-                    
+                    }
+
                     addItemFromArgs(c.name, c.arguments, parent, definingPlugin)
-                    break;
+                    break
                 default:
                     throw new IllegalArgumentException( "We don't support command type ${c.getClass()}")
             }
@@ -481,7 +485,7 @@ class NavigationImpl implements Navigation {
     /**
      * Load the available controller actions and if no declaration exists already, auto-register them
      * in the navigation system.
-     * 
+     *
      * Supports "navigationScope" static property convention which can contain the scope name to put the controller into
      * Note however that this will be namespaced to plugin.<pluginName>/<navigationScopeValue> if the artefact comes from
      * a plugin.
@@ -492,7 +496,7 @@ class NavigationImpl implements Navigation {
      */
     void loadControllers() {
         def rootScopesNeeded = []
-        
+
         for (art in grailsApplication.controllerClasses) {
             def controllerClass = art.clazz
             def controllerName = GrailsNameUtils.getPropertyName(art.name)
@@ -503,12 +507,12 @@ class NavigationImpl implements Navigation {
                 log.debug "Skipping auto-register of controller $controllerName, manual declarations exist"
                 continue
             }
-            
+
             def definingPluginName = PluginUtils.getNameOfDefiningPlugin(grailsApplication.mainContext, controllerClass)
-            
+
             log.debug "Controller for navigation is defined in plugin [${definingPluginName}]"
             def scope = controllerClass.metaClass.hasProperty(null, 'navigationScope') ? controllerClass.navigationScope : null
-            
+
             if (!scope) {
                 switch (definingPluginName) {
                     case 'platformCore':
@@ -517,7 +521,7 @@ class NavigationImpl implements Navigation {
                     case null:
                         scope = "app"
                         break
-                    default: 
+                    default:
                         scope = "plugin.$definingPluginName"
                 }
             } else {
@@ -526,7 +530,7 @@ class NavigationImpl implements Navigation {
                     scope = makePath(["plugin.$definingPluginName",scope])
                 }
             }
-            
+
             log.debug "Scope for actions of controller $controllerName is ${scope}"
 
             registerControllerActions(controllerName, controllerClass, scope)
@@ -543,13 +547,13 @@ class NavigationImpl implements Navigation {
         if (!controllerClass) {
             def artef = grailsConventions.findArtefactBySimpleClassName(
                     GrailsNameUtils.getClassNameRepresentation(controllerName)+'Controller', 'Controller')
-            controllerClass = artef?.clazz            
+            controllerClass = artef?.clazz
             if (!controllerClass) {
                 log.error "Cannot register navigation for controller [$controllerName], no controller artefact exists with this name"
                 return
             }
         }
-        
+
         List actionsToAdd = []
         String defaultAction = getDefaultControllerAction(controllerClass.name)
 
@@ -565,7 +569,7 @@ class NavigationImpl implements Navigation {
         }
         // @todo ONLY ADD THOSE WITH "GET" ALLOWED METHOD
         actionsToAdd.addAll(actionNames.sort())
-        
+
         log.debug "Registering actions $actionsToAdd for controller $controllerName"
 
         def controllerArgs = [:]
@@ -577,26 +581,26 @@ class NavigationImpl implements Navigation {
         def controllerNode = declareControllerNode(controllerArgs)
 
         def n = 0
-        
+
         for (action in actionsToAdd) {
             declareControllerNode(
                 parent:controllerNode,
                 name: action,
                 titleText: GrailsNameUtils.getNaturalName(action),
-                controller:controllerName, 
+                controller:controllerName,
                 order: action == defaultAction ? Integer.MIN_VALUE : n++,
                 action:action)
         }
-        
+
         return controllerNode
     }
-    
+
     NavigationItem declareControllerNode(Map args) {
         if (log.debugEnabled) {
             log.debug "Declaring controller nav item: $args"
         }
         def path = args.path
-        
+
         def nodeArgs = args.clone()
         nodeArgs.titleMessageCode = nodeArgs.remove('title')
         nodeArgs.titleDefault = nodeArgs.remove('titleText')
@@ -604,7 +608,7 @@ class NavigationImpl implements Navigation {
         for (a in LINK_TAG_ATTRIBUTES) {
             nodeArgs.remove(a)
         }
-        
+
         NavigationItem node = new NavigationItem(nodeArgs)
         if (log.debugEnabled) {
             log.debug "Adding convention item ${node.id} to parent ${args.parent?.id}"
@@ -622,16 +626,16 @@ class NavigationImpl implements Navigation {
         updateCachesForItem(item)
         return item
     }
-    
+
     String makePath(List<String> elements, String definingPluginName = null) {
         def p = elements.join(NavigationScope.NODE_PATH_SEPARATOR)
         return definingPluginName ? "plugin.${definingPluginName}." + p : p
     }
-    
+
     def splitPath(String path) {
         path ? path.split(NavigationScope.NODE_PATH_SEPARATOR) : Collections.EMPTY_LIST
     }
-    
+
     NavigationScope getOrCreateScope(String name) {
         def scope = rootScopes[name]
         if (!scope) {

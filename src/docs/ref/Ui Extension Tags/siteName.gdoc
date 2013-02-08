@@ -18,6 +18,6 @@ h2. Example
 h2. Attributes
 
 {table}
-*Name* | *Purpose* 
+*Name* | *Purpose*
 encodeAs | Optional - which codec to use when encoding the output. Default is HTML.
 {table}

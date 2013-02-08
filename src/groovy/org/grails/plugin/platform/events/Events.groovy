@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -17,8 +17,8 @@
  */
 package org.grails.plugin.platform.events
 
-import java.util.concurrent.TimeUnit
 import java.util.concurrent.ExecutionException
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
 interface Events {
@@ -32,5 +32,4 @@ interface Events {
     // We have to use a list here as [] and ... were failing to compile for some WTF reason - MP
     Object[] waitFor(EventReply[] replies) throws ExecutionException, InterruptedException, TimeoutException
     Object[] waitFor(long l, TimeUnit timeUnit, EventReply[] replies) throws ExecutionException, InterruptedException, TimeoutException
-
 }

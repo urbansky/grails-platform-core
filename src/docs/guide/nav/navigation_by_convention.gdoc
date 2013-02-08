@@ -20,7 +20,7 @@ You often have some controllers that you don't want to appear in the main naviga
 {docx}
 class BookController {
     static scaffold = Book
-    
+
     static navigationScope = 'admin'
 }
 {docx}

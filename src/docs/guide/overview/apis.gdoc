@@ -2,7 +2,7 @@ The features include in this release include:
 
 * Configuration API - Plugin-namespaced config, Config merging, validation and default values
 * Security API - An abstraction of basic security features that most applications require, with implementations to be provided by plugins or your application
-* UI Extensions - A set of tags and helper properties and functions 
+* UI Extensions - A set of tags and helper properties and functions
 * Navigation API - A standard artefact and DSL for navigation and tags for accessing this
 * Events API - A standard event bus that can be plugged in to any event implementation, with a lightweight default provider for in-app messaging
 

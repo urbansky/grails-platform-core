@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -17,15 +17,14 @@
  */
 package org.codehaus.groovy.grails.compiler;
 
-import org.apache.log4j.Logger;
+import java.net.URL;
+
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.classgen.GeneratorContext;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.grails.commons.ControllerArtefactHandler;
 import org.codehaus.groovy.grails.compiler.injection.AstTransformer;
 import org.codehaus.groovy.grails.compiler.injection.GrailsArtefactClassInjector;
-
-import java.net.URL;
 
 /**
  * @author Stephane Maldini <smaldini@vmware.com>
@@ -38,14 +37,12 @@ import java.net.URL;
  */
 @AstTransformer
 public class PrecompileTest implements GrailsArtefactClassInjector {
-    static private final Logger log = Logger.getLogger(PrecompileTest.class);
 
     public String[] getArtefactTypes() {
         return new String[]{ControllerArtefactHandler.TYPE};
     }
 
     public void performInjection(SourceUnit source, GeneratorContext context, ClassNode classNode) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void performInjection(SourceUnit source, ClassNode classNode) {

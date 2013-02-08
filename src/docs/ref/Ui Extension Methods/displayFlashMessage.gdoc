@@ -17,13 +17,10 @@ forces all usage in plugins to use i18n messages for text - which is a good thin
 The @args@ supported are:
 
 {table}
-*Name* | *Purpose* 
-text | The text of the label, or an i18n code to resolve to use as the text 
-textArgs | Optional arguments to pass when creating the i18n message text 
-type | Optional message type indicator i.e. 'warning', 'error', 'info', 'debug' 
+*Name* | *Purpose*
+text | The text of the label, or an i18n code to resolve to use as the text
+textArgs | Optional arguments to pass when creating the i18n message text
+type | Optional message type indicator i.e. 'warning', 'error', 'info', 'debug'
 {table}
 
 This method stores the message information in flash scope.
-
-
-

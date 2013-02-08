@@ -58,7 +58,6 @@ events = {
     testTopicD onError:{}, onReply:{}, timeout:1000l
     testTopicD2 fork:false
 
-
     //-------------- roadmap --------------
 
     //not yet implemented: Assigning and merging definitions

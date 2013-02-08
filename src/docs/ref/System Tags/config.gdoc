@@ -13,7 +13,7 @@ h2. Example
 h2. Attributes
 
 {table}
-*Name* | *Purpose* 
+*Name* | *Purpose*
 name | Required - The config path string
 default | Optional - The default value to use if there is nothing in the app config
 {table}

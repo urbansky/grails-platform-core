@@ -9,7 +9,7 @@ Example contents of @grails-app/conf/AppNavigation.groovy@:
 navigation = {
     // Declare the "app" scope, used by default in tags
     app {
-    
+
         // A nav item pointing to HomeController, using the default action
         home()
 
@@ -17,7 +17,7 @@ navigation = {
         about(controller:'content')
         contact(controller:'content')
         help(controller:'content')
-        
+
         // Some user interface actions in second-level nav
         // All in BooksController
         books {
@@ -26,20 +26,20 @@ navigation = {
             // "create" action in "books" controller
             create()
         }
-        
+
         // More convoluted stuff split across controllers/locations
         support(controller:'content', action:'support') {
             faq(url:'http://faqs.mysite.com') // point to CMS
             makeRequest(controller:'supportRequest', action:'create')
         }
     }
-    
+
     // Some back-end admin scaffolding stuff in a separate scope
     admin {
         // Use "list" action as default item, even if its not default action
         // and create automatic sub-items for the other actions
         books(controller:'bookAdmin', action:'list, create, search')
-        
+
         // User admin, with default screen using "search" action
         users(controller:'userAdmin', action:'search') {
             // Declare action alias so "create" is active for both "create" and "update" actions
@@ -49,7 +49,7 @@ navigation = {
 }
 {docx}
 
-Using tags such as the [primary|navigationTags] and [secondary|navigationTags] navigation tags you can render all the page elements you need. 
+Using tags such as the [primary|navigationTags] and [secondary|navigationTags] navigation tags you can render all the page elements you need.
 
 h3. The Navigation DSL Definition
 
@@ -104,7 +104,7 @@ There are some special behaviours however:
 
 {table}
 *Argument* | *Usage*
-@controller@ | Optional - it will be inherited from the parent node if the parent uses @controller@ to create its link, or failing that it will use the name of the DSL method call 
+@controller@ | Optional - it will be inherited from the parent node if the parent uses @controller@ to create its link, or failing that it will use the name of the DSL method call
 @action@ | Optional - it will fall back to the name of the method call if the controller is specified or inherited. If the controller was not specified either (and hence "uses up" the method call name), this will use the default action of the controller or "index" if none is set. The @action@ value can be a List or comma-delimited string. If it is, the first element is the action used to generate the item's link, and any other actions listed will have sub-items created for them, in alphabetical order.
 @actionAliases@ | Optional - list of actions that will also *activate* this navigation item. The link is always to the @action@ defined for the item in the DSL, but if the current controller/action resolves to an action in this alias list, the navigation item will appear to be active. Used for those situations where you have multiple actions presenting the same user view i.e. create/save, edit/update
 {table}
@@ -126,13 +126,13 @@ Typically you will want to hide items if the user is not permitted to see them. 
 {docx}
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
-def loggedIn = { -> 
+def loggedIn = { ->
     springSecurityService.principal instanceof String
 }
-def loggedOut = { -> 
+def loggedOut = { ->
     !(springSecurityService.principal instanceof String)
 }
-def isAdmin = { -> 
+def isAdmin = { ->
     SpringSecurityUtils.ifAllGranted('ROLE_ADMIN')
 }
 
@@ -141,7 +141,7 @@ navigation = {
         home controller:'test', data:[icon:'house']
         …
     }
-    
+
     admin {
         superUserStuff controller:'admin', visible: isAdmin
         …

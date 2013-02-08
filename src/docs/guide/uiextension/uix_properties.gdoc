@@ -7,11 +7,9 @@ They allow you to access these attributes from plugin code without having to wor
 
 {docx}
 class MyController {
-	def beginPasswordReset = {
-		pluginSession.resetMode = true
-		pluginFlash.resetToken = resetTokenFactory.newTicket()
-	}
+    def beginPasswordReset = {
+        pluginSession.resetMode = true
+        pluginFlash.resetToken = resetTokenFactory.newTicket()
+    }
 }
-{docx} 
-
-
+{docx}

@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -20,6 +20,12 @@ package org.grails.plugin.platform.events
 import grails.events.EventDeclarationException
 import grails.events.Listener
 import grails.util.GrailsNameUtils
+
+import java.lang.reflect.Method
+import java.util.concurrent.ExecutionException
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
+
 import org.apache.log4j.Logger
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.grails.plugin.platform.conventions.DSLCallCommand
@@ -33,14 +39,9 @@ import org.grails.plugin.platform.events.utils.EventsUtils
 import org.grails.plugin.platform.util.PluginUtils
 import org.springframework.context.ApplicationContext
 
-import java.lang.reflect.Method
-import java.util.concurrent.ExecutionException
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
-
 class EventsImpl implements Events {
 
-    static final private log = Logger.getLogger(EventsImpl.class)
+    private static final log = Logger.getLogger(this)
 
     EventsRegistry grailsEventsRegistry
     EventsPublisher grailsEventsPublisher
@@ -226,7 +227,7 @@ class EventsImpl implements Events {
 
             bean = applicationContext.getBean(GrailsNameUtils.getPropertyName(serviceClass))
             if (!proxySupport) {
-                bean = EventsUtils.unproxy(bean);
+                bean = EventsUtils.unproxy(bean)
             }
 
             grailsEventsRegistry.on(
@@ -240,7 +241,7 @@ class EventsImpl implements Events {
 
     void setGrailsApplication(GrailsApplication grailsApplication) {
         this.grailsApplication = grailsApplication
-        this.applicationContext = grailsApplication.mainContext
+        applicationContext = grailsApplication.mainContext
     }
 
     void clearEventDefinitions() {
@@ -254,7 +255,6 @@ class EventsImpl implements Events {
         clearEventDefinitions()
         loadDSL()
         registerListeners(grailsApplication.serviceClasses*.clazz)
-
     }
 
     void registerEvents(Closure dsl) {
@@ -362,5 +362,4 @@ class EventsImpl implements Events {
 
         eventDefinitions << definition
     }
-
 }

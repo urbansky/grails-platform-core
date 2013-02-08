@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -32,13 +32,13 @@ import java.lang.reflect.Method;
  */
 public interface EventsRegistry {
 
-    public String on(String namespace, String topic, Object bean, Method callbackMethod);
+    String on(String namespace, String topic, Object bean, Method callbackMethod);
 
-    public String on(String namespace, String topic, Object bean, String callbackMethodName);
+    String on(String namespace, String topic, Object bean, String callbackMethodName);
 
-    public String on(String namespace, String topic, Closure callback);
+    String on(String namespace, String topic, @SuppressWarnings("rawtypes") Closure callback);
 
-    public int removeListeners(String callbackId);
+    int removeListeners(String callbackId);
 
-    public int countListeners(String callbackId);
+    int countListeners(String callbackId);
 }

@@ -17,7 +17,7 @@ h2. Example
 h2. Attributes
 
 {table}
-*Name* | *Purpose* 
+*Name* | *Purpose*
 role | Required - The role to test for. If the user has this role the body will be rendered
 {table}
 

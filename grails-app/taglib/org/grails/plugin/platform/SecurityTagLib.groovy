@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -20,11 +20,12 @@ package org.grails.plugin.platform
 import org.grails.plugin.platform.security.Security
 
 class SecurityTagLib {
+
     static namespace = "s" // Or...?
     static returnObjectForTags = ['info']
-    
+
     Security grailsSecurity
-    
+
     def identity = { attrs ->
         if (securityIdentity) {
             out << securityIdentity
@@ -44,13 +45,13 @@ class SecurityTagLib {
             out << body()
         }
     }
-    
+
     def ifNotLoggedIn = { attrs, body ->
         if (securityIdentity == null) {
             out << body()
         }
     }
-    
+
     def ifPermitted = { attrs, body ->
         // @todo using bean + action here we can also implement object permission checks
         // @todo add support for multiple roles
@@ -66,7 +67,7 @@ class SecurityTagLib {
             out << body()
         }
     }
-    
+
     def createLogoutLink = { attrs, body ->
         out << g.createLink(grailsSecurity.createLink('logout'), body)
     }

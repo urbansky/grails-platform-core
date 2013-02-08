@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -30,6 +30,6 @@ import org.grails.plugin.platform.events.ListenerId;
  */
 public interface EventHandler {
 
-    public ListenerId getListenerId();
-    public boolean isUseEventMessage();
+    ListenerId getListenerId();
+    boolean isUseEventMessage();
 }

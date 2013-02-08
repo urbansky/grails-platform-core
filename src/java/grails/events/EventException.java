@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -17,10 +17,12 @@
  */
 package grails.events;
 
-
 import grails.platform.PlatformException;
 
 public class EventException extends PlatformException {
+
+    private static final long serialVersionUID = 1;
+
     public EventException(String s) {
         super(s);
     }

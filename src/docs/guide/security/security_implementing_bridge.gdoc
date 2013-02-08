@@ -15,12 +15,12 @@ The interface is defined here:
 
 {docx}
 interface SecurityBridge {
-    
+
     /**
-     * Implementations must return the name of their security provider 
+     * Implementations must return the name of their security provider
      * @return A name such as "Spring Security"
      */
-    String getProviderName() 
+    String getProviderName()
 
     /**
      * Get user id string i.e. "marcpalmer" of the currently logged in user, from whatever
@@ -46,14 +46,14 @@ interface SecurityBridge {
      * @param action Some application-defined action string i.e. "view" or "edit"
      */
     boolean userIsAllowed(object, action)
-    
+
     /**
      * Create a link to the specified security action
      * @param action One of "login", "logout", "signup"
      * @return Must return a Map of arguments to pass to g:link to create the link
      */
     Map createLink(String action)
-    
+
     /**
      * Execute code masquerading as the specified user, for the duration of the Closure block
      * @return Whatever the closure returns

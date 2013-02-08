@@ -71,7 +71,6 @@ If a listener handles one of the _before\*_ topics and returns a boolean value, 
 * Returning *false* will cancel the current database write
 * Returning *true* will just let the chain continuing
 
-
 {docx}
 class SomeService{
 
@@ -80,6 +79,5 @@ class SomeService{
     boolean beforeInsertBook(Book book) {
         false
     }
-
 }
 {docx}

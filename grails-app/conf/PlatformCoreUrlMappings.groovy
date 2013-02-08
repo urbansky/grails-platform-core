@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -20,15 +20,14 @@ import grails.util.Environment
 class PlatformCoreUrlMappings {
     static mappings = {
         if ( Environment.current == Environment.DEVELOPMENT) {
-    		name platformNormal: "/platform/$action?/$id?"{
-    		    controller = 'platformTools'
-    		}
+            name platformNormal: "/platform/$action?/$id?"{
+                controller = 'platformTools'
+            }
 
             // Cast a magic spell
-    		name platformFancy: "/%F0%9F%8F%86/$action?/$id?"{
-    		    controller = 'platformTools'
-    		}
-    	}
-    	
-	}
+            name platformFancy: "/%F0%9F%8F%86/$action?/$id?"{
+                controller = 'platformTools'
+            }
+        }
+    }
 }

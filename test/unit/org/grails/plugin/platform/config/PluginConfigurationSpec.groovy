@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -35,15 +35,14 @@ class PluginConfigurationSpec extends UnitSpec {
             config: mockConfig
         ]
         pc.grailsApplication = mockApp
-        
+
         when:
         def loadedConf = pc.parseConfigClosure(configBlock)
         def flatConf = loadedConf.flatten()
-        
+
         then:
         flatConf[resultPath] == resultValue
-        
-        
+
         where:
         configBlock                       | resultPath    | resultValue
         { it -> a = 'test' }              | 'a'           | 'test'
@@ -52,7 +51,7 @@ class PluginConfigurationSpec extends UnitSpec {
         { it -> a { b.c = 'test' } }      | 'a.b.c'       | 'test'
         { it -> a { b { c = 'test' } } }  | 'a.b.c'       | 'test'
     }
-    
+
     @Unroll("Expected #resultPath set to #resultValue from a closure")
     def "external plugin config file loads and merges correctly"() {
         given:
@@ -72,12 +71,11 @@ class PluginConfigurationSpec extends UnitSpec {
         pc.grailsApplication.config = new ConfigSlurper().parse(new ClosureInvokingScript(appConf))
         pc.applyAppPluginConfiguration( new ConfigSlurper().parse(new ClosureInvokingScript(pluginConf)) )
         def flatConf = pc.grailsApplication.config.flatten()
-        
+
         then:
         (resultValue != null ? (flatConf[resultPath] == resultValue) : flatConf[resultPath].size() == 0)
-        
-        
-        // Here we check that only settings that are declared are set, and values set already by 
+
+        // Here we check that only settings that are declared are set, and values set already by
         // the application are not overwritten
         where:
         appConf     | pluginConf                               | resultPath           | resultValue
@@ -89,5 +87,4 @@ class PluginConfigurationSpec extends UnitSpec {
         { it -> plugin.a.b = 'good' }   | { it -> plugin.a.b = 'test' }            | 'plugin.a.b'         | 'good'
         { it -> a.b = 'good' }          | { it -> a.b = 'test' }                   | 'a.b'                | 'good'
     }
-    
 }

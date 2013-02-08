@@ -1,4 +1,4 @@
-Plugins that declare their configuration with [doWithConfigOptions|pluginConventions] can get access 
+Plugins that declare their configuration with [doWithConfigOptions|pluginConventions] can get access
 to their "slice" of the Config using the [pluginConfig|globalProperties] variable.
 
 The @pluginConfig@ variable is automatically injected into all artefacts of

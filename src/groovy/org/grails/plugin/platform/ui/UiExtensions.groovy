@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -17,14 +17,12 @@
  */
 package org.grails.plugin.platform.ui
 
+import org.grails.plugin.platform.util.PluginUtils
+import org.grails.plugin.platform.util.PropertyNamespacer
 import org.slf4j.LoggerFactory
-
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import org.springframework.web.context.request.RequestContextHolder as RCH
-
-import org.grails.plugin.platform.util.PluginUtils
-import org.grails.plugin.platform.util.PropertyNamespacer
 
 /**
  * Helper methods for common UI features
@@ -32,17 +30,17 @@ import org.grails.plugin.platform.util.PropertyNamespacer
 class UiExtensions implements ApplicationContextAware {
     final log = LoggerFactory.getLogger(UiExtensions)
 
-    static final String SESSION_WRAPPER_KEY = 'plugin.platformCore.plugin.session.wrapper';
-    static final String FLASH_WRAPPER_KEY = 'plugin.platformCore.plugin.flash.wrapper';
-    static final String REQUEST_WRAPPER_KEY = 'plugin.platformCore.plugin.request.wrapper';
-    
+    static final String SESSION_WRAPPER_KEY = 'plugin.platformCore.plugin.session.wrapper'
+    static final String FLASH_WRAPPER_KEY = 'plugin.platformCore.plugin.flash.wrapper'
+    static final String REQUEST_WRAPPER_KEY = 'plugin.platformCore.plugin.request.wrapper'
+
     ApplicationContext applicationContext
 
     def injectedMethods = {
         def self = this
-        
+
         'controller, tagLib' { clazz ->
-            
+
             def pluginName = PluginUtils.getNameOfDefiningPlugin(applicationContext, clazz)
 
             displayMessage { String msg ->
@@ -79,10 +77,10 @@ class UiExtensions implements ApplicationContextAware {
             def session = RCH.requestAttributes.session
             wrapper = new PropertyNamespacer(pluginName+'.', session, 'getAttributeNames')
             req[SESSION_WRAPPER_KEY] = wrapper
-        } 
+        }
         return wrapper
     }
-    
+
     PropertyNamespacer getPluginFlash(String pluginName) {
         def req = RCH.requestAttributes.flashScope
         def wrapper = req[FLASH_WRAPPER_KEY]
@@ -90,20 +88,20 @@ class UiExtensions implements ApplicationContextAware {
             def flash = RCH.requestAttributes.flashScope
             wrapper = new PropertyNamespacer(pluginName+'.', flash, 'keySet')
             req[FLASH_WRAPPER_KEY] = wrapper
-        } 
+        }
         return wrapper
     }
-    
+
     PropertyNamespacer getPluginRequestAttributes(String pluginName) {
         def req = RCH.requestAttributes.currentRequest
         def wrapper = req[REQUEST_WRAPPER_KEY]
         if (!wrapper) {
             wrapper = new PropertyNamespacer(pluginName+'.', req, 'getAttributeNames')
             req[REQUEST_WRAPPER_KEY] = wrapper
-        } 
+        }
         return wrapper
     }
-    
+
     Map getDisplayMessage(scope) {
         if (log.debugEnabled) {
             log.debug "Getting display message from scope: ${scope.toString()}"
@@ -121,7 +119,7 @@ class UiExtensions implements ApplicationContextAware {
         }
         return args
     }
-    
+
     void displayMessage(String text, String pluginName = null) {
         if (log.debugEnabled) {
             log.debug "Setting display message text: ${text}"

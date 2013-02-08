@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -27,14 +27,13 @@ package org.grails.plugin.platform.events
  *
  * [Does stuff]
  */
-
 class EventDefinition implements Comparable<EventDefinition> {
     String topic
     String namespace
 
-    Class filterClass = null;
-    Closure filterClosure = null;
-    boolean filterEventMessage = false;
+    Class filterClass
+    Closure filterClosure
+    boolean filterEventMessage = false
 
     boolean requiresReply = false
     boolean disabled = false
@@ -43,9 +42,9 @@ class EventDefinition implements Comparable<EventDefinition> {
     Map othersAttributes
 
     Boolean fork = true
-    Closure onError = null
-    Closure onReply = null
-    Long timeout = null
+    Closure onError
+    Closure onReply
+    Long timeout
 
     int score = 0
 

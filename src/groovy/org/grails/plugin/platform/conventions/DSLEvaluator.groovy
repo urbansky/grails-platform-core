@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -23,11 +23,10 @@ import org.slf4j.LoggerFactory
  * Evaluates a DSL and returns the command structure of it
  */
 class DSLEvaluator {
-    
+
     final log = LoggerFactory.getLogger(DSLEvaluator)
 
     List<DSLCommand> evaluate(Closure c, grailsApplication = null) {
-        def builder = new StandardDSLBuilder(grailsApplication: grailsApplication)
-        builder.build(c)
+        new StandardDSLBuilder(grailsApplication: grailsApplication).build(c)
     }
 }

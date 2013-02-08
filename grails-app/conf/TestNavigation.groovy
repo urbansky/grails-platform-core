@@ -16,22 +16,22 @@ navigation = {
             archive()
             trash()
         }
-        
+
         // Add "extranet" controller and specific actions
         extranet {
             support()
             account()
         }
-        
+
         // Add controller:'test' and all its actions
         test(action:'a, b, c')
 
         // Add controller:'testTwo' and all its actions, with "list" as the default item
         testTwo(action:['list', 'create'])
-        
+
         // Add controller:'testThree' using default action, no children
         testThree()
-        
+
         // Add controller:'testFour' using default action, explicit children
         testFour {
             list()
@@ -55,11 +55,11 @@ navigation = {
             e()
             f()
         }
-        
+
         // Add "create" option with aliases that also activate it
         somethingFourWithAliases(controller:'test', action:'create', actionAliases:['save', 'update', 'edit'])
     }
-    
+
     user(global:true) {
         login controller:'auth', data:[icon:'user'], visible: loggedOut
         logout controller:'auth', data:[icon:'user-out'], visible: loggedIn
@@ -72,18 +72,18 @@ navigation = {
         privacy(view:'privacypolicy')
         help(view:'help', data:[icon:'help'])
     }
-    
+
     admin(global:false) {
         // All your scaffolding in here
     }
-    
+
     /*
     overrides {
         // Move all the platformCore plugin items to app#tools
         // @todo work out char for path separator
         // @todo add custom body support just for the item rendering, always wrap with <ul>...</ul> because this is sane
-        move 'plugin.platformCore', 'app#tools'ls -l 
-        
+        move 'plugin.platformCore', 'app#tools'ls -l
+
         move 'plugin.weceem', 'admin#content'
     }
     */

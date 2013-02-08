@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -18,19 +18,19 @@
 package org.grails.plugin.platform.controllers
 
 class PlatformToolsController {
-    
+
     def grailsSecurity
     def grailsNavigation
     def grailsEvents
     def grailsUiExtensions
-    
+
     def index = {
     }
-    
+
     def security = {
         [identity:grailsSecurity.userIdentity, info:grailsSecurity.userInfo]
     }
-    
+
     def showPluginConfig = {
         [allPluginConfig:grailsApplication.config.plugin.flatten()]
     }
@@ -51,9 +51,9 @@ class PlatformToolsController {
         pluginSession.testKey = 'session testing'
         pluginRequestAttributes.testKey = 'request attribute testing'
         pluginFlash.testKey = 'flash testing, only see this on second load!'
-        
+
         displayMessage text:"This is an alert message", type:'alert'
-        
+
         [
             pluginSessionInfo: grailsUiExtensions.getPluginSession('platformCore').toMap(),
             pluginFlashInfo: grailsUiExtensions.getPluginFlash('platformCore').toMap(),
@@ -61,7 +61,7 @@ class PlatformToolsController {
         ]
     }
 
-/*    
+/*
     def jsmodel = {
         [book:[title:'Test book title', author:'Test Author']]
     }

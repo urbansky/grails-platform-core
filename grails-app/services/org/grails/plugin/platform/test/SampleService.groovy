@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -32,8 +32,6 @@ import org.grails.plugin.platform.events.EventMessage
  */
 class SampleService {
 
-    static transactional = true
-
     @Listener(topic = 'beforeInsert', namespace = 'gorm')
     void beforeInsertBook(EventMessage msg) {
         println "will insert domain - $msg.data"
@@ -63,9 +61,9 @@ class SampleService {
     @Listener(namespace = 'lal', topic='sampleHella')
     def sampleHella(test) {
         println "Adios bus) - $test"
-        while(1)
+        while(1) {
             sleep(3000)
-
+        }
         'test2'
     }
 }

@@ -23,10 +23,10 @@ All of these messages will be resolved using @plugin.<GSP plugin name>.<code>@ a
 h2. Attributes
 
 {table}
-*Name* | Required | *Purpose* 
+*Name* | Required | *Purpose*
 code | | The i18n message code
 codes | | A list of i18n message codes
-error | | An Grails field error object 
+error | | An Grails field error object
 args | | Arguments for i18n message
 default | | Default value for message if it cannot be resolved
 encodeAs | | Codec to apply to message, defaults to none

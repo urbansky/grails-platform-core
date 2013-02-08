@@ -8,7 +8,7 @@ Use this instead of @flash@ scope in your plugin code, to prevent keys accidenta
 {docx}
 class MyPluginController {
     def index = {
-        pluginFlash.message = 
+        pluginFlash.message =
             "This is safe, even if app or other plugin uses [message]"
     }
 }

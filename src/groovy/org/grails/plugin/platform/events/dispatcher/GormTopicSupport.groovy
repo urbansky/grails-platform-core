@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -15,10 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.grails.plugin.platform.events.dispatcher;
-
-//import org.grails.datastore.mapping.engine.event.AbstractPersistenceEvent;
-
+package org.grails.plugin.platform.events.dispatcher
 
 /**
  * @author Stephane Maldini <smaldini@vmware.com>
@@ -31,7 +28,7 @@ package org.grails.plugin.platform.events.dispatcher;
  */
 interface GormTopicSupport {
 
-    static final String GORM_SOURCE = "gorm"
+    String GORM_SOURCE = "gorm"
 
     void processCancel(Object evt, Object returnValue)
     String convertTopic(Object evt)

@@ -8,7 +8,6 @@ This allows plugins to provide views that render your organization name in GSPs 
 
 The Config value is set in @plugin.platformCore.organization.name@
 
-
 h2. Example
 
 {docx:xml}
@@ -19,7 +18,7 @@ h2. Example
 h2. Attributes
 
 {table}
-*Name* | *Purpose* 
+*Name* | *Purpose*
 encodeAs | Optional - which codec to use when encoding the output. Default is HTML.
 {table}
 

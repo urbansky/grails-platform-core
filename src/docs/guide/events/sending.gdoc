@@ -31,7 +31,6 @@ The event method returns *EventReply* which implements Future<Object> and provid
 * *EventReply waitFor()* : blocks current thread and return this reply.
 * *EventReply waitFor(long time)* : blocks current thread for T milliseconds and returns this reply.
 
-
 h3. Events workflow
 Events can be sent from domains, services and controllers artefacts by using _EventReply event(String topic, Object data)_.
 Platform-core Events bus provides a non-blocking way to send events by default, however you can *block on several methods* from *EventReply* :
@@ -49,11 +48,11 @@ class SomeController{
    def logout(){
       def reply = event("logout", session.user)
       //doesn't wait for event execution
-      
+
       render reply.value  //wait and display value
-      
+
       event(topic:"afterLogout").waitFor()
-      
+
       //Only triggered when "afterLogout" finished
       def errorHandler = {errs -> }
       //Use a dedicated error handler
@@ -61,7 +60,6 @@ class SomeController{
    }
 }
 {docx}
-
 
 h3. Non forked events
 If you want to reuse the current thread and force synchronous processing, use the fork param. Be aware that each exception will be directly propagated to caller even without using blocking methods except
@@ -120,5 +118,3 @@ class SomeController{
 {note}
 This feature will probably evolve to a smarter implementation behaving like UrlMappings and authorizing substring captures
 {note}
-
-

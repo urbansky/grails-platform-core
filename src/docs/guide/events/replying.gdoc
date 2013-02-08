@@ -36,7 +36,6 @@ class SomeController{
        //Or as last argument
        event(topic:"logout", data:session.user){ EventReply r-> }
 
-
        //EventReply object is a Future implementation
        def reply_future = event topic:"logout", data:session.user
        render reply_future.get(30, TimeUnit.SECONDS)
@@ -64,7 +63,7 @@ class SomeController{
 
        //wait for all listeners and then display the first value from the aggregated results
        render reply.value
-       
+
        //display all results as List
        render reply.values
    }
@@ -96,7 +95,6 @@ class SomeController{
        def reply = event topic:"test"
        reply.values //throws MyException after 5s
 
-
        def errorsHandler = {println it}
        reply = event topic:"test", onError:errorsHandler
        reply.values //calls errorsHandler and returns values which contain at MyException
@@ -120,7 +118,6 @@ h3. Waiting replies
 In domains, services and controllers artefacts you can wait for events using "EventReply[] waitFor(EventReply... eventReplies)".
 It accepts as many events replies you want and returns the same array for functiunal programming style.
 EventReply also have a waitFor method for one-line waiting.
-
 
 {docx}
 class SomeController{

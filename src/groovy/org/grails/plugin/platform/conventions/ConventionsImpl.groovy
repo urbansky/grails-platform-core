@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -17,25 +17,25 @@
  */
 package org.grails.plugin.platform.conventions
 
+import grails.util.GrailsNameUtils
+
 import java.lang.reflect.Modifier
 
-import grails.util.GrailsNameUtils
 import org.codehaus.groovy.grails.commons.GrailsClass
-
 import org.slf4j.LoggerFactory
 
 /**
  * Bean that encapsulates the convention evaluation and overrides
  */
 class ConventionsImpl implements Conventions {
-    
+
     final log = LoggerFactory.getLogger(Conventions)
 
     def grailsApplication
 
     /**
      * Discover what convention code blocks the target class defines, used to identify
-     * pieces of code that must be called as a result of some convention-based stimulus - 
+     * pieces of code that must be called as a result of some convention-based stimulus -
      * for example controller actions.
      *
      * Supports the following representations:
@@ -44,20 +44,20 @@ class ConventionsImpl implements Conventions {
      */
     List<String> discoverCodeBlockConventions(Class actualClass, Class annotation, boolean allowArgs = true) {
         List<String> namedCodeBlocks = []
-        
+
         Set<String> gettersToIgnore = []
-        
+
         // Get the pre-2.0 syntax closure actions
         for (prop in actualClass.metaClass.properties) {
             def isClosure = (prop.type == Closure)// || (actualClass.newInstance()[prop.name] instanceof Closure)
-            if ( isClosure && 
+            if ( isClosure &&
                 ((prop.modifiers == Modifier.PUBLIC) || (prop.modifiers == (Modifier.PUBLIC || Modifier.FINAL))) ) {
                 namedCodeBlocks << prop.name
-                
+
                 gettersToIgnore << "get"+GrailsNameUtils.getClassNameRepresentation(prop.name)
             }
         }
-        
+
         // Get post-2.0 style public methods defined
         if (annotation) {
             for (meth in actualClass.declaredMethods) {
@@ -75,7 +75,7 @@ class ConventionsImpl implements Conventions {
         }
         return namedCodeBlocks
     }
-    
+
     GrailsClass findArtefactBySimpleClassName(String classNameNoPackage, String artefactType) {
         for (art in grailsApplication.getArtefacts(artefactType)) {
             if (art.clazz.simpleName == classNameNoPackage) {
@@ -84,5 +84,4 @@ class ConventionsImpl implements Conventions {
         }
         return null
     }
-    
 }

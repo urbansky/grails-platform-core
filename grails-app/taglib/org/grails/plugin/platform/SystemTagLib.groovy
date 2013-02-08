@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -18,13 +18,14 @@
 package org.grails.plugin.platform
 
 class SystemTagLib {
+
     static namespace = "p"
-    
+
     static returnObjectForTags = ['config']
-    
+
     def grailsApplication
     def pluginManager
-    
+
     def config = { attrs ->
         def conf = grailsApplication.config.flatten()
         def n = attrs.name

@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -50,19 +50,19 @@ target("updateHeader": "Makes sure all source files contain a license") {
         println "You have no HEADER.TXT file - creating one for you using ASL 2 License. Change this if you need to and run this script again."
         header.setText(APACHE_2_LICENSE, 'UTF-8')
     }
-    
+
     def headerText = header.getText('UTF-8')
-    
+
     ant.input(message:"""
 This script will modify all of your source (${srcFileTypes.join(', ')}) files. The first comment block before package/import will be set to:
 
 ${headerText}
 
-Make sure you have backups/checked them in first! Continue?""", 
-        defaultValue:'n', 
+Make sure you have backups/checked them in first! Continue?""",
+        defaultValue:'n',
         validArgs:'y,n',
         addProperty:'doContinue')
-        
+
     if (ant.project.properties.doContinue != 'y') {
         println "You chickened out, that's OK."
         return

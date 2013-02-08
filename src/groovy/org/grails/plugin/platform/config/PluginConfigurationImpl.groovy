@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -17,27 +17,21 @@
  */
 package org.grails.plugin.platform.config
 
-import org.springframework.context.ApplicationContextAware
-import org.springframework.context.ApplicationContext
-
-import org.slf4j.LoggerFactory
-
-import grails.util.GrailsNameUtils
 import grails.util.Environment
-
-import org.grails.plugin.platform.config.PluginConfigurationEntry
-import org.grails.plugin.platform.util.ClosureInvokingScript
-import org.grails.plugin.platform.util.PluginUtils
-
-import org.codehaus.groovy.grails.plugins.metadata.GrailsPlugin
+import grails.util.GrailsNameUtils
 
 import org.codehaus.groovy.grails.commons.GrailsDomainClass
+import org.grails.plugin.platform.util.ClosureInvokingScript
+import org.grails.plugin.platform.util.PluginUtils
+import org.slf4j.LoggerFactory
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationContextAware
 
 /**
- * Bean for declaring and accessing plugin config 
- * 
+ * Bean for declaring and accessing plugin config
+ *
  * Plugins declare the config they support, the expected types, validators and default values
- * This means they do not have to supply/merge default values into Config. 
+ * This means they do not have to supply/merge default values into Config.
  *
  * The values of these settings provided by the user are read from <app>/grails-app/conf/PluginConfig.groovy
  * so that they can be merged in and validated
@@ -46,14 +40,13 @@ import org.codehaus.groovy.grails.commons.GrailsDomainClass
  * 1. Values supplied by the application in Config.groovy
  * 2. Values supplied in PluginConfig.groovy
  * 3. Default values specified by the declaring plugin
- *
  */
 class PluginConfigurationImpl implements PluginConfiguration, ApplicationContextAware {
-    
-    static PLUGIN_CONFIG_CLASS = "PluginConfig"
-    
+
+    static final String PLUGIN_CONFIG_CLASS = "PluginConfig"
+
     final log = LoggerFactory.getLogger(PluginConfiguration)
-    
+
     def grailsApplication
     def pluginManager
     ApplicationContext applicationContext
@@ -69,15 +62,14 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
             def pluginName = PluginUtils.getNameOfDefiningPlugin(applicationContext, clazz)
             if (pluginName) {
                 def pluginConf = self.getPluginConfig(pluginName)
-                
+
                 getPluginConfig(staticMethod:artefact instanceof GrailsDomainClass) { ->
                     pluginConf
                 }
             }
         }
-        
     }
-    
+
     /**
      * Get pluginConfig for any object, determined by the plugin in which is was defined
      */
@@ -90,18 +82,18 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
             return new ConfigObject()
         }
     }
-    
+
     protected ConfigObject loadPluginConfig() {
         // @todo how to load these from plugins, and to make sure they are included in WAR?
         GroovyClassLoader classLoader = new GroovyClassLoader(PluginConfiguration.classLoader)
-		ConfigSlurper slurper = new ConfigSlurper(Environment.getCurrent().getName())
-		try {
+        ConfigSlurper slurper = new ConfigSlurper(Environment.getCurrent().getName())
+        try {
             log.debug "Loading plugin configuration metadata from ${PLUGIN_CONFIG_CLASS} ..."
-			return slurper.parse(classLoader.loadClass(PLUGIN_CONFIG_CLASS))
-		}
-		catch (ClassNotFoundException e) {
+            return slurper.parse(classLoader.loadClass(PLUGIN_CONFIG_CLASS))
+        }
+        catch (ClassNotFoundException e) {
             return new ConfigObject()
-		}
+        }
     }
 
     /**
@@ -109,7 +101,7 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
      */
     protected void setConfigValueByPath(String fullPath, value, boolean overwriteExisting = true) {
         def config = grailsApplication.config
-        
+
         def parentConfObj
         def path = fullPath.tokenize('.')
         def valueName
@@ -122,9 +114,9 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
         }
 
         log.debug "Config path is $path , value name is $valueName"
-        
+
         // Find the last existing element
-        path.find { k -> 
+        path.find { k ->
             // Find the nearest end point in the config
             def c = config[k]
             if (c instanceof ConfigObject) {
@@ -140,7 +132,7 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
             config.putAll([(valueName):value])
         }
     }
-    
+
     /**
      * Return the plugin-specific ConfigObject for the given plugin
      * @param pluginName the BEAN notation name of the plugin e.g. beanFields
@@ -148,7 +140,7 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
     ConfigObject getPluginConfig(String pluginName) {
         grailsApplication.config.plugin[pluginName]
     }
-    
+
     void clearCaches() {
         legacyPluginConfigurationEntries.clear()
         pluginConfigurationEntries.clear()
@@ -159,7 +151,7 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
         clearCaches()
         applyConfig()
     }
-    
+
     /**
      * Take app config, merge in config from PluginConfig.groovy and then doWithConfig blocks,
      * and validate the whole lot according to doWithConfigOptions
@@ -169,7 +161,7 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
 
         // Get the metadata we need
         loadConfigurationOptions()
-        
+
         // Load up user-supplied plugin configs
         applyAppPluginConfiguration(loadPluginConfig())
 
@@ -178,19 +170,19 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
 
         // Let plugins merge in their configs if no explicit setting given by user
         mergeDoWithConfig()
-        
+
         // Copy legacy plugin config values into plugin namespace, if no existing value
         // this is to cover for plugins that use legacy prefixes for plugins that are migrated
         // after the plugin that sets the value is released
         migrateLegacyConfigValues(false)
-        
+
         // Now validate plugin config
         applyPluginConfigurationDefaultValuesAndConstraints()
         log.debug "After applying doWithConfig and doWithConfigOptions, application config is: ${grailsApplication.config}"
-        
+
         verifyConfig()
     }
-    
+
     /**
      * Warn the user if any plugin.x config exists that is not declared by a plugin
      */
@@ -200,7 +192,7 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
         // @todo we falsely report Map values as invalid config currently as flatten() flattens these too
         flatAppConf.each { k, v ->
             if (k.startsWith('plugin.')) {
-                if (!registeredKeys.contains(k) || 
+                if (!registeredKeys.contains(k) ||
                     ((v instanceof Map) && !registeredKeys.find({ regK -> k.startsWith(regK+'.')})) ) {
                     // @todo should we fail fast here?
                     // @todo support wildcard configoptions
@@ -209,10 +201,10 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
             }
         }
     }
-    
-    /** 
+
+    /**
      * Find any config values that start with legacy prefixes from doWithConfigOptions
-     * and copy them into the correct plugin namespace so that plugins only need to check 
+     * and copy them into the correct plugin namespace so that plugins only need to check
      * the new location
      */
     void migrateLegacyConfigValues(boolean overwriteExisting) {
@@ -235,14 +227,14 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
             }
         }
     }
-    
+
     /**
      * Take a Closure and use it as config, returns a ConfigObject
      */
     ConfigObject parseConfigClosure(Closure c) {
         new ConfigSlurper().parse(new ClosureInvokingScript(c))
     }
-        
+
     /**
      * Load cross-plugin doWithConfig configuration and merge into main app config
      */
@@ -265,24 +257,24 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
                 def builder = new ConfigBuilder()
                 confDSL.delegate = builder
                 confDSL(grailsApplication.config.clone()) // Deep clone app config to avoid side effects of querying existing config values
-                
+
                 def newConf
-                
+
                 // Merge in any non-namespaced app config
                 if (builder._applicationConfig) {
                     newConf = parseConfigClosure(builder._applicationConfig)
                 } else {
                     newConf = new ConfigObject()
                 }
-                
+
                 if (newConf.size()) {
                     if (log.debugEnabled) {
                         log.debug "Plugin ${pluginName} added application configuration settings: ${newConf}"
                     }
                 }
-                
+
                 // @todo run these in plugin dependency order? If two plugins set something on another plugin, which one wins?
-                builder._pluginConfigs.each { confPluginName, code -> 
+                builder._pluginConfigs.each { confPluginName, code ->
                     // @todo Do we need to a add safety check to prevent plugins configuring themselves (creates ordering problems?)
                     // @todo verify its a real plugin with exposed config
                     def pluginConf = parseConfigClosure(code)
@@ -368,7 +360,7 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
         def pluginConf = appPluginConfig
         def pluginConfFlat = pluginConf.flatten()
         def registeredKeys = pluginConfigurationEntries*.fullConfigKey as Set
-        
+
         pluginConfFlat.each { key, pluginConfValue ->
             if (!registeredKeys.contains(key)) {
                 log.warn "Skipping plugin configuration entry ${key}, no plugin configuration has been declared for this."
@@ -378,7 +370,7 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
             def scopedKey = key
             log.debug "Applying plugin configuration entry ${scopedKey}"
             def value = flatConf[scopedKey]
-            def newValue 
+            def newValue
             def valueChanged = false
             if (value instanceof ConfigObject) {
                 log.debug "Applying plugin configuration entry ${scopedKey}, no value defined by application"
@@ -398,7 +390,7 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
             }
         }
     }
-    
+
     /**
      * Apply plugin-supplied config defaults for declared config values if values are missing
      * and then validate
@@ -407,7 +399,7 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
         log.debug "Applying plugin configuration constraints..."
         def conf = grailsApplication.config
         def flatConf = conf.flatten()
-        
+
         // Temporarily, we will assum they called register() at start of doWithSpring
         pluginConfigurationEntries.each { entry ->
             def scopedKey = entry.fullConfigKey
@@ -419,13 +411,13 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
                 setConfigValueByPath(scopedKey, value)
             }
 
-            if (entry.type && (value != null) && !(value instanceof ConfigObject)) { 
+            if (entry.type && (value != null) && !(value instanceof ConfigObject)) {
                 if (!entry.type.isAssignableFrom(value.getClass())) {
                     log.error "Invalid plugin configuration value [${value}] for [$scopedKey], reverting to default value [${entry.defaultValue}] - the value in config is not compatible with the type: ${entry.type}"
                     setConfigValueByPath(scopedKey, entry.defaultValue)
                 }
             }
-            
+
             // apply validator
             if (entry.validator) {
                 log.debug "Applying plugin config validator for ${scopedKey} to [$value]"
@@ -439,7 +431,7 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
             }
         }
     }
-    
+
     /**
      * Load up all the doWithConfigOptions metadata
      */
@@ -452,11 +444,11 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
                 log.debug "Getting plugin configuration metadata for plugin ${p.name}"
                 def builder = new ConfigOptionsBuilder(
                     pluginName:GrailsNameUtils.getLogicalPropertyName(p.pluginClass.name, 'GrailsPlugin'))
-    
+
                 def code = inst.doWithConfigOptions.clone()
                 code.delegate = builder
                 code()
-                
+
                 log.debug "Plugin configuration metadata for plugin ${p.name} yielded entries: ${builder.entries*.fullConfigKey}"
                 pluginConfigurationEntries.addAll(builder.entries)
 
@@ -468,7 +460,7 @@ class PluginConfigurationImpl implements PluginConfiguration, ApplicationContext
             }
         }
     }
-    
+
     /**
      * Get information about all the declared plugin config variables
      */

@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -19,15 +19,14 @@ package org.grails.plugin.platform.security
 
 /**
  * Interface that plugin must implement to provide security information
- * 
  */
 interface SecurityBridge {
-    
+
     /**
-     * Implementations must return the name of their security provider 
+     * Implementations must return the name of their security provider
      * @return A name such as "Spring Security"
      */
-    String getProviderName() 
+    String getProviderName()
 
     /**
      * Get user id string i.e. "marcpalmer" of the currently logged in user, from whatever
@@ -53,15 +52,15 @@ interface SecurityBridge {
      * @param action Some application-defined action string i.e. "view" or "edit"
      */
     boolean userIsAllowed(object, action)
-    
+
     /**
      * Create a link to the specified security action
      * @param action One of "login", "logout", "signup"
      * @return Must return a Map of arguments to pass to g:link to create the link
      */
     Map createLink(String action)
-    
-    /** 
+
+    /**
      * Determine whether a user with the given id already exists or not
      */
     boolean userExists(identity)

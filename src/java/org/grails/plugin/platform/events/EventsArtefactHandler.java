@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -21,8 +21,8 @@ import org.codehaus.groovy.grails.commons.ArtefactHandlerAdapter;
 
 public class EventsArtefactHandler extends ArtefactHandlerAdapter {
 
-    static public final String TYPE = "Events";
-    static public final String SUFFIX = "Events";
+    public static final String TYPE = "Events";
+    public static final String SUFFIX = "Events";
 
     public EventsArtefactHandler() {
         super(TYPE, EventsClass.class, DefaultEventsClass.class, SUFFIX, true);

@@ -15,6 +15,6 @@ This generates Lorem Ipsum content, for a total of 3 paragraphs.
 h2. Attributes
 
 {table}
-*Name* | *Purpose* 
+*Name* | *Purpose*
 size | Optional - The number of paragraphs to generate.
 {table}

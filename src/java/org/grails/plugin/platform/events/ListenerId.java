@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -22,6 +22,9 @@ import groovy.lang.Closure;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 /**
  * @author Stephane Maldini <smaldini@vmware.com>
  * @version 1.0
@@ -32,6 +35,9 @@ import java.lang.reflect.Method;
  * format : namespace://topic:package.Class#method@hashCode
  */
 public class ListenerId implements Serializable {
+
+    private static final long serialVersionUID = 1;
+
     private static final String CLOSURE_METHOD_NAME = "call";
     private static final String ID_CLASS_SEPARATOR = ":";
     private static final String ID_METHOD_SEPARATOR = "#";
@@ -109,6 +115,7 @@ public class ListenerId implements Serializable {
     }
 
     //format : namespace://topic:package.Class#method@hashCode
+    @Override
     public String toString() {
         return toStringWithoutHash()
                 + (hashCode != null ? ID_HASHCODE_SEPARATOR + hashCode : "");
@@ -120,19 +127,19 @@ public class ListenerId implements Serializable {
                 + (methodName != null ? ID_METHOD_SEPARATOR + methodName : "");
     }
 
-    static public ListenerId build(String namespace, String topic, Object target, Method callback) {
+    public static ListenerId build(String namespace, String topic, Object target, Method callback) {
         return new ListenerId(namespace, topic, target.getClass().getName(), callback.getName(), Integer.toString(target.hashCode()));
     }
 
-    static public ListenerId build(String namespace, String topic, Class target, Method callback) {
+    public static ListenerId build(String namespace, String topic, Class<?> target, Method callback) {
         return new ListenerId(namespace, topic, target.getName(), callback.getName(), null);
     }
 
-    static public ListenerId build(String namespace, String topic, Closure target) {
+    public static ListenerId build(String namespace, String topic, @SuppressWarnings("rawtypes") Closure target) {
         return new ListenerId(namespace, topic, target.getClass().getName(), CLOSURE_METHOD_NAME, Integer.toString(target.hashCode()));
     }
 
-    static public ListenerId parse(String id) {
+    public static ListenerId parse(String id) {
         //Matcher parsed = idRegex.matcher(id);
         if (id != null) {
             int namespaceIndex = id.indexOf(ID_NAMESPACE_SEPARATOR);
@@ -214,22 +221,23 @@ public class ListenerId implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
 
         ListenerId listener = (ListenerId) o;
-
-        return !(className != null ? !className.equals(listener.className) : listener.className != null) &&
-                !(namespace != null ? !namespace.equals(listener.namespace) : listener.namespace != null) &&
-                !(hashCode != null ? !hashCode.equals(listener.hashCode) : listener.hashCode != null) &&
-                !(methodName != null ? !methodName.equals(listener.methodName) : listener.methodName != null) &&
-                !(topic != null ? !topic.equals(listener.topic) : listener.topic != null);
-
+        return new EqualsBuilder()
+            .append(listener.className, className)
+            .append(listener.namespace, namespace)
+            .append(listener.hashCode, hashCode)
+            .append(listener.methodName, methodName)
+            .append(listener.topic, topic)
+            .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int result = className != null ? className.hashCode() : 0;
-        result = 31 * result + (methodName != null ? methodName.hashCode() : 0);
-        result = 31 * result + (hashCode != null ? hashCode.hashCode() : 0);
-        result = 31 * result + (topic != null ? topic.hashCode() : 0);
-        result = 31 * result + (namespace != null ? namespace.hashCode() : 0);
-        return result;
+        return new HashCodeBuilder()
+            .append(className)
+            .append(methodName)
+            .append(hashCode)
+            .append(topic)
+            .append(namespace)
+            .toHashCode();
     }
 }

@@ -16,13 +16,13 @@ You would then render the user and footer navigation using the menu tag, and pas
 
     <div id="user-nav">
         <nav:menu scope="user"/>
-    </div>    
+    </div>
 
     <g:layoutBody/>
 
     <div id="footer-nav">
         <nav:menu scope="footer"/>
-    </div>    
+    </div>
 </body>
 </html>
 {docx}

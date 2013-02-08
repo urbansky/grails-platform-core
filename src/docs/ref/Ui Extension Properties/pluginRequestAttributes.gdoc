@@ -8,7 +8,7 @@ Use this instead of @request[xxxx]@ in your plugin code, to prevent keys acciden
 {docx}
 class MyPluginController {
     def index = {
-        pluginRequestAttributes.message = 
+        pluginRequestAttributes.message =
             "This is safe, even if app or other plugin uses [message]"
     }
 }

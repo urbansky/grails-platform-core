@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -17,8 +17,9 @@
  */
 package org.grails.plugin.platform.util
 
-import org.codehaus.groovy.grails.plugins.metadata.GrailsPlugin
 import grails.util.GrailsNameUtils
+
+import org.codehaus.groovy.grails.plugins.metadata.GrailsPlugin
 
 class PluginUtils {
     /**
@@ -29,11 +30,11 @@ class PluginUtils {
         def allPlugins = applicationContext.pluginManager.allPlugins
         allPlugins.find { it.basePlugin }
     }
-    
-    /** 
+
+    /**
      * Work out which Grails plugin (if any) defined the class of the object supplied
      */
-    static String getNameOfDefiningPlugin(applicationContext, def object) {
+    static String getNameOfDefiningPlugin(applicationContext, object) {
         def originalObject = object
         Class clazz
         if (object instanceof Class) {
@@ -43,14 +44,14 @@ class PluginUtils {
                 object = object.owner
             }
             clazz = object.getClass()
-        } 
+        }
 
         def appPlugin = findAppPlugin(applicationContext)
         def pluginAnnotation = clazz.getAnnotation(GrailsPlugin)
 
         if (pluginAnnotation || appPlugin) {
-            return pluginAnnotation ? 
-                GrailsNameUtils.getPropertyNameForLowerCaseHyphenSeparatedName(pluginAnnotation.name()) : 
+            return pluginAnnotation ?
+                GrailsNameUtils.getPropertyNameForLowerCaseHyphenSeparatedName(pluginAnnotation.name()) :
                 appPlugin.name
         } else {
             return null

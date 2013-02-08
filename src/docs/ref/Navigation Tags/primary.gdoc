@@ -21,8 +21,8 @@ Note that all the features of the [menu|navigationTags] tag are available but ar
 h2. Attributes
 
 {table}
-*Name* | *Purpose* 
-class | Optional CSS class to apply to the outer @<ul>@ tag. Defaults to "nav primary" 
+*Name* | *Purpose*
+class | Optional CSS class to apply to the outer @<ul>@ tag. Defaults to "nav primary"
 {table}
 
 See the attributes of the [menu|navigationTags] tag for the rest.

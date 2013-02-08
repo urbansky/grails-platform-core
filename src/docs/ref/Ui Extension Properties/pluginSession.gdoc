@@ -8,7 +8,7 @@ Use this instead of @session\[xxxx\]@ in your plugin code, to prevent keys accid
 {docx}
 class MyPluginController {
     def index = {
-        pluginSession.message = 
+        pluginSession.message =
             "This is safe, even if app or other plugin uses [message]"
     }
 }

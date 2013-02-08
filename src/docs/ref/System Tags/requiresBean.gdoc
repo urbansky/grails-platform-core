@@ -16,7 +16,7 @@ h2. Example
 h2. Attributes
 
 {table}
-*Name* | *Purpose* 
+*Name* | *Purpose*
 name | Required - The name of the model variable to use
 class | Required - The class name of the object to create if it does not exist. It must have a default no-argument constructor
 {table}

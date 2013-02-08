@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -22,15 +22,16 @@ import org.grails.plugin.platform.util.PluginUtils
 import grails.util.GrailsNameUtils
 
 class UiExtensionsTagLib {
+
     static namespace = "p"
-    
+
     static returnObjectForTags = ['joinClasses']
-    
+
     // @todo OK if the machine stays up over new year this will become invalid...
     def thisYear = new Date()[Calendar.YEAR].toString()
 
     def grailsUiExtensions
-    
+
     def label = { attrs, body ->
         out << "<label"
         def t = getMessageOrBody(attrs, body)
@@ -41,7 +42,7 @@ class UiExtensionsTagLib {
         out << t
         out << "</label>"
     }
-    
+
     def button = { attrs, body ->
         if (log.debugEnabled) {
             log.debug "p:button called with $attrs"
@@ -59,7 +60,7 @@ class UiExtensionsTagLib {
                     out << TagLibUtils.attrsToString(attrs)
                 }
                 out << ">${text}</button>"
-                break;
+                break
             case 'anchor':
                 if (!attrs.'class') {
                     attrs.'class' = "button"
@@ -68,17 +69,17 @@ class UiExtensionsTagLib {
                     attrs.'class' = p.joinClasses(values:["disabled", attrs.'class'])
                 }
                 out << g.link(attrs, text)
-                break;
+                break
             case 'submit':
                 attrs.value = text
                 if (dis) {
                     attrs.disabled = "disabled"
                 }
                 out << g.actionSubmit(attrs)
-                break;
+                break
         }
     }
-    
+
     // @todo move this to TagLibUtils and use messageSource
     protected getMessageOrBody(Map attrs, Closure body) {
         def textCode = attrs.remove('text')
@@ -86,19 +87,19 @@ class UiExtensionsTagLib {
         def textScope = attrs.remove('textScope')
         def textPlugin = attrs.remove('textPlugin')
         def textFromCode = textCode ? p.text(
-            code:textCode, 
+            code:textCode,
             default:null, // force null so we can detect it and only execute body if need be
-            scope:textScope, 
-            plugin:textPlugin, 
+            scope:textScope,
+            plugin:textPlugin,
             args:textCodeArgs) : null
         if (textFromCode?.toString()) {
             return textFromCode.encodeAsHTML()
         } else {
             // Use body but IF it is blank, fall back to smart i18n code as a visible placeholder
             return body() ?: p.text(
-                code:textCode, 
+                code:textCode,
                 scope:textScope,
-                plugin:textPlugin, 
+                plugin:textPlugin,
                 args:textCodeArgs)
         }
     }
@@ -107,7 +108,7 @@ class UiExtensionsTagLib {
         def classes = attrs.class ?: ''
         def classPrefix = attrs.cssPrefix ?: ''
         def searchScopes = [
-            grailsUiExtensions.getPluginRequestAttributes('platformCore'), 
+            grailsUiExtensions.getPluginRequestAttributes('platformCore'),
             grailsUiExtensions.getPluginFlash('platformCore')
         ]
         for (scope in searchScopes) {
@@ -123,7 +124,7 @@ class UiExtensionsTagLib {
                     args: msgParams.args,
                     encodeAs:'HTML'
                 ]
-            
+
                 out << "<div class=\"${classes.encodeAsHTML()}\">"
                 // Message is already namespaced
                 out << g.message(msgAttrs)
@@ -131,7 +132,7 @@ class UiExtensionsTagLib {
             }
         }
     }
-    
+
     def smartLink = { attrs, body ->
         def con = attrs.controller ?: controllerName
         def defaultAction = 'index' // make this ask the artefact which is default
@@ -140,38 +141,38 @@ class UiExtensionsTagLib {
         def text = getMessageOrBody(attrs, body)
         out << g.link(attrs, text)
     }
-    
+
     def organization = { attrs ->
         def codec = attrs.encodeAs ?: 'HTML'
         def s = pluginConfig.organization.name
         out << (codec != 'none' ? s."encodeAs$codec"() : s)
     }
-    
+
     def siteName = { attrs ->
         def codec = attrs.encodeAs ?: 'HTML'
         def s = pluginConfig.site.name
         out << (codec != 'none' ? s."encodeAs$codec"() : s)
     }
-    
+
     def siteLink = { attrs ->
         attrs.url = p.siteURL(attrs)
-        out << g.link(attrs) { 
+        out << g.link(attrs) {
             out << p.siteName([:])
         }
     }
-    
+
     def siteURL = { attrs ->
-        def linkArgs = pluginConfig.site.url ? 
-            [url:pluginConfig.site.url] : 
+        def linkArgs = pluginConfig.site.url ?
+            [url:pluginConfig.site.url] :
             [absolute:true, uri:'/']
 
         out << g.createLink(linkArgs)
     }
-    
+
     def year = { attrs ->
         out << thisYear
-    }        
-    
+    }
+
     def joinClasses = { attrs ->
         StringBuilder res = new StringBuilder()
         def first = true
@@ -187,7 +188,7 @@ class UiExtensionsTagLib {
         }
         return res.toString()
     }
-    
+
     /**
      * Allows a GSP to call another tag, passing it attributes at runtime without listing them
      * in the GSP
@@ -210,8 +211,8 @@ class UiExtensionsTagLib {
         }
         def taglib = this[ns]
         out << taglib."${tagName}"(mergedAttrs, bodyAttr ?: body)
-    }    
-    
+    }
+
     /**
      * Write out an attribute and value only if the value is non-null
      * @attr value Value of the attribute
@@ -222,14 +223,13 @@ class UiExtensionsTagLib {
             out << "${attrs.name}=\"${attrs.value.encodeAsHTML()}\""
         }
     }
-    
-    
-    /** 
+
+    /**
      * Get i18n text string, like g:message but with some attrib changes and code namespaced by plugin that declared GSP
      * Attributes:
      * @attr code The i18n code
      * @attr args The i18n args (optional)
-     * 
+     *
      * Body is the default text if code does not resolve.
      */
     def text = { attrs, body ->
@@ -242,7 +242,7 @@ class UiExtensionsTagLib {
             def pluginPathMatcher = pluginPath =~ '/plugins/(.+)-[\\d]+.*$'
             def appPlugin = PluginUtils.findAppPlugin(grailsApplication.mainContext)
             if (pluginPathMatcher.matches() || appPlugin) {
-                def pluginName = pluginPathMatcher.matches() ? 
+                def pluginName = pluginPathMatcher.matches() ?
                     GrailsNameUtils.getPropertyNameForLowerCaseHyphenSeparatedName(pluginPathMatcher[0][1]) :
                     appPlugin.name
                 i18nscope = "plugin.${pluginName}"
@@ -259,7 +259,7 @@ class UiExtensionsTagLib {
         }
 
         if (i18nscope) {
-            for (code in codes) {    
+            for (code in codes) {
                 def namespacedCode = "${i18nscope}.${code}"
                 if (log.debugEnabled) {
                     log.debug "Resolving scoped i18n message from scope [${i18nscope}] using code [${namespacedCode}]"
@@ -293,9 +293,9 @@ class UiExtensionsTagLib {
         } else {
             if (!defaultText && !attrs.containsKey('default') ) {
                 defaultText = codes[0]
-            }            
+            }
 
-            for (code in codes) {    
+            for (code in codes) {
                 if (log.debugEnabled) {
                     log.debug "Attempting to resolve i18n message code [${code}]"
                 }
@@ -326,8 +326,8 @@ class UiExtensionsTagLib {
         def scope = attrsToTextScope(attrs)
         pageScope['plugin.platformCore.ui.text.scope'] = scope ?: null
     }
- 
-    def dummyText = { attrs -> 
+
+    def dummyText = { attrs ->
         def n = attrs.size ? attrs.size.toString().toInteger() : 0
         if (!n) {
             n = 1

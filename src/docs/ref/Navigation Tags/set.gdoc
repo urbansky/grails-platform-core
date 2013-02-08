@@ -32,7 +32,7 @@ h2. Example
 h2. Attributes
 
 {table}
-*Name* | *Purpose* 
+*Name* | *Purpose*
 path | Optional - activation path to use
 scope | Optional - default scope to use
 {table}

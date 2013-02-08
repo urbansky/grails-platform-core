@@ -19,8 +19,8 @@ These will use i18n messages located by convention of the form: @action.*control
 h2. Attributes
 
 {table}
-*Name* | *Required* | *Purpose* 
-textArgs | | Optional arguments to pass when creating the i18n message text 
+*Name* | *Required* | *Purpose*
+textArgs | | Optional arguments to pass when creating the i18n message text
 textScope | | Optional prefix to use with code or codes. Overrides the automatic scoping behaviour
 textPlugin | | Optional plugin name in beanNameCase. Overrides the automatic scoping behaviour
 {table}

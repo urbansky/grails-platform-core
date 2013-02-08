@@ -1,8 +1,8 @@
 class UrlMappings {
 
-	static mappings = {
-		"/"(controller:"platformTools")
+    static mappings = {
+        "/"(controller:"platformTools")
         "/event/$action?"(controller:'sample')
-		"500"(view:'/error')
-	}
+        "500"(view:'/error')
+    }
 }

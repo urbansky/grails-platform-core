@@ -17,7 +17,7 @@ This would output the class attribute as @class="somevalue notice alert"@ if use
 h2. Attributes
 
 {table}
-*Name* | *Purpose* 
+*Name* | *Purpose*
 values | Required - The list of CSS classes
 {table}
 

@@ -6,7 +6,6 @@ h3. Defining listeners at compile time
 
 Within Grails services you can use the *@Listener* annotation. It takes a *topic* string, but you can omit it and use the *method name* as the topic to listen for:
 
-
 {docx}
 class SomeService{
 
@@ -43,7 +42,6 @@ every event types, use Object type or if the argument is not necessary, do not d
 Filtering on the EventMessage<D> generic type doesn't work, e.g. EventMessage<Book> won't prevent EventMessage<Author> invokation. For such fine grained
  control, you can rely on [Events Artifact|guide:artifact]
 {warning}
-
 
 h3. Namespacing
 

@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -40,17 +40,21 @@ import java.util.concurrent.TimeoutException;
  */
 public class EventReply implements Serializable, Future<Object> {
 
+    private static final long serialVersionUID = 1;
+
     private Future<?> futureReply;
     private List<Object> values;
     private Object value;
     private int receivers;
     private boolean futureReplyLoaded = false;
-    private Closure onError = null;
+    @SuppressWarnings("rawtypes") private Closure onError;
 
+    @SuppressWarnings("rawtypes")
     public void setOnError(Closure onError) {
         this.onError = onError;
     }
 
+    @SuppressWarnings("rawtypes")
     public Closure getOnError() {
         return onError;
     }
@@ -60,12 +64,11 @@ public class EventReply implements Serializable, Future<Object> {
         initValues(val);
     }
 
-    @SuppressWarnings("unchecked")
     protected void initValues(Object val) {
         this.values = new ArrayList<Object>();
 
         if (receivers > 1 && val instanceof Collection) {
-            this.values.addAll((Collection) val);
+            this.values.addAll((Collection<?>) val);
             this.value = values.get(0);
         } else if(receivers != 0 || val != null) {
             this.value = val;

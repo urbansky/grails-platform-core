@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -25,18 +25,18 @@ import grails.util.GrailsNameUtils
 class InjectionBuilderArtefactTypeDelegate {
     Map<String, List<Closure>> results
     def appCtx
-    
+
     InjectionBuilderArtefactTypeDelegate(Map<String, List<Closure>> res, applicationContext) {
         results = res
         appCtx = applicationContext
     }
-    
+
     void register(Closure nestedDeclarations) {
         def target = nestedDeclarations.clone()
         target.delegate = this
         target(appCtx)
     }
-    
+
     def methodMissing(String name, args) {
         def names = [name]
         if (name.contains(',')) {

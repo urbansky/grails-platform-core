@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -23,8 +23,8 @@ package org.grails.plugin.platform.config
  * everywhere it should be.
  */
 class PluginConfigurationFactory {
-    static private PluginConfiguration instance = new PluginConfigurationImpl()
-    
+    private static PluginConfiguration instance = new PluginConfigurationImpl()
+
     static PluginConfiguration getInstance() {
         instance
     }

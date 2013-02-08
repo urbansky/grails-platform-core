@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -20,15 +20,16 @@ package org.grails.plugin.platform
 import org.grails.plugin.platform.util.TagLibUtils
 
 class PlatformTagLib {
+
     static namespace = "p"
-    
+
     def uiOverlay = { attrs, body ->
         out << g.render(plugin:'platformCore', template:'/platformTools/uiOverlay', model:[bodyContent:body])
     }
-    
+
     def tagDemo = { attrs, body ->
         if (!attrs.tag) return
-        
+
         def (ns, tagName) = TagLibUtils.resolveTagName(attrs.tag)
         def bodyAlone = body()
         def tagAttrs = attrs.clone()
@@ -57,7 +58,7 @@ class PlatformTagLib {
                     (entry.value instanceof Set)) {
                     sb << p.prettyPrint(value:entry.value)
                 } else {
-                    sb << " = " 
+                    sb << " = "
                     sb << entry.value?.encodeAsHTML()
                 }
                 sb << "</li>"

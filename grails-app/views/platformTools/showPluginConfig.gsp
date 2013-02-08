@@ -9,7 +9,7 @@
                 <div class="page-heading">
                     <h1>Plugin Config</h1>
                </div>
-        
+
                 <p>All plugin config:
                     <pre>
                         <p:prettyPrint value="${allPluginConfig}"/>

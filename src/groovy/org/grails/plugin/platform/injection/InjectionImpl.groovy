@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -18,17 +18,17 @@
 package org.grails.plugin.platform.injection
 
 import grails.util.GrailsNameUtils
+
 import org.slf4j.LoggerFactory
-import org.grails.plugin.platform.util.PluginUtils
 
 class InjectionImpl implements Injection {
-    
+
     final log = LoggerFactory.getLogger(Injection)
-    
+
     def grailsApplication
-    
+
     Map<String, List<Closure>> injectionsByArtefactType = [:]
-    
+
     void initInjections() {
         def plugins = grailsApplication.mainContext.pluginManager.allPlugins
         // @todo what order is this - plugin dependency order?
@@ -48,7 +48,7 @@ class InjectionImpl implements Injection {
      */
     void register(Closure injectionBuilder) {
         def builder = new InjectionBuilder()
-        
+
         def injections = builder.build(injectionBuilder, grailsApplication.mainContext)
         for (typeToClosureApplicators in injections) {
             for (applicator in typeToClosureApplicators.value) {
@@ -56,7 +56,7 @@ class InjectionImpl implements Injection {
             }
         }
     }
-    
+
     void registerInjection(String artefactType, Closure methodApplicator) {
         def injections = injectionsByArtefactType[artefactType]
         if (!injections) {
@@ -69,18 +69,18 @@ class InjectionImpl implements Injection {
     void reset() {
         injectionsByArtefactType.clear()
     }
-    
+
     void apply() {
         if (log.debugEnabled) {
             log.debug "Applying injected methods to all artefacts (${injectionsByArtefactType.keySet()})"
         }
         def allArtefacts = grailsApplication.allArtefacts
-        
+
         for (artefact in allArtefacts) {
             applyTo(artefact)
         }
     }
-    
+
     void applyTo(Class clazz) {
         if (log.debugEnabled) {
             log.debug "Applying injected methods to [${clazz}]"
@@ -110,7 +110,7 @@ class InjectionImpl implements Injection {
             }
         }
     }
-    
+
     void applyMethodsTo(Class clazz, List<InjectedMethod> methods) {
         MetaClass mc = clazz.metaClass
         for (m in methods) {

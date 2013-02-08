@@ -22,13 +22,13 @@
         <s:ifNotPermitted role="ADMIN">
             <p>The current user is not an ADMIN</p>
         </s:ifNotPermitted>
-        
+
         <p>The info from the security implementation is:
             <pre>
                 <s:info/>
             </pre>
         </p>
-        
+
         <g:if test="${grailsApplication.mainContext.grailsSecurityBridge}">
             <p>Log in button: <s:loginButton/>, log out button <s:logoutButton/> and sign up button <s:signupButton/>
             </p>

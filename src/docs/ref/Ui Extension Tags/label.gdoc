@@ -18,9 +18,9 @@ The optional body is used as the default text of the label if the i18n code does
 h2. Attributes
 
 {table}
-*Name* | *Required* | *Purpose* 
-text | | The text of the label, or an i18n code to resolve to use as the text 
-textArgs | | Arguments to pass when creating the i18n message text 
+*Name* | *Required* | *Purpose*
+text | | The text of the label, or an i18n code to resolve to use as the text
+textArgs | | Arguments to pass when creating the i18n message text
 textScope | | Prefix to use with code or codes. Overrides the automatic scoping behaviour
 textPlugin | | Plugin name in beanNameCase. Overrides the automatic scoping behaviour
 {table}

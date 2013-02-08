@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -18,22 +18,23 @@
 package org.grails.plugin.platform.events.publisher;
 
 import groovy.lang.Closure;
+
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.log4j.Logger;
 import org.codehaus.groovy.grails.support.PersistenceContextInterceptor;
 import org.grails.plugin.platform.events.EventMessage;
 import org.grails.plugin.platform.events.EventReply;
 import org.grails.plugin.platform.events.registry.DefaultEventsRegistry;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.task.AsyncTaskExecutor;
-
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Stephane Maldini <smaldini@vmware.com>
@@ -46,10 +47,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class DefaultEventsPublisher implements EventsPublisher, ApplicationContextAware, InitializingBean {
 
-
     private static final String EXECUTOR = "executor";
     private static final String DEFAULT_EXECUTOR = "grailsTopicExecutor";
-    private static final String QUEUE_EXECUTOR = "grailsP2PExecutor";
     private final static Logger log = Logger.getLogger(DefaultEventsPublisher.class);
 
     private DefaultEventsRegistry grailsEventsRegistry;
@@ -75,12 +74,15 @@ public class DefaultEventsPublisher implements EventsPublisher, ApplicationConte
 
     //API
 
-    public EventReply event(EventMessage event) {
+    @Override
+    public EventReply event(EventMessage<?> event) {
         DefaultEventsRegistry.InvokeResult invokeResult = grailsEventsRegistry.invokeListeners(event);
         return new EventReply(invokeResult.getResult(), invokeResult.getInvoked());
     }
 
-    public EventReply eventAsync(final EventMessage event, final Map<String, Object> params) {
+    @SuppressWarnings("rawtypes")
+    @Override
+    public EventReply eventAsync(final EventMessage<?> event, final Map<String, Object> params) {
         AsyncTaskExecutor taskExecutor = params != null && params.containsKey(EXECUTOR) ?
                 taskExecutors.get( params.get(EXECUTOR) ) :
                 taskExecutors.get(DEFAULT_EXECUTOR);
@@ -95,6 +97,7 @@ public class DefaultEventsPublisher implements EventsPublisher, ApplicationConte
             if (params.get(ON_REPLY) != null) {
                 taskExecutor.execute(new Runnable() {
 
+                    @Override
                     public void run() {
                         try {
                             if (params.get(TIMEOUT) != null)
@@ -115,6 +118,7 @@ public class DefaultEventsPublisher implements EventsPublisher, ApplicationConte
         return reply;
     }
 
+    @Override
     public void afterPropertiesSet() throws BeansException {
         //try to lazy load contextInterceptor
         if(persistenceInterceptor == null){
@@ -126,6 +130,7 @@ public class DefaultEventsPublisher implements EventsPublisher, ApplicationConte
         }
     }
 
+    @Override
     public void setApplicationContext(ApplicationContext context) {
         this.context = context;
     }
@@ -134,12 +139,13 @@ public class DefaultEventsPublisher implements EventsPublisher, ApplicationConte
 
     private class Callback implements Callable<DefaultEventsRegistry.InvokeResult> {
 
-        private EventMessage event;
+        private EventMessage<?> event;
 
-        public Callback(EventMessage event) {
+        public Callback(EventMessage<?> event) {
             this.event = event;
         }
 
+        @Override
         public DefaultEventsRegistry.InvokeResult call() {
             boolean gormSession = persistenceInterceptor != null && event.isGormSession();
             if (gormSession) {
@@ -163,6 +169,8 @@ public class DefaultEventsPublisher implements EventsPublisher, ApplicationConte
     }
 
     private static class WrappedFuture extends EventReply {
+
+        private static final long serialVersionUID = 1;
 
         public WrappedFuture(Future<?> wrapped, int receivers) {
             super(wrapped, receivers);

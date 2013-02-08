@@ -5,7 +5,6 @@ _Available in Controllers, Domains and Services_
 This method blocks for each passed reply until the relevant event has been processed, hence initializing the EventReply.value.
 It returns the same array of passed [Event Replies|api:org.grails.plugin.platform.events.EventReply] for fluent programming style.
 
-
 h2. Usage
 
 {docx}
@@ -28,7 +27,6 @@ class SomeController{
       //other style :
       event('logout', session.user).waitFor() //blocks event
       event('logout', session.user).waitFor(2000) //blocks event for maximum 2 seconds
-
    }
 }
 {docx}

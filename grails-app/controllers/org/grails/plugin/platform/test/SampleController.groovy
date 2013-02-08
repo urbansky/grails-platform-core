@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -33,7 +33,7 @@ class SampleController {
     def grailsEventsDispatcher
 
     static navigationScope = "sample"
-    
+
     def testSave = {
         def user1 =  new Author(name:'Marc').save()
         def user2 =  new Author(name:'Stephane').save()
@@ -79,7 +79,6 @@ class SampleController {
 //        def _stream = stream 'someNamespace://samplehello' | reply { println it } | error { println it } << 'test'
 //        _stream.send()
 
-
         response.outputStream << "async events replies $async1 $async2 \n\n"
         response.outputStream << "async event reply value " + event('sampleHello', '{"message":"world2"}', [namespace: 'lal']).value + " \n\n"
 
@@ -100,6 +99,5 @@ class SampleController {
 
         def r = event topic: 'sampleHella', data: "world 4", for:'lal', onReply:reply, onError:error
         r.cancel()
-
     }
 }

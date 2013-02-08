@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -19,13 +19,12 @@ package org.grails.plugin.platform.config
 
 /**
  * Public interface for the Plugin Configuration API
- * 
- * Plugins declare the config they support, the expected types, validators and default values
- * This means they do not have to supply/merge default values into Config. 
  *
+ * Plugins declare the config they support, the expected types, validators and default values
+ * This means they do not have to supply/merge default values into Config.
  */
 interface PluginConfiguration {
-    
+
     /**
      * Get pluginConfig for any object, determined by the plugin in which is was defined
      */
@@ -35,11 +34,10 @@ interface PluginConfiguration {
      * Return the plugin-specific ConfigObject for the given plugin
      * @param pluginName the BEAN notation name of the plugin e.g. beanFields
      */
-    ConfigObject getPluginConfig(String pluginName);
-    
+    ConfigObject getPluginConfig(String pluginName)
+
     /**
      * Get information about all the declared plugin config variables
      */
      List<PluginConfigurationEntry> getAllEntries()
 }
-

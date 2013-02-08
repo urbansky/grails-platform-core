@@ -24,7 +24,7 @@ def doWithConfig = { config ->
         ui.Bootstrap.tab.cssClass = 'tab-pane'
         ui.Bootstrap.field.cssClass = 'input'
     }
-    
+
     application {
         // set something based on another config value that has already been
         // by the application

@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -25,21 +25,21 @@ class PropertyNamespacer {
     private delegateMapLikeObject
     private String keyPrefix
     private String keySetMethodName
-    
+
     PropertyNamespacer(String keyPrefix, delegateMapLikeObject, String keySetMethodName) {
         this.delegateMapLikeObject = delegateMapLikeObject
         this.keyPrefix = 'plugin.'+keyPrefix
         this.keySetMethodName = keySetMethodName
     }
-    
-    def propertyMissing(String name, value) { 
+
+    def propertyMissing(String name, value) {
         put(name, value)
     }
-    
+
     def propertyMissing(String name) {
         get(name)
     }
-    
+
     Object get(Object key) {
         this.@delegateMapLikeObject[this.@keyPrefix + key.toString()]
     }
@@ -47,13 +47,13 @@ class PropertyNamespacer {
     Object put(Object key, Object value) {
         this.@delegateMapLikeObject[this.@keyPrefix + key.toString()] = value
     }
-    
+
     Set<String> keySet() {
         def allKeys = this.@delegateMapLikeObject."$keySetMethodName"()
         def prefix = this.@keyPrefix
         allKeys.findAll { it.startsWith(prefix) } as Set
     }
-    
+
     Map toMap() {
         Map result = [:]
         for (k in keySet()) {
@@ -62,7 +62,7 @@ class PropertyNamespacer {
         }
         return result
     }
-    
+
     String toString() {
         "PropertyNamespacer for namespace [${this.@keyPrefix}] with keys: ${keySet()}"
     }

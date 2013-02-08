@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -22,11 +22,11 @@ package org.grails.plugin.platform.util
  */
 class ClosureInvokingScript extends Script {
     private Closure closure
-    
+
     ClosureInvokingScript(Closure code) {
         this.closure = code.clone()
     }
-    
+
     @Override
     Object run() {
         closure.resolveStrategy = Closure.DELEGATE_FIRST

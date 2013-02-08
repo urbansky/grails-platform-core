@@ -1,4 +1,4 @@
-/* Copyright 2011-2012 the original author or authors:
+/* Copyright 2011-2013 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -17,18 +17,17 @@
  */
 package org.grails.plugin.platform.navigation;
 
-import org.codehaus.groovy.grails.commons.*;
 import org.codehaus.groovy.grails.commons.ArtefactHandlerAdapter;
 
 public class NavigationArtefactHandler extends ArtefactHandlerAdapter {
 
-    static public final String TYPE = "Navigation";
-    static public final String SUFFIX = "Navigation";
-    
+    public static final String TYPE = "Navigation";
+    public static final String SUFFIX = "Navigation";
+
     public NavigationArtefactHandler() {
         super(TYPE, NavigationClass.class, DefaultNavigationClass.class, SUFFIX, true);
     }
-    
+
     @Override
     public String getPluginName() {
         return "platformCore";

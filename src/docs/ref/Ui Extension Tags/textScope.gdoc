@@ -14,11 +14,11 @@ h2. Example
 Normal scoping behaviour:
 <p:text code="welcome.message"/>
 
-Changed scope to arbitrary: 
+Changed scope to arbitrary:
 <p:textScope scope="app.prefix"/>
 <p:text code="welcome.message"/> (always resolves to app.prefix.welcome.message)
 
-Changed scope to arbitrary: 
+Changed scope to arbitrary:
 <p:textScope plugin="springSecurityCore"/>
 <p:text code="welcome.message"/> (always resolves to plugin.springSecurityCore.welcome.message)
 {code}
@@ -26,7 +26,7 @@ Changed scope to arbitrary:
 h2. Attributes
 
 {table}
-*Name* | Required | *Purpose* 
+*Name* | Required | *Purpose*
 scope | | An arbitrary scoping prefix to use. A trailing "." will be added automatically. Example value: "myapp.messages"
 plugin | | A plugin name in bean casing i.e. myPluginName. This makes future p:text resolutions appear to come from this plugin.
 {table}
