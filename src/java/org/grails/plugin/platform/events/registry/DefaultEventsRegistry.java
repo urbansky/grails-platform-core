@@ -243,9 +243,7 @@ public class DefaultEventsRegistry implements EventsRegistry {
                     log.debug("Ignoring call to " + bean.getClass() + "." + method.getName() + " with args " + arg.toString() + " - illegal arg exception: " + e.toString());
                 }
             } catch (InvocationTargetException e) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Failing call to " + bean.getClass() + "." + method.getName() + " with args " + arg.toString() + " - illegal arg invokation " + e.toString());
-                }
+                log.warn("Failing call to " + bean.getClass() + "." + method.getName() + " with args " + arg.toString() + " - illegal arg invokation " + e.toString(), e.getCause());
                 throw e.getCause();
             } catch (Throwable e) {
                 if (log.isDebugEnabled()) {
