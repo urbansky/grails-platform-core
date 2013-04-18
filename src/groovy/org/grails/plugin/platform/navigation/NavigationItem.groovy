@@ -44,9 +44,15 @@ class NavigationItem extends NavigationScope {
 
     NavigationItem(Map args) {
         super(args)
+
+        if (!args.linkArgs) {
+            throw new IllegalArgumentException("Navigation items require a linkArgs Map to indicate their target")
+        }
+
+        this.linkArgs = args.linkArgs.asImmutable()
+
         this.order = args.order
         this.data = args.data != null ? args.data : Collections.EMPTY_MAP
-        this.linkArgs = args.linkArgs.asImmutable()
         this.actionAliases = args.actionAliases
         this.titleMessageCode = args.titleMessageCode
         this.titleDefault = args.titleDefault instanceof Closure ? '' : args.titleDefault
