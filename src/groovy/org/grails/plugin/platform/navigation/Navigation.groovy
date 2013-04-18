@@ -30,4 +30,8 @@ interface Navigation {
     void registerNavigation(Closure dsl)
 
     NavigationItem addItem(NavigationScope parent, NavigationItem item)
+
+    List<NavigationScope> nodesForPath(String path)
+
+    NavigationScope nodeForId(String path)
 }
