@@ -79,6 +79,15 @@ class PlatformCoreGrailsPlugin {
 
     boolean platformInitialized
 
+    /* 
+     * Initialize the Configuration API instance
+     * We have to do this before anything else runs, e.g. to make sure correct
+     * config is available when web.xml is generated, which normally happens before
+     * the spring config is initialized
+     * If we don't do this, we can't use the Configuration API to affect the behaviour of
+     * code that generates stuff in web.xml - for example Spring Security cannot be configured
+     * via the Config API without this.
+     */
     void initPlatform(application) {
         if (!platformInitialized) {
             // The terrible things we have to do...
