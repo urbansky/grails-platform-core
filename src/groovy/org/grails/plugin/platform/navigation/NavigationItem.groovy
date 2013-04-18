@@ -1,4 +1,4 @@
-/* Copyright 2011-2013 the original author or authors:
+/* Copyright 2011-2012 the original author or authors:
  *
  *    Marc Palmer (marc@grailsrocks.com)
  *    Stéphane Maldini (smaldini@vmware.com)
@@ -21,117 +21,123 @@ import org.grails.plugin.platform.util.ViewCallbackDelegate
 
 /**
  * Immutable encapsulation of an item in the navigation structure
- * Instances of this are shared globally and available to requests so
+ * Instances of this are shared globally and available to requests so 
  * this must be immutable and threadsafe
  */
 class NavigationItem extends NavigationScope {
     private Integer order
-
+    
     private String titleDefault
-
+    private Closure titleDefaultClosure
+    
     private Map linkArgs
     private List actionAliases
     private String titleMessageCode
-
+    
     private boolean visible = true
     private Closure visibleClosure
-
+    
     private boolean enabled = true
     private Closure enabledClosure
-
+    
     private Map data
 
     NavigationItem(Map args) {
         super(args)
-        order = args.order
-        data = args.data != null ? args.data : Collections.EMPTY_MAP
-        linkArgs = args.linkArgs.asImmutable()
-        actionAliases = args.actionAliases
-        titleMessageCode = args.titleMessageCode
-        titleDefault = args.titleDefault
+        this.order = args.order
+        this.data = args.data != null ? args.data : Collections.EMPTY_MAP
+        this.linkArgs = args.linkArgs.asImmutable()
+        this.actionAliases = args.actionAliases
+        this.titleMessageCode = args.titleMessageCode
+        this.titleDefault = args.titleDefault instanceof Closure ? '' : args.titleDefault
+        this.titleDefaultClosure = args.titleDefault instanceof Closure ?  args.titleDefault : null
         if (args.visible == null) {
             args.visible = true
         }
-        visible = args.visible instanceof Closure ? false : args.visible
-        visibleClosure = args.visible instanceof Closure ? args.visible : null
+        this.visible = args.visible instanceof Closure ? false : args.visible
+        this.visibleClosure = args.visible instanceof Closure ? args.visible : null
         if (args.enabled == null) {
             args.enabled = true
         }
-        enabled = args.enabled instanceof Closure ? false : args.enabled
-        enabledClosure = args.enabled instanceof Closure ? args.enabled : null
+        this.enabled = args.enabled instanceof Closure ? false : args.enabled
+        this.enabledClosure = args.enabled instanceof Closure ? args.enabled : null
     }
 
     boolean inScope(String scopeName) {
         getRootScope().name == scopeName
     }
-
+    
     boolean inScope(NavigationScope scope) {
         getRootScope().name == scope.name
     }
-
+    
     /**
      * Get any application-supplied data that was declared for this item
      * Used for info like icon-names, alt text and so on - custom rendering usage
      */
     Map getData() {
-        data
+        this.data
     }
 
     List getActionAliases() {
-        actionAliases
+        this.actionAliases
     }
-
+    
     Integer getOrder() {
-        order
+        this.order
     }
 
     void setOrder(Integer v) {
-        order = v
+        this.order = v
     }
 
     boolean getLeafNode() {
-        leafNode
+        this.leafNode
     }
 
     String getTitleMessageCode() {
-        if (!titleMessageCode) {
+        if (!this.titleMessageCode) {
             def safeId = id.replaceAll(NODE_PATH_SEPARATOR, '.')
             titleMessageCode = "nav.${safeId}" // captures original id, so i18n continues to work even if moved in hierarchy
         }
-        titleMessageCode
+        this.titleMessageCode
     }
-
-    String getTitleDefault() {
-        titleDefault
+    
+    String getTitleDefault(context) {
+        if (this.titleDefaultClosure != null) {
+            return invokeCallback(this.titleDefaultClosure, context)
+        } else {
+            return this.titleDefault
+        }
     }
-
+    
     Closure getVisibleClosure() {
         visibleClosure
     }
-
+    
     Closure getEnabledClosure() {
         enabledClosure
     }
-
+    
     boolean isVisible(context) {
-        if (visibleClosure != null) {
-            return invokeCallback(visibleClosure, context)
+        if (this.visibleClosure != null) {
+            return invokeCallback(this.visibleClosure, context)
         } else {
-            return visible
+            return this.visible
         }
     }
-
+    
     boolean isEnabled(context) {
-        if (enabledClosure != null) {
-            return invokeCallback(enabledClosure, context)
+        if (this.enabledClosure != null) {
+            return invokeCallback(this.enabledClosure, context)
         } else {
-            return enabled
+            return this.enabled
         }
     }
-
+    
     protected invokeCallback(Closure c, context) {
         def delegate = new ViewCallbackDelegate(context.grailsApplication, context.pageScope, context)
-
+        
         Closure cloneOfClosure = c.clone()
         cloneOfClosure.delegate = delegate
         cloneOfClosure.resolveStrategy = Closure.DELEGATE_FIRST
