@@ -10,6 +10,7 @@ class NavigationTagLibTests {
 	void testIsVisibleClosureHasCorrectContext() {
         boolean isVisibleCalled = false
 		def testNode = new NavigationItem([
+            name:'home',
 			linkArgs:[action:'home'],
 			visible: { ->
 				assert item
