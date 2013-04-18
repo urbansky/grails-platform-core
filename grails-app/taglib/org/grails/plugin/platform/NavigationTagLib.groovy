@@ -141,9 +141,10 @@ class NavigationTagLib {
                 log.debug "Rendering menu for scope [${scope}] which has children ${scopeNode.children.name}"
             }
             for (n in scopeNode.children) {
-                if (n.isVisible(callbackContext)) {
+                def nodeContext = callbackContext + [item:n]
+                if (n.isVisible(nodeContext)) {
                     def active = activeNodes.contains(n)
-                    def enabled = n.isEnabled(callbackContext)
+                    def enabled = n.isEnabled(nodeContext)
 
                     def linkArgs = new HashMap(n.linkArgs) // Clone! naughty g.link changes them otherwise. Naughty g.link!
                     if (customBody) {
@@ -262,48 +263,6 @@ class NavigationTagLib {
     def activeNode = { attrs ->
         findNode(attrs.path) ?: [id:''] //workaround for 2.0.0 null return value bug, can't return null :(
     }
-
-/*
-    * Work in progress - Render a breadcrumb, with optional custom rendering
-    def breadcrumb = { attrs, body ->
-        // @todo remove attributes and pass-through all that are left to <ul>
-
-        def nodes = findNodes(attrs.path)
-        def cssClass = attrs.class == null ? 'breadcrumb' : attrs.class
-        def id = attrs.id ? " id=\"${attrs.id.encodeAsHTML()}\" " : ''
-
-        def custom = attrs.custom
-        def customBody = (custom == 'true') || custom.is(Boolean.TRUE)
-
-        if (!nodes) {
-            TagLibUtils.warning('nav:breadcrumb', "No activation path for this request and no path attribute set, or path [${attrs.path}] cannot be resolved")
-        } else {
-            if (!customBody) {
-                out << "<ul${id}"
-                if (cssClass) {
-                    out << " class=\"${cssClass.encodeAsHTML()}\""
-                }
-                out << ">"
-            }
-            def first = true
-            int l = nodes.size()
-            for (int i = 0; i < l; i++) {
-                def n = nodes[i]
-                def linkArgsCloned = new HashMap(n.linkArgs)
-                if (customBody) {
-                    out << body([item:n, linkArgs:linkArgsCloned, first:first, last:i == l-1])
-                } else {
-                    def text = g.message(code:n.titleMessageCode, default:n.titleDefault)
-                    out << "<li>${g.link(linkArgsCloned, text)}</li>"
-                }
-                first = false
-            }
-            if (!customBody) {
-                out << "</ul>"
-            }
-        }
-    }
-*/
 
     /**
      * Render the i18n title of a navigation item
