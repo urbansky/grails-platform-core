@@ -28,6 +28,17 @@ class NavigationTagLib {
 
     static returnObjectForTags = ['activePath', 'activeNode', 'scopeForActivationPath', 'firstActiveNode']
 
+    static CALLBACK_CONTEXT_VARS = [
+        'grailsApplication',
+        'pageScope',
+        'session',
+        'request',
+        'controllerName',
+        'actionName',
+        'flash',
+        'params'
+    ]
+    
     def grailsNavigation
     def grailsApplication
 
@@ -119,16 +130,10 @@ class NavigationTagLib {
 
         def activeNodes = findNodes(attrs.path)
 
-        def callbackContext = [
-            grailsApplication:grailsApplication,
-            pageScope:pageScope,
-            session:session,
-            request:request,
-            controllerName:controllerName,
-            actionName:actionName,
-            flash:flash,
-            params:params
-        ]
+        def callbackContext = [:]
+        for (varName in CALLBACK_CONTEXT_VARS) {
+            callbackContext[varName] = this."$varName"
+        }
 
         def scopeNode = grailsNavigation.nodeForId(scope)
         if (scopeNode) {
