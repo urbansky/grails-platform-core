@@ -168,6 +168,7 @@ The closures receive a delegate which resolves the following standard Grails pro
 * actionName
 * flash
 * params
+* item (current NavigationItem instance being tested)
 
 Any unresolved properties will resolve to the model (pageScope) and failing that, to the application's bean context, so you can resolve service beans etc by just accessing them by name.
 
