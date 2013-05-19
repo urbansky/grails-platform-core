@@ -75,7 +75,7 @@ class PlatformCoreGrailsPlugin {
 
     def issueManagement = [system: "JIRA", url: "http://jira.grails.org/browse/GPPLATFORMCORE"]
 
-    def scm = [url: "https://github.com/Grailsrocks/grails-platform-core"]
+    def scm = [url: "https://github.com/grails-plugins/grails-platform-core"]
 
     boolean platformInitialized
 
