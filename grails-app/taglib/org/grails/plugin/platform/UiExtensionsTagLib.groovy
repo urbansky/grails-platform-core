@@ -25,7 +25,7 @@ class UiExtensionsTagLib {
 
     static namespace = "p"
 
-    static returnObjectForTags = ['joinClasses']
+    static returnObjectForTags = ['joinClasses', 'text']
 
     // @todo OK if the machine stays up over new year this will become invalid...
     def thisYear = new Date()[Calendar.YEAR].toString()
@@ -279,15 +279,14 @@ class UiExtensionsTagLib {
                     if (log.debugEnabled) {
                         log.debug "Resolved scoped i18n message code [${namespacedCode}] and returning ${msg}"
                     }
-                    out << msg
-                    return
+                    return msg
                 }
             }
             if (log.debugEnabled) {
                 log.debug "Failed to resolve scoped i18n message codes, returning default ${defaultText}"
             }
             if (defaultText) {
-                out << defaultText
+                return defaultText
             }
 
         } else {
@@ -304,14 +303,14 @@ class UiExtensionsTagLib {
                     log.debug "Attempt to resolve unscoped i18n message code [${code}] yielded: ${msg}"
                 }
                 if (msg) {
-                    out << msg
-                    return
+                    return msg
                 }
             }
             if (defaultText) {
-                out << defaultText
+                return defaultText
             }
         }
+        return ''
     }
 
     private String attrsToTextScope(attrs) {
