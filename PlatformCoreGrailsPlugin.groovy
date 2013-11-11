@@ -30,7 +30,7 @@ import org.grails.plugin.platform.security.SecurityImpl
 import org.grails.plugin.platform.ui.UiExtensions
 
 class PlatformCoreGrailsPlugin {
-    def version = "1.0.RC5"
+    def version = "1.0.RC6"
     def grailsVersion = "1.3 > *"
     def pluginExcludes = [
             "grails-app/conf/Test*.groovy",
@@ -89,15 +89,15 @@ class PlatformCoreGrailsPlugin {
      * via the Config API without this.
      */
     void initPlatform(application) {
-        if (!platformInitialized) {
-            // The terrible things we have to do...
-            def hackyInstance = PluginConfigurationFactory.instance
-            hackyInstance.grailsApplication = application
-            hackyInstance.pluginManager = PluginManagerHolder.pluginManager
-            hackyInstance.applyConfig()
 
-            // Trigger doPlatformBuildInit(pluginManager)
-        }
+        // The terrible things we have to do...
+        def hackyInstance = org.grails.plugin.platform.config.PluginConfigurationFactory.instance
+        hackyInstance.grailsApplication = application
+        hackyInstance.pluginManager = org.codehaus.groovy.grails.plugins.PluginManagerHolder.pluginManager
+        hackyInstance.applyConfig()
+
+        // Trigger doPlatformBuildInit(pluginManager)
+        application.config.grails.plugin.platform.initialized = true
 
         platformInitialized = true
     }
