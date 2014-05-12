@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/grails-plugins/grails-platform-core.svg)](https://travis-ci.org/grails-plugins/grails-platform-core)
+
 # Grails Plugin Platform
 
 This plugin provides a suite of facilities to support the plugin ecosystem by
