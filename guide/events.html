@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5 Events Bus API 1.0.RC3</title>
+    <title>5 Events Bus API 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../css/shCore.js"></script>
-    <script type="text/javascript" src="../css/shBrushXml.js"></script>
-    <script type="text/javascript" src="../css/shBrushGroovy.js"></script>
-    <link type="text/css" rel="stylesheet" href="../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -81,13 +74,13 @@
             <div id="main" class="corner-all">
 
                 
-                <div class="toc-item prev-left"><a href="../guide/security.html">&lt;&lt; <strong>4</strong><span>Security API</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/security.html">&lt;&lt; <strong>4</strong><span>Security API</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                <div class="toc-item next-right"><a href="../guide/nav.html"><strong>6</strong><span>Navigation API</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/nav.html"><strong>6</strong><span>Navigation API</span> >></a></div>
                 
 
 
@@ -96,7 +89,7 @@
 
                     <p><strong>Authors:</strong> Marc Palmer (marc@grailsrocks.com), Stéphane Maldini (smaldini@vmware.com)</p>
 
-                    <p><strong>Version:</strong> 1.0.RC3</p>
+                    <p><strong>Version:</strong> 1.0.0</p>
 
                     
                 </div>
@@ -145,23 +138,55 @@
  excellent opportunity to deploy the same application into a cluster or  <em class="italic">cloud</em> .<p class="paragraph"/>Within the bus, an event is often as simple as a "callback" with no parameters, but usually there is some extra state passed as an event object.
 An event can be sent to multiple listeners, and any result returned from any listeners is passed back to the original sender of the event.
 An event belongs to a "topic" and often has a "subject". The topic is like a channel that identifies the kind of events. The optional subject is the object that the event "happened to".
-So for example a simple "app started" notification has no subject but may have topic "grails", but a "user logged in" even may have topic "security" and subject set to the user principal supplied by the security plugin you are using.<p class="paragraph"/>
-With Platform-Core plugin we have implemented a couple of features and artifacts to let you simply manage an  <em class="italic">event bus</em> 
+So for example a simple "app started" notification has no subject but may have topic "grails", but a "user logged in" even may have topic "security" and subject set to the user principal supplied by the security plugin you are using.<p class="paragraph"/>With Platform-Core plugin we have implemented a couple of features and artifacts to let you simply manage an  <em class="italic">event bus</em> 
 and get maximum flexibility when required :
 <ul class="star">
 <li>Sending <strong class="bold">Events methods</strong> injected in your <strong class="bold">Domains</strong>, <strong class="bold">Controllers</strong> and <strong class="bold">Services</strong></li>
 <li><strong class="bold">@Listener</strong> annotations for your <strong class="bold">Services</strong> methods.</li>
 <li>Events mapping <strong class="bold">DSL artifact</strong> to select and control events topics</li>
 <li><strong class="bold">Spring beans</strong> with access to underlying API</li>
-<li><strong class="bold">More cool stuff</strong> with <a href="https://github.com/smaldini/grails-events-si" class="https://github.com/smaldini/grails-events-si">Events Spring Integration</a> and <a href="https://github.com/smaldini/grails-events-push" class="https://github.com/smaldini/grails-events-push">Events Push</a></li>
+<li><strong class="bold">More cool stuff</strong> with <a href="https://github.com/smaldini/grails-events-si" target="blank">Events Spring Integration</a> and <a href="https://github.com/smaldini/grails-events-push" target="blank">Events Push</a></li>
 <li>Simple <strong class="bold">config keys</strong></li>
 </ul><p class="paragraph"/>In a nutshell, you will :
 <ul class="star">
 <li>Send events :</li>
-</ul><p class="paragraph"/><pre class="brush: groovy;">&#10;class UserController&#123;&#10;&#10;   def registration()&#123;&#10;         def user = new User(params).save()&#10;         if(user)&#123;&#10;&#10;            //non&#45;blocking call, will trigger application listeners for this topic&#10;            event('mailRegistration', user)&#10;&#10;            //blocking call :&#10;            //event('mailRegistration', user).waitFor()&#10;&#10;            //can also be written like that&#10;            //event topic:'mailRegistration', data:user&#10;&#10;            //and if you need to reuse the current thread&#10;            //event topic:'mailRegistration', data:user, fork:false&#10;&#10;            render(view:'sendingRegistrationMail')&#10;         &#125;else&#123;&#10;            render(view:'errorRegistration')&#10;         &#125;&#10;  &#125;&#10;&#125;&#10;</pre>
+</ul><p class="paragraph"/>{docx}
+class UserController{<p class="paragraph"/>   def registration(){
+         def user = new User(params).save()
+         if(user){<p class="paragraph"/>            //non-blocking call, will trigger application listeners for this topic
+            event('mailRegistration', user)<p class="paragraph"/>            //blocking call :
+            //event('mailRegistration', user).waitFor()<p class="paragraph"/>            //can also be written like that
+            //event topic:'mailRegistration', data:user<p class="paragraph"/>            //and if you need to reuse the current thread
+            //event topic:'mailRegistration', data:user, fork:false<p class="paragraph"/>            render(view:'sendingRegistrationMail')
+         }else{
+            render(view:'errorRegistration')
+         }
+  }
+}
+{docx}
 <ul class="star">
 <li>Write listeners (or event handler, or event reactor or whatever you call it):</li>
-</ul><p class="paragraph"/><pre class="brush: groovy;">&#10;class UserService&#123;&#10;&#10;   //use method name 'mailRegistration' as topic name&#10;   //can also use custom topic name using topic arg: &#64;Listener(topic='test')&#10;   &#64;grails.events.Listener&#10;   def mailRegistration(User user)&#123;&#10;         sendMail&#123;&#10;            to user.mail&#10;            subject "Confirmation"&#10;            html g.render(template:"userMailConfirmation")&#10;        &#125;&#10;  &#125;&#10;&#10;  //Can also receive an EventMessage to get more information on this particular event)&#10;  &#64;grails.events.Listener(topic="mailRegistration")&#10;  def mailRegistration2(org.grails.plugin.platform.events.EventMessage msg)&#123;&#10;        sendMail&#123;&#10;           to msg.data.mail&#10;           subject "Confirmation"&#10;           html g.render(template:"userMailConfirmation")&#10;        &#125;&#10;  &#125;&#10;&#125;&#10;</pre>
+</ul><p class="paragraph"/>{docx}
+class UserService{<p class="paragraph"/>   //use method name 'mailRegistration' as topic name
+   //can also use custom topic name using topic arg: @Listener(topic='test')
+   @grails.events.Listener
+   def mailRegistration(User user){
+         sendMail{
+            to user.mail
+            subject "Confirmation"
+            html g.render(template:"userMailConfirmation")
+        }
+  }<p class="paragraph"/>  //Can also receive an EventMessage to get more information on this particular event)
+  @grails.events.Listener(topic="mailRegistration")
+  def mailRegistration2(org.grails.plugin.platform.events.EventMessage msg){
+        sendMail{
+           to msg.data.mail
+           subject "Confirmation"
+           html g.render(template:"userMailConfirmation")
+        }
+  }
+}
+{docx}
 
 
 
@@ -197,61 +222,203 @@ Platform-core Events bus provides a non-blocking way to send events by default, 
 <li><strong class="bold">getValues</strong></li>
 <li><strong class="bold">getValue</strong></li>
 </ul><p class="paragraph"/>Therefore you have the control on the execution flow if you want. Just keep in mind it does not block for processing right after event() call, which seems to be a
-sensible default for the bus. Eventual <strong class="bold">Exceptions</strong> will be raised after using one of the mentioned blocking methods  except if <strong class="bold">onError</strong> parameter is used.<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10;   def logout()&#123;&#10;      def reply = event("logout", session.user)&#10;      //doesn't wait for event execution&#10;      &#10;      render reply.value  //wait and display value&#10;      &#10;      event(topic:"afterLogout").waitFor()&#10;      &#10;      //Only triggered when "afterLogout" finished&#10;      def errorHandler = &#123;errs &#45;&#62; &#125;&#10;      //Use a dedicated error handler&#10;      event(topic:"afterAfterLogout", onError:errs)&#10;   &#125;&#10;&#125;&#10;</pre><p class="paragraph"/>
-<h3>Non forked events</h3>
+sensible default for the bus. Eventual <strong class="bold">Exceptions</strong> will be raised after using one of the mentioned blocking methods  except if <strong class="bold">onError</strong> parameter is used.<p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/>   def logout(){
+      def reply = event("logout", session.user)
+      //doesn't wait for event execution<p class="paragraph"/>      render reply.value  //wait and display value<p class="paragraph"/>      event(topic:"afterLogout").waitFor()<p class="paragraph"/>      //Only triggered when "afterLogout" finished
+      def errorHandler = {errs -&#62; }
+      //Use a dedicated error handler
+      event(topic:"afterAfterLogout", onError:errs)
+   }
+}
+{docx}<p class="paragraph"/><h3>Non forked events</h3>
 If you want to reuse the current thread and force synchronous processing, use the fork param. Be aware that each exception will be directly propagated to caller even without using blocking methods except
-if <strong class="bold">onError</strong> parameter is used.<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10;   def logout()&#123;&#10;      def reply = event('logout', session.user, &#91;fork:false&#93;)&#10;      //block for processing&#10;&#10;      //no need to wait for reply since it has been populated on event call.&#10;      render reply.value&#10;   &#125;&#10;&#125;&#10;</pre><p class="paragraph"/><h3>Assigning a namespace</h3>
+if <strong class="bold">onError</strong> parameter is used.<p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/>   def logout(){
+      def reply = event('logout', session.user, &#91;fork:false&#93;)
+      //block for processing<p class="paragraph"/>      //no need to wait for reply since it has been populated on event call.
+      render reply.value
+   }
+}
+{docx}<p class="paragraph"/><h3>Assigning a namespace</h3>
 All listeners get a property called namespace which prevents topic naming collisions and undesired events. By default, they are all assigned to <strong class="bold">app</strong>.
- This is the same default used when you send an event, but what if you want to reach others namespaced listeners, like 'browser' ones if you use <strong class="bold">events-push</strong> plugin ? Simply use <strong class="bold">namespace</strong> argument or use <strong class="bold">for</strong> if you stick with Map notation.<p class="paragraph"/><pre class="brush: groovy;">&#10; class SomeController&#123;&#10;&#10;    def logout()&#123;&#10;        //we use the Map form, the namespace argument is identified by the 'for' key&#10;       event for:'browser', topic:'logout', data:session.user&#10;    &#125;&#10; &#125;&#10;</pre><p class="paragraph"/><blockquote class="warning">
+ This is the same default used when you send an event, but what if you want to reach others namespaced listeners, like 'browser' ones if you use <strong class="bold">events-push</strong> plugin ? Simply use <strong class="bold">namespace</strong> argument or use <strong class="bold">for</strong> if you stick with Map notation.<p class="paragraph"/>{docx}
+ class SomeController{<p class="paragraph"/>    def logout(){
+        //we use the Map form, the namespace argument is identified by the 'for' key
+       event for:'browser', topic:'logout', data:session.user
+    }
+ }
+{docx}<p class="paragraph"/><blockquote class="warning">
 It's mandatory to declare namespace when using events bus from a plugin in order to avoid any conflicts.
 </blockquote><p class="paragraph"/><h3>Wildcard support</h3>
-It's possible to call multiple topics/namespaces in a single shot using <strong class="bold">wildcard as the last character</strong>.<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10;    def logout()&#123;&#10;        /&#42;&#10;          We send to every listeners starting with "chat&#45;"&#10;          on every namespaces starting with "role&#45;"&#10;        &#42;/&#10;        event for:'role&#45;&#42;', topic:'chat&#45;&#42;', data:session.user&#10;&#10;        //Here we can trigger every listeners in the default namespace 'app'&#10;        event '&#42;'&#10;    &#125;&#10;&#125;&#10;</pre><p class="paragraph"/><blockquote class="note">
+It's possible to call multiple topics/namespaces in a single shot using <strong class="bold">wildcard as the last character</strong>.<p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/>    def logout(){
+        /*
+          We send to every listeners starting with "chat-"
+          on every namespaces starting with "role-"
+        */
+        event for:'role-<strong class="bold">', topic:'chat-</strong>', data:session.user<p class="paragraph"/>        //Here we can trigger every listeners in the default namespace 'app'
+        event '*'
+    }
+}
+{docx}<p class="paragraph"/><blockquote class="note">
 This feature will probably evolve to a smarter implementation behaving like UrlMappings and authorizing substring captures
-</blockquote><p class="paragraph"/>
+</blockquote>
 
 
 
 <h2 id="listening">5.2 Listening Events</h2>
-Listening for events simply requires registering the method that should receive the event notifications.<p class="paragraph"/>There are few ways to register events.<p class="paragraph"/><h3>Defining listeners at compile time</h3><p class="paragraph"/>Within Grails services you can use the <strong class="bold">@Listener</strong> annotation. It takes a <strong class="bold">topic</strong> string, but you can omit it and use the <strong class="bold">method name</strong> as the topic to listen for:<p class="paragraph"/>
-<pre class="brush: groovy;">&#10;class SomeService&#123;&#10;&#10;   &#64;grails.events.Listener(topic = 'userLogged')&#10;   def myMethod(User user)&#123;&#10;   &#125;&#10;&#10;   //use 'mailSent' as topic name&#10;   &#64;grails.events.Listener&#10;   def mailSent()&#123;&#10;  &#125;&#10;&#125;&#10;</pre><p class="paragraph"/>Event methods can define a <strong class="bold">single argument</strong>, and the value is the object sent with the event. Usually this is the "subject" of the event.
-However an event is carried by an enveloppe called EventMessage which contains several useful metadata like additionnal headers, current topic :<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeService&#123;&#10;&#10;   &#64;grails.events.Listener(topic = 'userLogged')&#10;   def myMethod(org.grails.plugin.platform.events.EventMessage userMessage)&#123;&#10;    println userMessage.headers // display opt headers&#10;    println userMessage.event // displays current topic&#10;    println userMessage.data // displays data&#10;   &#125;&#10;&#125;&#10;</pre><p class="paragraph"/>If a listener argument type is not assignable to an event data type, the event <strong class="bold">silently skips the mismatching listener</strong>. If you want to catch
+Listening for events simply requires registering the method that should receive the event notifications.<p class="paragraph"/>There are few ways to register events.<p class="paragraph"/><h3>Defining listeners at compile time</h3><p class="paragraph"/>Within Grails services you can use the <strong class="bold">@Listener</strong> annotation. It takes a <strong class="bold">topic</strong> string, but you can omit it and use the <strong class="bold">method name</strong> as the topic to listen for:<p class="paragraph"/>{docx}
+class SomeService{<p class="paragraph"/>   @grails.events.Listener(topic = 'userLogged')
+   def myMethod(User user){
+   }<p class="paragraph"/>   //use 'mailSent' as topic name
+   @grails.events.Listener
+   def mailSent(){
+  }
+}
+{docx}<p class="paragraph"/>Event methods can define a <strong class="bold">single argument</strong>, and the value is the object sent with the event. Usually this is the "subject" of the event.
+However an event is carried by an enveloppe called EventMessage which contains several useful metadata like additionnal headers, current topic :<p class="paragraph"/>{docx}
+class SomeService{<p class="paragraph"/>   @grails.events.Listener(topic = 'userLogged')
+   def myMethod(org.grails.plugin.platform.events.EventMessage userMessage){
+    println userMessage.headers // display opt headers
+    println userMessage.event // displays current topic
+    println userMessage.data // displays data
+   }
+}
+{docx}<p class="paragraph"/>If a listener argument type is not assignable to an event data type, the event <strong class="bold">silently skips the mismatching listener</strong>. If you want to catch
 every event types, use Object type or if the argument is not necessary, do not declare it.<p class="paragraph"/><blockquote class="warning">
 Filtering on the EventMessage&#60;D&#62; generic type doesn't work, e.g. EventMessage&#60;Book&#62; won't prevent EventMessage&#60;Author&#62; invokation. For such fine grained
  control, you can rely on <a href="../guide/single.html#artifact" class="guide">Events Artifact</a>
-</blockquote><p class="paragraph"/>
-<h3>Namespacing</h3><p class="paragraph"/>Your declared events belongs to the <strong class="bold">app</strong> namespace, unless you tune it using the <strong class="bold">namespace</strong> argument or the Events DSL we will introduce later.<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeService&#123;&#10;&#10;   &#64;grails.events.Listener(topic = 'userLogged', namespace = 'security')&#10;   def myMethod(User user)&#123;&#10;   &#125;&#10;&#10;   //will subscribe this method to topic 'afterInsert' on namespace 'gorm'&#10;   &#64;grails.events.Listener(namespace = 'gorm')&#10;   def afterInsert(User user)&#123;&#10;  &#125;&#10;&#125;&#10;</pre><p class="paragraph"/>Remember that you will need to specify the scope when triggering events if you customize it with a different value than <strong class="bold">app</strong> :<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;   def myAction()&#123;&#10;        event for:'security', topic:'userLogged', data:session.user&#10;   &#125;&#10;&#125;&#10;</pre><p class="paragraph"/><blockquote class="warning">
+</blockquote><p class="paragraph"/><h3>Namespacing</h3><p class="paragraph"/>Your declared events belongs to the <strong class="bold">app</strong> namespace, unless you tune it using the <strong class="bold">namespace</strong> argument or the Events DSL we will introduce later.<p class="paragraph"/>{docx}
+class SomeService{<p class="paragraph"/>   @grails.events.Listener(topic = 'userLogged', namespace = 'security')
+   def myMethod(User user){
+   }<p class="paragraph"/>   //will subscribe this method to topic 'afterInsert' on namespace 'gorm'
+   @grails.events.Listener(namespace = 'gorm')
+   def afterInsert(User user){
+  }
+}
+{docx}<p class="paragraph"/>Remember that you will need to specify the scope when triggering events if you customize it with a different value than <strong class="bold">app</strong> :<p class="paragraph"/>{docx}
+class SomeController{
+   def myAction(){
+        event for:'security', topic:'userLogged', data:session.user
+   }
+}
+{docx}<p class="paragraph"/><blockquote class="warning">
 It's mandatory to declare namespace when using events bus from a plugin in order to avoid any conflicts.
-</blockquote><p class="paragraph"/><h3>Proxy (AOP) support</h3><p class="paragraph"/>By default, listeners try to call the original method (unproxified bean). Using <strong class="bold">proxySupport</strong> you can tweak this setting :<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeService&#123;&#10;&#10;   static transactional = true&#10;&#10;   //Will invoke transactional logic, similar to someSerice.myMethod()&#10;   &#64;grails.events.Listener(proxySupport=true)&#10;   def myMethod(User user)&#123;&#10;   &#125;&#10;&#10;&#125;&#10;</pre><p class="paragraph"/><h3>Dynamic listeners</h3><p class="paragraph"/>Some edge cases need runtime registration. If you meet this use case, use the injected <a href="../ref/Events Methods/on.html" class="eventsMethods">on</a> method :<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10; def testInlineListener = &#123;&#10;        //register with 'logout' topic on 'app' default namespace&#10;        def listener = on("logout") &#123;User user &#45;&#62;&#10;            println "test $user"&#10;        &#125;&#10;        render "$listener registered"&#10; &#125;&#10;&#10; def testInlineListener2 = &#123;&#10;        //register a 'gorm' namespaced handler on 'afterInsert' topic.&#10;        def listener = on("gorm", "afterInsert") &#123;Book book &#45;&#62;&#10;            println "test $book"&#10;        &#125;&#10;        render "$listener registered"&#10; &#125;&#10;&#125;&#10;</pre><p class="paragraph"/><h3>Wildcard support</h3><p class="paragraph"/>Capturing a wider group of events can be useful, specially for monitoring purposes. It's possible to listen for multiple topics/namespaces in a single shot using <strong class="bold">wildcard as the last character</strong>.<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeService&#123;&#10;&#10; &#64;grails.events.Listener(namespace='role&#45;&#42;', topic = 'chat&#45;&#42;')&#10;   def myMethod(org.grails.plugin.platform.events.EventMessage userMessage)&#123;&#10;      println userMessage.namespace&#10;      println userMessage.event&#10;   &#125;&#10;&#125;&#10;</pre><p class="paragraph"/><blockquote class="note">
+</blockquote><p class="paragraph"/><h3>Proxy (AOP) support</h3><p class="paragraph"/>By default, listeners try to call the original method (unproxified bean). Using <strong class="bold">proxySupport</strong> you can tweak this setting :<p class="paragraph"/>{docx}
+class SomeService{<p class="paragraph"/>   static transactional = true<p class="paragraph"/>   //Will invoke transactional logic, similar to someSerice.myMethod()
+   @grails.events.Listener(proxySupport=true)
+   def myMethod(User user){
+   }<p class="paragraph"/>}
+{docx}<p class="paragraph"/><h3>Dynamic listeners</h3><p class="paragraph"/>Some edge cases need runtime registration. If you meet this use case, use the injected <a href="../ref/Events Methods/on.html" class="eventsMethods">on</a> method :<p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/> def testInlineListener = {
+        //register with 'logout' topic on 'app' default namespace
+        def listener = on("logout") {User user -&#62;
+            println "test $user"
+        }
+        render "$listener registered"
+ }<p class="paragraph"/> def testInlineListener2 = {
+        //register a 'gorm' namespaced handler on 'afterInsert' topic.
+        def listener = on("gorm", "afterInsert") {Book book -&#62;
+            println "test $book"
+        }
+        render "$listener registered"
+ }
+}
+{docx}<p class="paragraph"/><h3>Wildcard support</h3><p class="paragraph"/>Capturing a wider group of events can be useful, specially for monitoring purposes. It's possible to listen for multiple topics/namespaces in a single shot using <strong class="bold">wildcard as the last character</strong>.<p class="paragraph"/>{docx}
+class SomeService{<p class="paragraph"/> @grails.events.Listener(namespace='role-<strong class="bold">', topic = 'chat-</strong>')
+   def myMethod(org.grails.plugin.platform.events.EventMessage userMessage){
+      println userMessage.namespace
+      println userMessage.event
+   }
+}
+{docx}<p class="paragraph"/><blockquote class="note">
 This feature will probably evolve to a smarter implementation behaving like UrlMappings and authorizing substring captures
 </blockquote><p class="paragraph"/><h3>Listener ID</h3><p class="paragraph"/>Registered listeners generate a unique id (<strong class="bold">ListenerId</strong>) applying the following pattern : <br/>
 <code>&#91;namespace://&#93;topic&#91;:package.Class&#93;&#91;#method&#93;&#91;&#64;hashcode&#93;</code><p class="paragraph"/>The above square brackets determine each optional part of the sequence id thus allowing to target group of listeners depending
  of the known arguments: namespace, class, method, hashcode.<p class="paragraph"/>This pattern is useful when using <strong class="bold">countListeners</strong>, <strong class="bold">removeListeners</strong> or <strong class="bold">extensions</strong>. For instance, overriding
 a generated <strong class="bold">channel</strong> with <strong class="bold">events-si</strong> plugin requires to use <code>namespace://topic</code> if  <em class="italic">namespace</em>  is different from "app".
 Another example to count listeners:
-<pre class="brush: groovy;">&#10;//count every listeners subscribed to 'mytopic' inside TestService&#10;countListeners("mytopic:my.TestService")&#10;&#10;//count every listeners using gorm namespace&#10;countListeners("gorm://&#42;")&#10;&#10;//remove every listeners in TestService&#10;removeListeners("&#42;:my.TestService")&#10;</pre><p class="paragraph"/><h3>Reloading in Development mode</h3><p class="paragraph"/>It works.
+{docx}
+//count every listeners subscribed to 'mytopic' inside TestService
+countListeners("mytopic:my.TestService")<p class="paragraph"/>//count every listeners using gorm namespace
+countListeners("gorm://*")<p class="paragraph"/>//remove every listeners in TestService
+removeListeners("*:my.TestService")
+{docx}<p class="paragraph"/><h3>Reloading in Development mode</h3><p class="paragraph"/>It works.
 
 
 <h2 id="replying">5.3 Replying from Listeners</h2>
 Usually, an event is  <em class="italic">fired and forgot</em> . In some cases, you may expect an answer to transform your messaging architecture
 into a controlled flow. For instance, a negative reply can be used in GORM events to veto database writing for the current subjet.
-Another usual example is the aggregation of multiple workers products.<p class="paragraph"/><h3>Simple reply</h3><p class="paragraph"/>Replying is a simple matter of returning an object from the listener method :<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeService&#123;&#10;    &#64;Listener&#10;    def logout(User user)&#123;&#10;       Date disconnectDate = new Date()&#10;&#10;       //do something with user&#10;&#10;       return disconnectDate&#10;    &#125;&#10;&#125;&#10;</pre><p class="paragraph"/>If listeners return non null objects, the caller can access them through the EventReply enveloppe returned immediatly
-after calling <strong class="bold">event</strong> method. The other option is the use of a <strong class="bold">reply handler</strong> :<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10;   def logout()&#123;&#10;       def reply = event topic:"logout", data:session.user, fork:false&#10;       render reply.value //display value&#10;&#10;       //Using callback closure&#10;       def replyHandler = &#123;EventReply reply&#45;&#62; &#125;&#10;       event topic:"logout", data:session.user, onReply:replyHandler&#10;&#10;       //Or as last argument&#10;       event(topic:"logout", data:session.user)&#123; EventReply r&#45;&#62; &#125;&#10;&#10;&#10;       //EventReply object is a Future implementation&#10;       def reply_future = event topic:"logout", data:session.user&#10;       render reply_future.get(30, TimeUnit.SECONDS)&#10;   &#125;&#10;&#125;&#10;</pre><p class="paragraph"/><blockquote class="note">
+Another usual example is the aggregation of multiple workers products.<p class="paragraph"/><h3>Simple reply</h3><p class="paragraph"/>Replying is a simple matter of returning an object from the listener method :<p class="paragraph"/>{docx}
+class SomeService{
+    @Listener
+    def logout(User user){
+       Date disconnectDate = new Date()<p class="paragraph"/>       //do something with user<p class="paragraph"/>       return disconnectDate
+    }
+}
+{docx}<p class="paragraph"/>If listeners return non null objects, the caller can access them through the EventReply enveloppe returned immediatly
+after calling <strong class="bold">event</strong> method. The other option is the use of a <strong class="bold">reply handler</strong> :<p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/>   def logout(){
+       def reply = event topic:"logout", data:session.user, fork:false
+       render reply.value //display value<p class="paragraph"/>       //Using callback closure
+       def replyHandler = {EventReply reply-&#62; }
+       event topic:"logout", data:session.user, onReply:replyHandler<p class="paragraph"/>       //Or as last argument
+       event(topic:"logout", data:session.user){ EventReply r-&#62; }<p class="paragraph"/>       //EventReply object is a Future implementation
+       def reply_future = event topic:"logout", data:session.user
+       render reply_future.get(30, TimeUnit.SECONDS)
+   }
+}
+{docx}<p class="paragraph"/><blockquote class="note">
 Whenever an event is triggered, a task is submitted into the events bus thread pool and a Future returned, wrapped into EventReply.
 It's also planned to fully support reply-address pattern in a future version (replyTo parameter) which brings interesting
 features out of the box : non blocking response, streaming handler response one by one, forwarding using topic name instead of closure…
 </blockquote><p class="paragraph"/><h3>Multiple replies</h3><p class="paragraph"/>Multiple listeners can return values for the same topic/namespace. In this case, EventReply will wait for all handlers before returning any value.
 Remember that a valid result is a non null value, hence why even if 3 handlers have reacted but only 2 did return something, then you will only
-see 2 values in the <strong class="bold">EventReply.values</strong>.<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10;   def logout()&#123;&#10;       def reply = event topic:"sendMails", data:session.user&#10;&#10;       //wait for all listeners and then display the first value from the aggregated results&#10;       render reply.value&#10;       &#10;       //display all results as List&#10;       render reply.values&#10;   &#125;&#10;&#125;&#10;</pre><p class="paragraph"/><h3>Exceptions</h3><p class="paragraph"/>Because no code is perfect, exceptions can happen in the event process for 3 reasons :
+see 2 values in the <strong class="bold">EventReply.values</strong>.<p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/>   def logout(){
+       def reply = event topic:"sendMails", data:session.user<p class="paragraph"/>       //wait for all listeners and then display the first value from the aggregated results
+       render reply.value<p class="paragraph"/>       //display all results as List
+       render reply.values
+   }
+}
+{docx}<p class="paragraph"/><h3>Exceptions</h3><p class="paragraph"/>Because no code is perfect, exceptions can happen in the event process for 3 reasons :
 <ul class="star">
 <li>RuntimeException in one or more handlers</li>
 <li>InterruptedException if the process has been cancelled</li>
 <li>TimeoutException if the maximum process time has been reached (timeout parameter)</li>
 </ul><p class="paragraph"/>An <strong class="bold">onError</strong> parameter is available and accepts a <strong class="bold">Closure{List&#60;Throwable&#62; errors}</strong>. If non set, exceptions are
  propagated to the caller when blocking the EventReply object ( <em class="italic">getValue</em>  etc) and/or when <strong class="bold">fork == false</strong>.<p class="paragraph"/>Exceptions in multiple listeners scenario don't interrupt the execution flow and leave a chance to others listeners to execute as well.
- The return value from a failing listener becomes the raised exception.<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10;   def logout()&#123;&#10;       on('test')&#123;&#10;         sleep(5000)&#10;         throw new MyException('haha')&#10;       &#125;&#10;&#10;       def reply = event topic:"test"&#10;       reply.values //throws MyException after 5s&#10;&#10;&#10;       def errorsHandler = &#123;println it&#125;&#10;       reply = event topic:"test", onError:errorsHandler&#10;       reply.values //calls errorsHandler and returns values which contain at MyException&#10;&#10;       event(topic:"test", onError:errorsHandler, timeout:1000)&#123;&#10;          //executes both this and errorsHandler closures with a TimeoutException&#10;       &#125;&#10;&#10;       reply = event(topic:"test", onError:errorsHandler, timeout:1000)&#10;       reply.cancel() //executes errorsHandler closure with an InterruptedException&#10;&#10;       event(topic:"test", fork:false)&#10;       //wait 5s and raises an exception in the caller thread&#10;&#10;   &#125;&#10;&#125;&#10;</pre><p class="paragraph"/><h3>Waiting replies</h3><p class="paragraph"/>In domains, services and controllers artefacts you can wait for events using "EventReply waitFor(EventReply&#8230; eventReplies)".
+ The return value from a failing listener becomes the raised exception.<p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/>   def logout(){
+       on('test'){
+         sleep(5000)
+         throw new MyException('haha')
+       }<p class="paragraph"/>       def reply = event topic:"test"
+       reply.values //throws MyException after 5s<p class="paragraph"/>       def errorsHandler = {println it}
+       reply = event topic:"test", onError:errorsHandler
+       reply.values //calls errorsHandler and returns values which contain at MyException<p class="paragraph"/>       event(topic:"test", onError:errorsHandler, timeout:1000){
+          //executes both this and errorsHandler closures with a TimeoutException
+       }<p class="paragraph"/>       reply = event(topic:"test", onError:errorsHandler, timeout:1000)
+       reply.cancel() //executes errorsHandler closure with an InterruptedException<p class="paragraph"/>       event(topic:"test", fork:false)
+       //wait 5s and raises an exception in the caller thread<p class="paragraph"/>   }
+}
+{docx}<p class="paragraph"/><h3>Waiting replies</h3><p class="paragraph"/>In domains, services and controllers artefacts you can wait for events using "EventReply waitFor(EventReply&#8230; eventReplies)".
 It accepts as many events replies you want and returns the same array for functiunal programming style.
-EventReply also have a waitFor method for one-line waiting.<p class="paragraph"/>
-<pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10;   def logout()&#123;&#10;      def reply = event('logout', session.user)&#10;      def reply2 = event('logout', session.user)&#10;      def reply3 = event('logout', session.user)&#10;&#10;      waitFor(reply,reply2,reply3).each&#123;EventReply reply&#45;&#62;&#10;        render reply.value +'&#60;/br&#62;'&#10;      &#125;&#10;&#10;      //same with 20 seconds timeout on each reply&#10;      waitFor(20, TimeUnit.SECONDS, reply,reply2,reply3).each&#123;EventReply reply&#45;&#62;&#10;              render reply.value&#10;      &#125;&#10;&#10;      //other style :&#10;      event('logout', session.user).waitFor() //blocks event&#10;      event('logout', session.user).waitFor(2000) //blocks event for maximum 2 seconds&#10;&#10;   &#125;&#10;&#125;&#10;</pre>
+EventReply also have a waitFor method for one-line waiting.<p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/>   def logout(){
+      def reply = event('logout', session.user)
+      def reply2 = event('logout', session.user)
+      def reply3 = event('logout', session.user)<p class="paragraph"/>      waitFor(reply,reply2,reply3).each{EventReply reply-&#62;
+        render reply.value +'&#60;/br&#62;'
+      }<p class="paragraph"/>      //same with 20 seconds timeout on each reply
+      waitFor(20, TimeUnit.SECONDS, reply,reply2,reply3).each{EventReply reply-&#62;
+              render reply.value
+      }<p class="paragraph"/>      //other style :
+      event('logout', session.user).waitFor() //blocks event
+      event('logout', session.user).waitFor(2000) //blocks event for maximum 2 seconds<p class="paragraph"/>   }
+}
+{docx}
 
 
 <h2 id="artifact">5.4 Routing configuration -- The XxxEvents Artifact</h2>
@@ -271,15 +438,49 @@ The DSL is intended to evolve. One of the most wanted features is topic/namespac
 Each call is a <strong class="bold">definition</strong>, the method name is parsed as a topic name and key/value arguments are definitions attributes.
 Wildcard topics/namespaces are supported as well.<p class="paragraph"/>An <strong class="bold">Events</strong> artifact is a script with some bound variables:
 <table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Variable</strong></th><th><strong class="bold">Description</strong></th></tr><tr class="table-odd"><td>grailsApplication</td><td>Grails application object, retrieves artifacts, context etc.</td></tr><tr class="table-even"><td>ctx</td><td>Spring context, useful for beans access, e.g.  <em class="italic">ctx.myService.method()</em> </td></tr><tr class="table-odd"><td>config</td><td>Configuration object</td></tr></table><p class="paragraph"/>Each <strong class="bold">definition</strong> supports the following attributes:
-<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Attribute name</strong></th><th><strong class="bold">Type</strong></th><th><strong class="bold">Default</strong></th><th><strong class="bold">Description</strong></th></tr><tr class="table-odd"><td>namespace</td><td>String</td><td> <em class="italic">"app"</em> </td><td>Define which namespace the current definition is bound</td></tr><tr class="table-even"><td>filter</td><td>Closure(Object)<br/>Closure(EventMessage)<br/>Class</td><td>&#160;</td><td>If a closure is passed, the return value matched as the condition for event propagation.<br/>If a class is passed, the subject data type must match.</td></tr><tr class="table-odd"><td>disabled</td><td>boolean</td><td>false</td><td>Disable event propagation</td></tr><tr class="table-even"><td>fork</td><td>boolean</td><td>false</td><td>Use the current thread for event processing (blocking call)</td></tr><tr class="table-odd"><td>onError</td><td>Closure(List&#60;Throwable&#62;)</td><td>&#160;</td><td>Default onError handler for the current topic(s)</td></tr><tr class="table-even"><td>onReply</td><td>Closure(EventReply)</td><td>&#160;</td><td>Default onReply handler for the current topic(s)</td></tr><tr class="table-odd"><td>timeout</td><td>Long</td><td>&#160;</td><td>Default timeout for execution time, throwing a TimeoutException and calls handlers</td></tr><tr class="table-even"><td>&#42;</td><td>&#42;</td><td>&#160;</td><td>Any attributes can be written to be used by plugins through EventDefinition.othersAttributes</td></tr></table><p class="paragraph"/><pre class="brush: groovy;">&#10;events = &#123;&#10;    //prevents any events in gorm namespace&#10;    '&#42;' namespace:'gorm', disabled:true&#10;&#10;    //filters any events on 'testTopic' where data &#60;= 2&#10;    testTopic filter:&#123;it &#62; 2&#125;&#10;&#10;    //filters any events on 'testTopic2' where data is not a TestTopic class type&#10;    testTopic2 filter:TestTopic&#10;&#10;    //filters any events on 'testTopicX' using boolean method from service&#10;    testTopicX filter:ctx.myService.&someMethod&#10;&#10;    //only if using events&#45;push plugin, allows client&#45;side listener on this topic&#10;    testTopic3 browser:true&#10;&#10;    //Default Error Handling, Global Reply Handling, timeout and fork&#10;    testTopicD onError:&#123;&#125;, onReply:&#123;&#125;, timeout:1000l&#10;    testTopicD2 fork:false&#10;&#10;&#10;    //&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; roadmap &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#10;&#10;    //not yet implemented: Assigning and merging definitions&#10;    //myTopic = testTopic4(filter:&#123;i&#62;2&#125;)&#10;    //myTopic = testTopic4(filter:&#123;i&#60;4&#125;)&#10;&#10;    //not yet implemented: Enabling security context for target listeners&#10;    //testTopic5 secured:true&#10;&#10;    //not yet implemented: Topic Forwarding&#10;    //testTopic6 to:'anotherTopic'&#10;&#10;    //not yet implemented: Topic Handlers&#10;    //testTopic9 onError:'anotherTopicErrors', onReply:'anotherTopicReplies'&#10;&#10;&#125;&#10;</pre><p class="paragraph"/><h3>Reloading in Development mode</h3><p class="paragraph"/>It works.
+<table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Attribute name</strong></th><th><strong class="bold">Type</strong></th><th><strong class="bold">Default</strong></th><th><strong class="bold">Description</strong></th></tr><tr class="table-odd"><td>namespace</td><td>String</td><td> <em class="italic">"app"</em> </td><td>Define which namespace the current definition is bound</td></tr><tr class="table-even"><td>filter</td><td>Closure(Object)<br/>Closure(EventMessage)<br/>Class</td><td>&#160;</td><td>If a closure is passed, the return value matched as the condition for event propagation.<br/>If a class is passed, the subject data type must match.</td></tr><tr class="table-odd"><td>disabled</td><td>boolean</td><td>false</td><td>Disable event propagation</td></tr><tr class="table-even"><td>fork</td><td>boolean</td><td>false</td><td>Use the current thread for event processing (blocking call)</td></tr><tr class="table-odd"><td>onError</td><td>Closure(List&#60;Throwable&#62;)</td><td>&#160;</td><td>Default onError handler for the current topic(s)</td></tr><tr class="table-even"><td>onReply</td><td>Closure(EventReply)</td><td>&#160;</td><td>Default onReply handler for the current topic(s)</td></tr><tr class="table-odd"><td>timeout</td><td>Long</td><td>&#160;</td><td>Default timeout for execution time, throwing a TimeoutException and calls handlers</td></tr><tr class="table-even"><td>&#42;</td><td>&#42;</td><td>&#160;</td><td>Any attributes can be written to be used by plugins through EventDefinition.othersAttributes</td></tr></table><p class="paragraph"/>{docx}
+events = {
+    //prevents any events in gorm namespace
+    '*' namespace:'gorm', disabled:true<p class="paragraph"/>    //filters any events on 'testTopic' where data &#60;= 2
+    testTopic filter:{it &#62; 2}<p class="paragraph"/>    //filters any events on 'testTopic2' where data is not a TestTopic class type
+    testTopic2 filter:TestTopic<p class="paragraph"/>    //filters any events on 'testTopicX' using boolean method from service
+    testTopicX filter:ctx.myService.&#38;someMethod<p class="paragraph"/>    //only if using events-push plugin, allows client-side listener on this topic
+    testTopic3 browser:true<p class="paragraph"/>    //Default Error Handling, Global Reply Handling, timeout and fork
+    testTopicD onError:{}, onReply:{}, timeout:1000l
+    testTopicD2 fork:false<p class="paragraph"/>    //<hr class="line"/> roadmap <hr class="line"/><p class="paragraph"/>    //not yet implemented: Assigning and merging definitions
+    //myTopic = testTopic4(filter:{i&#62;2})
+    //myTopic = testTopic4(filter:{i&#60;4})<p class="paragraph"/>    //not yet implemented: Enabling security context for target listeners
+    //testTopic5 secured:true<p class="paragraph"/>    //not yet implemented: Topic Forwarding
+    //testTopic6 to:'anotherTopic'<p class="paragraph"/>    //not yet implemented: Topic Handlers
+    //testTopic9 onError:'anotherTopicErrors', onReply:'anotherTopicReplies'<p class="paragraph"/>}
+{docx}<p class="paragraph"/><h3>Reloading in Development mode</h3><p class="paragraph"/>It works.
 
 
 <h2 id="gorm">5.5 Listening GORM events</h2>
 Starting <strong class="bold">from Grails 2</strong>, the Events Bus supports <a href="http://grails.org/doc/latest/guide/GORM.html#eventsAutoTimestamping" target="blank">GORM events</a>.<p class="paragraph"/><h3>GORM Listeners</h3><p class="paragraph"/>To listen for GORM, simply declare listeners on the <strong class="bold">gorm</strong> namespace using the following supported topics table :
 <table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Event Type</strong></th><th><strong class="bold">Target Topic</strong></th></tr><tr class="table-odd"><td>PreInsertEvent</td><td>beforeInsert</td></tr><tr class="table-even"><td>PreUpdateEvent</td><td>beforeUpdate</td></tr><tr class="table-odd"><td>PreDeleteEvent</td><td>beforeDelete</td></tr><tr class="table-even"><td>ValidationEvent</td><td>beforeValidate</td></tr><tr class="table-odd"><td>PostInsertEvent</td><td>afterInsert</td></tr><tr class="table-even"><td>PostUpdateEvent</td><td>afterUpdate</td></tr><tr class="table-odd"><td>PostDeleteEvent</td><td>afterDelete</td></tr><tr class="table-even"><td>SaveOrUpdateEvent</td><td>onSaveOrUpdate</td></tr></table><p class="paragraph"/>Same listeners behaviors apply, e.g. using EventMessage for the argument type, using wildcard topics etc.
 Because listeners are called if there are <strong class="bold">no arguments</strong> or the argument <strong class="bold">type is assignable to current event data type</strong>, specifying
-a domain class is the only required step to filter domains events.<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeService&#123;&#10;&#10;    &#64;Listener(namespace = 'gorm')&#10;    void afterInsert(Author author) &#123;&#10;        println "after save author &#45;  $author.name"&#10;    &#125;&#10;&#10;    &#64;Listener(topic = 'beforeInsert', namespace = 'gorm')&#10;    void beforeInsertBook(Book book) &#123;&#10;        println "will insert book &#45; $book.title"&#10;    &#125;&#10;&#10;    //Will catch everything since we don't filter on the subject by using EventMessage&#10;    &#64;Listener(topic = 'before&#42;', namespace = 'gorm')&#10;    void beforeEachGormEvent(EventMessage message) &#123;&#10;        println "gorm event $message.event on domain $message.data.class"&#10;    &#125;&#10;&#10;&#125;&#10;</pre><p class="paragraph"/><h3>Filtering with Events Artifact</h3><p class="paragraph"/>Setting a filter through an Events artifact allows more fined control and efficient selection since it prevents events to be
-propagated :<p class="paragraph"/><pre class="brush: groovy;">&#10;events = &#123;&#10;    'afterInsert' namespace:'gorm', filter:Book&#10;    'afterDelete' namespace:'gorm', filter:&#123;it.id &#62; 5&#125;&#10;    'afterUpdate' namespace:'gorm', filter:&#123;it in Book || it in Author&#125;&#10;    'beforeDelete' namespace:'gorm', disabled:true&#10;&#125;&#10;</pre><p class="paragraph"/><blockquote class="note">
+a domain class is the only required step to filter domains events.<p class="paragraph"/>{docx}
+class SomeService{<p class="paragraph"/>    @Listener(namespace = 'gorm')
+    void afterInsert(Author author) {
+        println "after save author -  $author.name"
+    }<p class="paragraph"/>    @Listener(topic = 'beforeInsert', namespace = 'gorm')
+    void beforeInsertBook(Book book) {
+        println "will insert book - $book.title"
+    }<p class="paragraph"/>    //Will catch everything since we don't filter on the subject by using EventMessage
+    @Listener(topic = 'before*', namespace = 'gorm')
+    void beforeEachGormEvent(EventMessage message) {
+        println "gorm event $message.event on domain $message.data.class"
+    }<p class="paragraph"/>}
+{docx}<p class="paragraph"/><h3>Filtering with Events Artifact</h3><p class="paragraph"/>Setting a filter through an Events artifact allows more fined control and efficient selection since it prevents events to be
+propagated :<p class="paragraph"/>{docx}
+events = {
+    'afterInsert' namespace:'gorm', filter:Book
+    'afterDelete' namespace:'gorm', filter:{it.id &#62; 5}
+    'afterUpdate' namespace:'gorm', filter:{it in Book || it in Author}
+    'beforeDelete' namespace:'gorm', disabled:true
+}
+{docx}<p class="paragraph"/><blockquote class="note">
 GORM may generate tons of events. Consider using it wisely, combine it with routing filtering.
  You can also totally disable gorm bridge by using <code>events.gorm.disabled</code> configuration key.
 </blockquote><p class="paragraph"/><h3>Threading behaviors</h3><p class="paragraph"/>GORM Listeners are executed in the same thread than the caller in order to reuse the current opened session, if any.
@@ -287,7 +488,14 @@ Avoid blocking logic if possible or use the listener body to call another event.
 <ul class="star">
 <li>Returning <strong class="bold">false</strong> will cancel the current database write</li>
 <li>Returning <strong class="bold">true</strong> will just let the chain continuing</li>
-</ul><p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeService&#123;&#10;&#10;    //veto any Book insert&#10;    &#64;Listener(topic = 'beforeInsert', namespace = 'gorm')&#10;    boolean beforeInsertBook(Book book) &#123;&#10;        false&#10;    &#125;&#10;&#10;&#125;&#10;</pre>
+</ul><p class="paragraph"/>{docx}
+class SomeService{<p class="paragraph"/>    //veto any Book insert
+    @Listener(topic = 'beforeInsert', namespace = 'gorm')
+    boolean beforeInsertBook(Book book) {
+        false
+    }
+}
+{docx}
 
 
 <h2 id="beans">5.6 Spring Beans</h2>
@@ -315,15 +523,26 @@ There are two available examples of extensions:
 
 <h2 id="config">5.9 Configuration properties</h2>
 Based on Platform-Core <a href="../guide/single.html#configuration" class="guide">configuration</a> mechanism, the plugin provides the following Events-Bus related keys:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Configuration Key</strong></th><th><strong class="bold">Type</strong></th><th><strong class="bold">Default</strong></th><th><strong class="bold">Description</strong></th></tr><tr class="table-odd"><td>grails.plugin.platform.events.disabled</td><td>Boolean</td><td>false</td><td>Fully disable Events Bus mechanism, no events methods will be injected</td></tr><tr class="table-even"><td>grails.plugin.platform.events.poolSize</td><td>Integer</td><td>10</td><td>Allow X concurrent workers to process events</td></tr><tr class="table-odd"><td>grails.plugin.platform.events.gorm.disabled</td><td>Boolean</td><td>false</td><td>Disable GORM bridge, stopping GORM events from being published</td></tr><tr class="table-even"><td>grails.plugin.platform.events.catchFlushException</td><td>Boolean</td><td>true</td><td>Catch any GORM flushing exceptions which could be noisy specially when vetoing changes</td></tr></table><p class="paragraph"/>In addition, you can override beans values such as gormTopicSupport
-<pre class="brush: groovy;">&#10;beans&#123;&#10;    gormTopicSupport &#123;&#10;        //transform gorm Events Objects types into topics&#10;        translateTable = &#91;&#10;            'PreInsertEvent': 'beforeInsert', 'PreUpdateEvent': 'beforeUpdate',&#10;            /&#42;'PreLoadEvent': 'beforeLoad',&#42;/ 'PreDeleteEvent': 'beforeDelete',&#10;            'ValidationEvent': 'beforeValidate', 'PostInsertEvent': 'afterInsert',&#10;            'PostUpdateEvent': 'afterUpdate', 'PostDeleteEvent': 'afterDelete',&#10;            /&#42;'PostLoadEvent': 'afterLoad',&#42;/ 'SaveOrUpdateEvent': 'onSaveOrUpdate'&#10;        &#93;&#10;    &#125;&#10;&#125;&#10;</pre>
+{docx}
+beans{
+    gormTopicSupport {
+        //transform gorm Events Objects types into topics
+        translateTable = 'PreInsertEvent': 'beforeInsert', 'PreUpdateEvent': 'beforeUpdate',
+            /<strong class="bold">'PreLoadEvent': 'beforeLoad',</strong>/ 'PreDeleteEvent': 'beforeDelete',
+            'ValidationEvent': 'beforeValidate', 'PostInsertEvent': 'afterInsert',
+            'PostUpdateEvent': 'afterUpdate', 'PostDeleteEvent': 'afterDelete',
+            /<strong class="bold">'PostLoadEvent': 'afterLoad',</strong>/ 'SaveOrUpdateEvent': 'onSaveOrUpdate'
+    }
+}
+{docx}
 
 
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                <div class="toc-item prev-left"><a href="../guide/security.html">&lt;&lt; <strong>4</strong><span>Security API</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/security.html">&lt;&lt; <strong>4</strong><span>Security API</span></a></div>
                 
-                <div class="toc-item next-right"><a href="../guide/nav.html"><strong>6</strong><span>Navigation API</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/nav.html"><strong>6</strong><span>Navigation API</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
@@ -338,275 +557,275 @@ Based on Platform-Core <a href="../guide/single.html#configuration" class="guide
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Beans</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/Beans/grailsConventions.html">grailsConventions</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Beans/grailsEvents.html">grailsEvents</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Beans/grailsInjection.html">grailsInjection</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Beans/grailsNavigation.html">grailsNavigation</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Beans/grailsPluginConfiguration.html">grailsPluginConfiguration</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Beans/grailsSecurity.html">grailsSecurity</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Beans/grailsUiExtensions.html">grailsUiExtensions</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/Beans/grailsConventions.html">grailsConventions</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Beans/grailsEvents.html">grailsEvents</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Beans/grailsInjection.html">grailsInjection</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Beans/grailsNavigation.html">grailsNavigation</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Beans/grailsPluginConfiguration.html">grailsPluginConfiguration</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Beans/grailsSecurity.html">grailsSecurity</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Beans/grailsUiExtensions.html">grailsUiExtensions</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Events Methods</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/Events%20Methods/countListeners.html">countListeners</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Events%20Methods/event.html">event</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Events%20Methods/on.html">on</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Events%20Methods/removeListeners.html">removeListeners</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Events%20Methods/waitFor.html">waitFor</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/Events%20Methods/countListeners.html">countListeners</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Events%20Methods/event.html">event</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Events%20Methods/on.html">on</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Events%20Methods/removeListeners.html">removeListeners</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Events%20Methods/waitFor.html">waitFor</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Global Properties</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/Global%20Properties/pluginConfig.html">pluginConfig</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/Global%20Properties/pluginConfig.html">pluginConfig</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Navigation Tags</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/Navigation%20Tags/menu.html">menu</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Navigation%20Tags/primary.html">primary</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Navigation%20Tags/secondary.html">secondary</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Navigation%20Tags/set.html">set</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Navigation%20Tags/title.html">title</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/Navigation%20Tags/menu.html">menu</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Navigation%20Tags/primary.html">primary</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Navigation%20Tags/secondary.html">secondary</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Navigation%20Tags/set.html">set</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Navigation%20Tags/title.html">title</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Plugin Conventions</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/Plugin%20Conventions/doWithConfig.html">doWithConfig</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Plugin%20Conventions/doWithConfigOptions.html">doWithConfigOptions</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/Plugin%20Conventions/doWithConfig.html">doWithConfig</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Plugin%20Conventions/doWithConfigOptions.html">doWithConfigOptions</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Scripts</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/Scripts/update-header.html">update-header</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/Scripts/update-header.html">update-header</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Security Methods</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Methods/userExists.html">userExists</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Methods/userHasAllRoles.html">userHasAllRoles</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Methods/userHasAnyRole.html">userHasAnyRole</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Methods/userIsAllowed.html">userIsAllowed</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Methods/withUser.html">withUser</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Methods/userExists.html">userExists</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Methods/userHasAllRoles.html">userHasAllRoles</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Methods/userHasAnyRole.html">userHasAnyRole</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Methods/userIsAllowed.html">userIsAllowed</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Methods/withUser.html">withUser</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Security Properties</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Properties/securityIdentity.html">securityIdentity</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Properties/securityInfo.html">securityInfo</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Properties/securityIdentity.html">securityIdentity</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Properties/securityInfo.html">securityInfo</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Security Tags</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Tags/createLoginLink.html">createLoginLink</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Tags/createLogoutLink.html">createLogoutLink</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Tags/createSignupLink.html">createSignupLink</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Tags/identity.html">identity</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Tags/ifLoggedIn.html">ifLoggedIn</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Tags/ifNotLoggedIn.html">ifNotLoggedIn</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Tags/ifNotPermitted.html">ifNotPermitted</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Tags/ifPermitted.html">ifPermitted</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Tags/info.html">info</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Tags/loginButton.html">loginButton</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Tags/logoutButton.html">logoutButton</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Security%20Tags/signupButton.html">signupButton</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Tags/createLoginLink.html">createLoginLink</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Tags/createLogoutLink.html">createLogoutLink</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Tags/createSignupLink.html">createSignupLink</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Tags/identity.html">identity</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Tags/ifLoggedIn.html">ifLoggedIn</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Tags/ifNotLoggedIn.html">ifNotLoggedIn</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Tags/ifNotPermitted.html">ifNotPermitted</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Tags/ifPermitted.html">ifPermitted</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Tags/info.html">info</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Tags/loginButton.html">loginButton</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Tags/logoutButton.html">logoutButton</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Security%20Tags/signupButton.html">signupButton</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">System Tags</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/System%20Tags/config.html">config</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/System%20Tags/requiresBean.html">requiresBean</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/System%20Tags/config.html">config</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/System%20Tags/requiresBean.html">requiresBean</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Ui Extension Methods</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Methods/displayFlashMessage.html">displayFlashMessage</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Methods/displayMessage.html">displayMessage</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Methods/displayFlashMessage.html">displayFlashMessage</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Methods/displayMessage.html">displayMessage</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Ui Extension Properties</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Properties/pluginFlash.html">pluginFlash</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Properties/pluginRequestAttributes.html">pluginRequestAttributes</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Properties/pluginSession.html">pluginSession</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Properties/pluginFlash.html">pluginFlash</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Properties/pluginRequestAttributes.html">pluginRequestAttributes</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Properties/pluginSession.html">pluginSession</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Ui Extension Tags</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/attrIfSet.html">attrIfSet</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/button.html">button</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/callTag.html">callTag</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/displayMessage.html">displayMessage</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/dummyText.html">dummyText</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/joinClasses.html">joinClasses</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/label.html">label</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/organization.html">organization</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/siteLink.html">siteLink</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/siteName.html">siteName</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/siteURL.html">siteURL</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/smartLink.html">smartLink</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/text.html">text</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/textScope.html">textScope</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/year.html">year</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/attrIfSet.html">attrIfSet</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/button.html">button</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/callTag.html">callTag</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/displayMessage.html">displayMessage</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/dummyText.html">dummyText</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/joinClasses.html">joinClasses</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/label.html">label</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/organization.html">organization</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/siteLink.html">siteLink</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/siteName.html">siteName</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/siteURL.html">siteURL</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/smartLink.html">smartLink</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/text.html">text</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/textScope.html">textScope</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/year.html">year</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Utility Classes</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../ref/Utility%20Classes/TagLibUtils.html">TagLibUtils</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../ref/Utility%20Classes/TagLibUtils.html">TagLibUtils</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                 </div>
@@ -616,7 +835,7 @@ Based on Platform-Core <a href="../guide/single.html#configuration" class="guide
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

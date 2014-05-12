@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>/* Copyright 2011-2012 the original author or authors:<a name="line.1"></a>
+<pre><span class="sourceLineNo">001</span>/* Copyright 2011-2013 the original author or authors:<a name="line.1"></a>
 <span class="sourceLineNo">002</span> *<a name="line.2"></a>
 <span class="sourceLineNo">003</span> *    Marc Palmer (marc@grailsrocks.com)<a name="line.3"></a>
 <span class="sourceLineNo">004</span> *    Stéphane Maldini (smaldini@vmware.com)<a name="line.4"></a>
@@ -44,7 +44,7 @@
 <span class="sourceLineNo">036</span> * &lt;p/&gt;<a name="line.36"></a>
 <span class="sourceLineNo">037</span> * [Does stuff]<a name="line.37"></a>
 <span class="sourceLineNo">038</span> */<a name="line.38"></a>
-<span class="sourceLineNo">039</span>public class GormBridgePublisher implements ApplicationListener {<a name="line.39"></a>
+<span class="sourceLineNo">039</span>public class GormBridgePublisher implements ApplicationListener&lt;ApplicationEvent&gt; {<a name="line.39"></a>
 <span class="sourceLineNo">040</span><a name="line.40"></a>
 <span class="sourceLineNo">041</span>    private GormTopicSupport gormTopicSupport;<a name="line.41"></a>
 <span class="sourceLineNo">042</span>    private Events grailsEvents;<a name="line.42"></a>

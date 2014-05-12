@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Platform Core 1.0.RC3</title>
+    <title>Grails Platform Core 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../../css/shCore.js"></script>
-    <script type="text/javascript" src="../../css/shBrushGroovy.js"></script>
-    <script type="text/javascript" src="../../css/shBrushXml.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -84,10 +77,24 @@
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 <h1>waitFor(&#91;long timeout, TimeUnit timeUnit, &#93;, EventReply replies...)</h1><p class="paragraph"/> <em class="italic">Available in Controllers, Domains and Services</em> <p class="paragraph"/>This method blocks for each passed reply until the relevant event has been processed, hence initializing the EventReply.value.
-It returns the same array of passed <a href="../../api/org/grails/plugin/platform/events/EventReply.html" class="api">Event Replies</a> for fluent programming style.<p class="paragraph"/>
-<h2>Usage</h2><p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10;   def logout()&#123;&#10;      def reply = event('logout', session.user)&#10;      def reply2 = event('logout', session.user)&#10;      def reply3 = event('logout', session.user)&#10;&#10;      waitFor(reply,reply2,reply3).each&#123;EventReply reply&#45;&#62;&#10;        render reply.value +'&#60;/br&#62;'&#10;      &#125;&#10;&#10;      //same with 20 seconds timeout on each reply&#10;      waitFor(20, TimeUnit.SECONDS, reply,reply2,reply3).each&#123;EventReply reply&#45;&#62;&#10;              render reply.value&#10;      &#125;&#10;&#10;      //other style :&#10;      event('logout', session.user).waitFor() //blocks event&#10;      event('logout', session.user).waitFor(2000) //blocks event for maximum 2 seconds&#10;&#10;   &#125;&#10;&#125;&#10;</pre><p class="paragraph"/><h2>Arguments</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Name</th><th>Mandatory</th><th>Default</th><th>Description</th></tr><tr class="table-odd"><td>timeout</td><td>false</td><td> <em class="italic">app</em> </td><td>A timeout number associated to a time unit. E.g. 20</td></tr><tr class="table-even"><td>timeUnit</td><td>false</td><td>&#160;</td><td>TimeUnit unit for timeout. E.g. TimeUnit.Second</td></tr><tr class="table-odd"><td>replies</td><td>true</td><td>&#160;</td><td>An <a href="../../api/org/grails/plugin/platform/events/EventReply.html" class="api">EventReply</a> list passed through multi-arg call style to block on each one.</td></tr></table><p class="paragraph"/><blockquote class="note">
+It returns the same array of passed <a href="../../api/org/grails/plugin/platform/events/EventReply.html" class="api">Event Replies</a> for fluent programming style.<p class="paragraph"/><h2>Usage</h2><p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/>   def logout(){
+      def reply = event('logout', session.user)
+      def reply2 = event('logout', session.user)
+      def reply3 = event('logout', session.user)<p class="paragraph"/>      waitFor(reply,reply2,reply3).each{EventReply reply-&#62;
+        render reply.value +'&#60;/br&#62;'
+      }<p class="paragraph"/>      //same with 20 seconds timeout on each reply
+      waitFor(20, TimeUnit.SECONDS, reply,reply2,reply3).each{EventReply reply-&#62;
+              render reply.value
+      }<p class="paragraph"/>      //other style :
+      event('logout', session.user).waitFor() //blocks event
+      event('logout', session.user).waitFor(2000) //blocks event for maximum 2 seconds
+   }
+}
+{docx}<p class="paragraph"/><h2>Arguments</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Name</th><th>Mandatory</th><th>Default</th><th>Description</th></tr><tr class="table-odd"><td>timeout</td><td>false</td><td> <em class="italic">app</em> </td><td>A timeout number associated to a time unit. E.g. 20</td></tr><tr class="table-even"><td>timeUnit</td><td>false</td><td>&#160;</td><td>TimeUnit unit for timeout. E.g. TimeUnit.Second</td></tr><tr class="table-odd"><td>replies</td><td>true</td><td>&#160;</td><td>An <a href="../../api/org/grails/plugin/platform/events/EventReply.html" class="api">EventReply</a> list passed through multi-arg call style to block on each one.</td></tr></table><p class="paragraph"/><blockquote class="note">
 You can directly call <a href="../../ref/Events Methods/event.html" class="eventsMethods">event</a> and use the <a href="../../api/org/grails/plugin/platform/events/EventReply.html" class="api">EventReply</a> object to waitFor.
 </blockquote>
+
             </div>
         </td>
         <td id="col2">
@@ -406,7 +413,7 @@ You can directly call <a href="../../ref/Events Methods/event.html" class="event
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

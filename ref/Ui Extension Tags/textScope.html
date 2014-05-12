@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Platform Core 1.0.RC3</title>
+    <title>Grails Platform Core 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../../css/shCore.js"></script>
-    <script type="text/javascript" src="../../css/shBrushGroovy.js"></script>
-    <script type="text/javascript" src="../../css/shBrushXml.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -84,9 +77,9 @@
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 <h1>p:textScope</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Sets the current scope (prefix) for i18n text rendered using the <a href="../../ref/Ui Extension Tags/text.html" class="uiExtensionTags">text</a> tag, to either the supplied scope or the scope used for a specific plugin.<p class="paragraph"/>The scope is set for the current GSP or GSP fragment only.<p class="paragraph"/>This is especially useful in the case where an application overrides a GSP supplied by a plugin, but wishes to reuse the i18n messages supplied by the plugin. If the plugin used p:text, the overriding GSP would not use the plugin's messages. Adding this tag to your overriding GSP, using <code>plugin="&#60;nameOfPlugin&#62;"</code> will solve this.<p class="paragraph"/><h2>Example</h2><p class="paragraph"/><div class="code"><pre>Normal scoping behaviour:
-<span class="xml&#45;tag">&#60;p:text code=<span class="xml&#45;quote">"welcome.message"</span>/&#62;</span><p class="paragraph"/>Changed scope to arbitrary: 
+<span class="xml&#45;tag">&#60;p:text code=<span class="xml&#45;quote">"welcome.message"</span>/&#62;</span><p class="paragraph"/>Changed scope to arbitrary:
 <span class="xml&#45;tag">&#60;p:textScope scope=<span class="xml&#45;quote">"app.prefix"</span>/&#62;</span>
-<span class="xml&#45;tag">&#60;p:text code=<span class="xml&#45;quote">"welcome.message"</span>/&#62;</span> (always resolves to app.prefix.welcome.message)<p class="paragraph"/>Changed scope to arbitrary: 
+<span class="xml&#45;tag">&#60;p:text code=<span class="xml&#45;quote">"welcome.message"</span>/&#62;</span> (always resolves to app.prefix.welcome.message)<p class="paragraph"/>Changed scope to arbitrary:
 <span class="xml&#45;tag">&#60;p:textScope plugin=<span class="xml&#45;quote">"springSecurityCore"</span>/&#62;</span>
 <span class="xml&#45;tag">&#60;p:text code=<span class="xml&#45;quote">"welcome.message"</span>/&#62;</span> (always resolves to plugin.springSecurityCore.welcome.message)</pre></div><p class="paragraph"/><h2>Attributes</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th>Required</th><th><strong class="bold">Purpose</strong></th></tr><tr class="table-odd"><td>scope</td><td>&#160;</td><td>An arbitrary scoping prefix to use. A trailing "." will be added automatically. Example value: "myapp.messages"</td></tr><tr class="table-even"><td>plugin</td><td>&#160;</td><td>A plugin name in bean casing i.e. myPluginName. This makes future p:text resolutions appear to come from this plugin.</td></tr></table>
 
@@ -408,7 +401,7 @@
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

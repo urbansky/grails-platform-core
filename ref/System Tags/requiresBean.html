@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Platform Core 1.0.RC3</title>
+    <title>Grails Platform Core 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../../css/shCore.js"></script>
-    <script type="text/javascript" src="../../css/shBrushGroovy.js"></script>
-    <script type="text/javascript" src="../../css/shBrushXml.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -83,7 +76,10 @@
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
-                <h1>p:requiresBean</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Ensures that the model contains a bean of the given type and name, creating a default instance if there is none.<p class="paragraph"/>Use this to avoid having to create empty domain or command objects in your controller actions that simply display a form.<p class="paragraph"/><h2>Example</h2><p class="paragraph"/><pre class="brush: xml;">&#10;&#60;p:requiresBean name="form" class="MyFormCommand"/&#62;&#10;&#60;input name="title" value="$&#123;form.title&#125;"/&#62;&#10;</pre><p class="paragraph"/><h2>Attributes</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th><strong class="bold">Purpose</strong></th></tr><tr class="table-odd"><td>name</td><td>Required - The name of the model variable to use</td></tr><tr class="table-even"><td>class</td><td>Required - The class name of the object to create if it does not exist. It must have a default no-argument constructor</td></tr></table><p class="paragraph"/>
+                <h1>p:requiresBean</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Ensures that the model contains a bean of the given type and name, creating a default instance if there is none.<p class="paragraph"/>Use this to avoid having to create empty domain or command objects in your controller actions that simply display a form.<p class="paragraph"/><h2>Example</h2><p class="paragraph"/>{docx:xml}
+&#60;p:requiresBean name="form" class="MyFormCommand"/&#62;
+&#60;input name="title" value="${form.title}"/&#62;
+{docx}<p class="paragraph"/><h2>Attributes</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th><strong class="bold">Purpose</strong></th></tr><tr class="table-odd"><td>name</td><td>Required - The name of the model variable to use</td></tr><tr class="table-even"><td>class</td><td>Required - The class name of the object to create if it does not exist. It must have a default no-argument constructor</td></tr></table><p class="paragraph"/>
             </div>
         </td>
         <td id="col2">
@@ -402,7 +398,7 @@
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

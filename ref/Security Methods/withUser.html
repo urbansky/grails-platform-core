@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Platform Core 1.0.RC3</title>
+    <title>Grails Platform Core 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../../css/shCore.js"></script>
-    <script type="text/javascript" src="../../css/shBrushGroovy.js"></script>
-    <script type="text/javascript" src="../../css/shBrushXml.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -85,7 +78,18 @@
 
                 <h1>withUser(identity, Closure code)</h1><p class="paragraph"/> <em class="italic">Available in Controllers, Domains, Taglibs and Services</em> <p class="paragraph"/>This method executes a block of code masquerading as another user. Used mainly
 to create fixtures or perform background tasks.<p class="paragraph"/>The implementation of this method is provided by the security provider you
-have installed.<p class="paragraph"/><h2>Usage</h2><p class="paragraph"/><pre class="brush: groovy;">&#10;class PurchaseService &#123;&#10;    void updatePurchasesForUser(String userName) &#123;&#10;        withUser(userName) &#123;&#10;            Purchase.findAllByUser(securityInfo).each &#123; p &#45;&#62;&#10;                p.updateStatus()&#10;            &#125;&#10;        &#125;&#10;    &#125;&#10;    …&#10;&#125;&#10;</pre><p class="paragraph"/>In this example you can see that the <a href="../../ref/Security Properties/securityInfo.html" class="securityProperties">securityInfo</a> is set according to the identity of the user passed to withUser.<p class="paragraph"/><h2>Arguments</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th><strong class="bold">Description</strong></th></tr><tr class="table-odd"><td>identity</td><td>The user identity - usually a username or email address, but it depends on your security provider</td></tr><tr class="table-even"><td>code</td><td>The Closure of code to run "as" the user</td></tr></table>
+have installed.<p class="paragraph"/><h2>Usage</h2><p class="paragraph"/>{docx}
+class PurchaseService {
+    void updatePurchasesForUser(String userName) {
+        withUser(userName) {
+            Purchase.findAllByUser(securityInfo).each { p -&#62;
+                p.updateStatus()
+            }
+        }
+    }
+    …
+}
+{docx}<p class="paragraph"/>In this example you can see that the <a href="../../ref/Security Properties/securityInfo.html" class="securityProperties">securityInfo</a> is set according to the identity of the user passed to withUser.<p class="paragraph"/><h2>Arguments</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th><strong class="bold">Description</strong></th></tr><tr class="table-odd"><td>identity</td><td>The user identity - usually a username or email address, but it depends on your security provider</td></tr><tr class="table-even"><td>code</td><td>The Closure of code to run "as" the user</td></tr></table>
             </div>
         </td>
         <td id="col2">
@@ -404,7 +408,7 @@ have installed.<p class="paragraph"/><h2>Usage</h2><p class="paragraph"/><pre cl
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

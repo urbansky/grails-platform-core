@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Platform Core 1.0.RC3</title>
+    <title>Grails Platform Core 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../../css/shCore.js"></script>
-    <script type="text/javascript" src="../../css/shBrushGroovy.js"></script>
-    <script type="text/javascript" src="../../css/shBrushXml.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -83,7 +76,11 @@
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
-                <h1>p:smartLink</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>This tag renders a link using i18n conventions for the link text, using the <a href="../../ref/Ui Extension Tags/text.html" class="uiExtensionTags">text</a> tag to automatically namespace the i18n messages based on the plugin that called the tag (if any).<p class="paragraph"/><h2>Example</h2><p class="paragraph"/><pre class="brush: xml;">&#10;&#60;%&#45;&#45; Link to default action of BooksController &#45;&#45;%&#62;&#10;&#60;p:smartLink controller="books"/&#62;&#10;&#10;&#60;%&#45;&#45; Link to list action of current controller &#45;&#45;%&#62;&#10;&#60;p:smartLink action="list"/&#62;&#10;</pre><p class="paragraph"/>These will use i18n messages located by convention of the form: <code>action.<strong class="bold">controllerName</strong>.<strong class="bold">actionName</strong></code><p class="paragraph"/><h2>Attributes</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th><strong class="bold">Required</strong></th><th><strong class="bold">Purpose</strong></th></tr><tr class="table-odd"><td>textArgs</td><td>&#160;</td><td>Optional arguments to pass when creating the i18n message text</td></tr><tr class="table-even"><td>textScope</td><td>&#160;</td><td>Optional prefix to use with code or codes. Overrides the automatic scoping behaviour</td></tr><tr class="table-odd"><td>textPlugin</td><td>&#160;</td><td>Optional plugin name in beanNameCase. Overrides the automatic scoping behaviour</td></tr></table><p class="paragraph"/>All other attributes are passed through to <code>g:link</code><p class="paragraph"/>
+                <h1>p:smartLink</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>This tag renders a link using i18n conventions for the link text, using the <a href="../../ref/Ui Extension Tags/text.html" class="uiExtensionTags">text</a> tag to automatically namespace the i18n messages based on the plugin that called the tag (if any).<p class="paragraph"/><h2>Example</h2><p class="paragraph"/>{docx:xml}
+&#60;%<strike class="strike"> Link to default action of BooksController </strike>%&#62;
+&#60;p:smartLink controller="books"/&#62;<p class="paragraph"/>&#60;%<strike class="strike"> Link to list action of current controller </strike>%&#62;
+&#60;p:smartLink action="list"/&#62;
+{docx}<p class="paragraph"/>These will use i18n messages located by convention of the form: <code>action.<strong class="bold">controllerName</strong>.<strong class="bold">actionName</strong></code><p class="paragraph"/><h2>Attributes</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th><strong class="bold">Required</strong></th><th><strong class="bold">Purpose</strong></th></tr><tr class="table-odd"><td>textArgs</td><td>&#160;</td><td>Optional arguments to pass when creating the i18n message text</td></tr><tr class="table-even"><td>textScope</td><td>&#160;</td><td>Optional prefix to use with code or codes. Overrides the automatic scoping behaviour</td></tr><tr class="table-odd"><td>textPlugin</td><td>&#160;</td><td>Optional plugin name in beanNameCase. Overrides the automatic scoping behaviour</td></tr></table><p class="paragraph"/>All other attributes are passed through to <code>g:link</code><p class="paragraph"/>
             </div>
         </td>
         <td id="col2">
@@ -402,7 +399,7 @@
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

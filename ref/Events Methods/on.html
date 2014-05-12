@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Platform Core 1.0.RC3</title>
+    <title>Grails Platform Core 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../../css/shCore.js"></script>
-    <script type="text/javascript" src="../../css/shBrushGroovy.js"></script>
-    <script type="text/javascript" src="../../css/shBrushXml.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -84,8 +77,22 @@
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 <h1>on(&#91;String namespace ,&#93; String topic, Closure callback)</h1><p class="paragraph"/> <em class="italic">Available in Controllers, Domains and Services</em> <p class="paragraph"/>This method dynamically registers a closure handler for a given namespace/topic. Default Namespace is  <em class="italic">app</em>  if undefined.
-It returns a stringified <a href="../../guide/single.html#listening" class="guide">ListenerId</a>.<p class="paragraph"/>
-<h2>Usage</h2><p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10; def testInlineListener = &#123;&#10;        //register with 'logout' topic on 'app' default namespace&#10;        def listener = on("logout") &#123;User user &#45;&#62;&#10;            println "test $user"&#10;        &#125;&#10;        render "$listener registered"&#10; &#125;&#10;&#10; def testInlineListener2 = &#123;&#10;        //register a 'gorm' namespaced handler on 'afterInsert' topic.&#10;        def listener = on("gorm", "afterInsert") &#123;Book book &#45;&#62;&#10;            println "test $book"&#10;        &#125;&#10;        render "$listener registered"&#10; &#125;&#10;&#125;&#10;</pre><p class="paragraph"/><h2>Arguments</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Name</th><th>Mandatory</th><th>Default</th><th>Description</th></tr><tr class="table-odd"><td>namespace</td><td>false</td><td> <em class="italic">app</em> </td><td>A string scope</td></tr><tr class="table-even"><td>topic</td><td>true</td><td>&#160;</td><td>A string topic to listen for</td></tr><tr class="table-odd"><td>callback</td><td>true</td><td>&#160;</td><td>A closure handler which takes an <a href="../../api/org/grails/plugin/platform/events/EventReply.html" class="api">EventReply</a> as an argument</td></tr></table>
+It returns a stringified <a href="../../guide/single.html#listening" class="guide">ListenerId</a>.<p class="paragraph"/><h2>Usage</h2><p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/>    def testInlineListener = {
+        //register with 'logout' topic on 'app' default namespace
+        def listener = on("logout") {User user -&#62;
+            println "test $user"
+        }
+        render "$listener registered"
+    }<p class="paragraph"/>    def testInlineListener2 = {
+        //register a 'gorm' namespaced handler on 'afterInsert' topic.
+        def listener = on("gorm", "afterInsert") {Book book -&#62;
+            println "test $book"
+        }
+        render "$listener registered"
+    }
+}
+{docx}<p class="paragraph"/><h2>Arguments</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Name</th><th>Mandatory</th><th>Default</th><th>Description</th></tr><tr class="table-odd"><td>namespace</td><td>false</td><td> <em class="italic">app</em> </td><td>A string scope</td></tr><tr class="table-even"><td>topic</td><td>true</td><td>&#160;</td><td>A string topic to listen for</td></tr><tr class="table-odd"><td>callback</td><td>true</td><td>&#160;</td><td>A closure handler which takes an <a href="../../api/org/grails/plugin/platform/events/EventReply.html" class="api">EventReply</a> as an argument</td></tr></table>
 
             </div>
         </td>
@@ -405,7 +412,7 @@ It returns a stringified <a href="../../guide/single.html#listening" class="guid
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

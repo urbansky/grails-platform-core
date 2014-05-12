@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Platform Core 1.0.RC3</title>
+    <title>Grails Platform Core 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../../css/shCore.js"></script>
-    <script type="text/javascript" src="../../css/shBrushGroovy.js"></script>
-    <script type="text/javascript" src="../../css/shBrushXml.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -83,7 +76,9 @@
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
-                <h1>nav:secondary</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Renders a <code>&#60;ul&#62;</code> menu structure for the secondary scope within your <a href="../../guide/single.html#nav" class="guide">navigation</a> structure.<p class="paragraph"/>The scope is automatically detected if not specified, and stored in the request so that the <a href="../../ref/Navigation Tags/secondary.html" class="navigationTags">secondary</a> tag automatically works with the same resolved scope.<p class="paragraph"/>The <a href="../../ref/Navigation Tags/menu.html" class="navigationTags">menu</a> tag is used internally to render the menu, see that documentation for full details.<p class="paragraph"/>The secondary menu is never rendered if there is no active second-level navigation item relative to the current active path's primary item.<p class="paragraph"/>Note the the <code>scope</code> is by default inherited from that resolved by the preceding call to the <a href="../../ref/Navigation Tags/primary.html" class="navigationTags">primary</a> tag.<p class="paragraph"/><h2>Example</h2><p class="paragraph"/><pre class="brush: xml;">&#10;&#60;nav:secondary/&#62;&#10;&#10;&#60;nav:secondary id="secondary&#45;nav"/&#62;&#10;</pre><p class="paragraph"/>Note that all the features of the <a href="../../ref/Navigation Tags/menu.html" class="navigationTags">menu</a> tag are available but are not demonstrated here.<p class="paragraph"/><h2>Attributes</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th><strong class="bold">Purpose</strong></th></tr><tr class="table-odd"><td>class</td><td>Optional CSS class to apply to the outer <code>&#60;ul&#62;</code> tag. Defaults to "nav secondary"</td></tr></table><p class="paragraph"/>See the attributes of the <a href="../../ref/Navigation Tags/menu.html" class="navigationTags">menu</a> tag for the rest.
+                <h1>nav:secondary</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Renders a <code>&#60;ul&#62;</code> menu structure for the secondary scope within your <a href="../../guide/single.html#nav" class="guide">navigation</a> structure.<p class="paragraph"/>The scope is automatically detected if not specified, and stored in the request so that the <a href="../../ref/Navigation Tags/secondary.html" class="navigationTags">secondary</a> tag automatically works with the same resolved scope.<p class="paragraph"/>The <a href="../../ref/Navigation Tags/menu.html" class="navigationTags">menu</a> tag is used internally to render the menu, see that documentation for full details.<p class="paragraph"/>The secondary menu is never rendered if there is no active second-level navigation item relative to the current active path's primary item.<p class="paragraph"/>Note the the <code>scope</code> is by default inherited from that resolved by the preceding call to the <a href="../../ref/Navigation Tags/primary.html" class="navigationTags">primary</a> tag.<p class="paragraph"/><h2>Example</h2><p class="paragraph"/>{docx:xml}
+&#60;nav:secondary/&#62;<p class="paragraph"/>&#60;nav:secondary id="secondary-nav"/&#62;
+{docx}<p class="paragraph"/>Note that all the features of the <a href="../../ref/Navigation Tags/menu.html" class="navigationTags">menu</a> tag are available but are not demonstrated here.<p class="paragraph"/><h2>Attributes</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th><strong class="bold">Purpose</strong></th></tr><tr class="table-odd"><td>class</td><td>Optional CSS class to apply to the outer <code>&#60;ul&#62;</code> tag. Defaults to "nav secondary"</td></tr></table><p class="paragraph"/>See the attributes of the <a href="../../ref/Navigation Tags/menu.html" class="navigationTags">menu</a> tag for the rest.
 
             </div>
         </td>
@@ -403,7 +398,7 @@
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

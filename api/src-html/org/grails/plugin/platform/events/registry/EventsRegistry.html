@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>/* Copyright 2011-2012 the original author or authors:<a name="line.1"></a>
+<pre><span class="sourceLineNo">001</span>/* Copyright 2011-2013 the original author or authors:<a name="line.1"></a>
 <span class="sourceLineNo">002</span> *<a name="line.2"></a>
 <span class="sourceLineNo">003</span> *    Marc Palmer (marc@grailsrocks.com)<a name="line.3"></a>
 <span class="sourceLineNo">004</span> *    Stéphane Maldini (smaldini@vmware.com)<a name="line.4"></a>
@@ -40,15 +40,15 @@
 <span class="sourceLineNo">032</span> */<a name="line.32"></a>
 <span class="sourceLineNo">033</span>public interface EventsRegistry {<a name="line.33"></a>
 <span class="sourceLineNo">034</span><a name="line.34"></a>
-<span class="sourceLineNo">035</span>    public String on(String namespace, String topic, Object bean, Method callbackMethod);<a name="line.35"></a>
+<span class="sourceLineNo">035</span>    String on(String namespace, String topic, Object bean, Method callbackMethod);<a name="line.35"></a>
 <span class="sourceLineNo">036</span><a name="line.36"></a>
-<span class="sourceLineNo">037</span>    public String on(String namespace, String topic, Object bean, String callbackMethodName);<a name="line.37"></a>
+<span class="sourceLineNo">037</span>    String on(String namespace, String topic, Object bean, String callbackMethodName);<a name="line.37"></a>
 <span class="sourceLineNo">038</span><a name="line.38"></a>
-<span class="sourceLineNo">039</span>    public String on(String namespace, String topic, Closure callback);<a name="line.39"></a>
+<span class="sourceLineNo">039</span>    String on(String namespace, String topic, @SuppressWarnings("rawtypes") Closure callback);<a name="line.39"></a>
 <span class="sourceLineNo">040</span><a name="line.40"></a>
-<span class="sourceLineNo">041</span>    public int removeListeners(String callbackId);<a name="line.41"></a>
+<span class="sourceLineNo">041</span>    int removeListeners(String callbackId);<a name="line.41"></a>
 <span class="sourceLineNo">042</span><a name="line.42"></a>
-<span class="sourceLineNo">043</span>    public int countListeners(String callbackId);<a name="line.43"></a>
+<span class="sourceLineNo">043</span>    int countListeners(String callbackId);<a name="line.43"></a>
 <span class="sourceLineNo">044</span>}<a name="line.44"></a>
 
 

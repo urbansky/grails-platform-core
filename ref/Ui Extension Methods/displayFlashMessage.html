@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Platform Core 1.0.RC3</title>
+    <title>Grails Platform Core 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../../css/shCore.js"></script>
-    <script type="text/javascript" src="../../css/shBrushGroovy.js"></script>
-    <script type="text/javascript" src="../../css/shBrushXml.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -87,7 +80,8 @@
 <code>displayFlashMessage(Map args)</code> - set the message arguments (or message code)<p class="paragraph"/><blockquote class="note">
 When plugins call this method, their "text" value is automatically namespaced with "plugin.&#60;pluginName&#62;." so this effectively
 forces all usage in plugins to use i18n messages for text - which is a good thing, because it means the application can override the UI text.
-</blockquote><p class="paragraph"/>The <code>args</code> supported are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th><strong class="bold">Purpose</strong></th></tr><tr class="table-odd"><td>text</td><td>The text of the label, or an i18n code to resolve to use as the text</td></tr><tr class="table-even"><td>textArgs</td><td>Optional arguments to pass when creating the i18n message text</td></tr><tr class="table-odd"><td>type</td><td>Optional message type indicator i.e. 'warning', 'error', 'info', 'debug'</td></tr></table><p class="paragraph"/>This method stores the message information in flash scope.<p class="paragraph"/><p class="paragraph"/>
+</blockquote><p class="paragraph"/>The <code>args</code> supported are:<p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th><strong class="bold">Purpose</strong></th></tr><tr class="table-odd"><td>text</td><td>The text of the label, or an i18n code to resolve to use as the text</td></tr><tr class="table-even"><td>args</td><td>Optional arguments to pass when creating the i18n message text</td></tr><tr class="table-odd"><td>type</td><td>Optional message type indicator i.e. 'warning', 'error', 'info', 'debug'</td></tr></table><p class="paragraph"/>This method stores the message information in flash scope.
+
             </div>
         </td>
         <td id="col2">
@@ -406,7 +400,7 @@ forces all usage in plugins to use i18n messages for text - which is a good thin
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

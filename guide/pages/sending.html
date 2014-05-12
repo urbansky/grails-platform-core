@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5.1 Sending Events 1.0.RC3</title>
+    <title>5.1 Sending Events 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../css/shCore.js"></script>
-    <script type="text/javascript" src="../css/shBrushXml.js"></script>
-    <script type="text/javascript" src="../css/shBrushGroovy.js"></script>
-    <link type="text/css" rel="stylesheet" href="../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -81,13 +74,13 @@
             <div id="main" class="corner-all">
 
                 
-                <div class="toc-item prev-left"><a href="../../guide/security.html">&lt;&lt; <strong>4</strong><span>Security API</span></a></div>
+                    <div class="toc-item prev-left"><a href="../../guide/security.html">&lt;&lt; <strong>4</strong><span>Security API</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                <div class="toc-item next-right"><a href="../../guide/nav.html"><strong>6</strong><span>Navigation API</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/nav.html"><strong>6</strong><span>Navigation API</span> >></a></div>
                 
 
 
@@ -96,7 +89,7 @@
 
                     <p><strong>Authors:</strong> Marc Palmer (marc@grailsrocks.com), Stéphane Maldini (smaldini@vmware.com)</p>
 
-                    <p><strong>Version:</strong> 1.0.RC3</p>
+                    <p><strong>Version:</strong> 1.0.0</p>
 
                     
                 </div>
@@ -137,25 +130,56 @@ Platform-core Events bus provides a non-blocking way to send events by default, 
 <li><strong class="bold">getValues</strong></li>
 <li><strong class="bold">getValue</strong></li>
 </ul><p class="paragraph"/>Therefore you have the control on the execution flow if you want. Just keep in mind it does not block for processing right after event() call, which seems to be a
-sensible default for the bus. Eventual <strong class="bold">Exceptions</strong> will be raised after using one of the mentioned blocking methods  except if <strong class="bold">onError</strong> parameter is used.<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10;   def logout()&#123;&#10;      def reply = event("logout", session.user)&#10;      //doesn't wait for event execution&#10;      &#10;      render reply.value  //wait and display value&#10;      &#10;      event(topic:"afterLogout").waitFor()&#10;      &#10;      //Only triggered when "afterLogout" finished&#10;      def errorHandler = &#123;errs &#45;&#62; &#125;&#10;      //Use a dedicated error handler&#10;      event(topic:"afterAfterLogout", onError:errs)&#10;   &#125;&#10;&#125;&#10;</pre><p class="paragraph"/>
-<h3>Non forked events</h3>
+sensible default for the bus. Eventual <strong class="bold">Exceptions</strong> will be raised after using one of the mentioned blocking methods  except if <strong class="bold">onError</strong> parameter is used.<p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/>   def logout(){
+      def reply = event("logout", session.user)
+      //doesn't wait for event execution<p class="paragraph"/>      render reply.value  //wait and display value<p class="paragraph"/>      event(topic:"afterLogout").waitFor()<p class="paragraph"/>      //Only triggered when "afterLogout" finished
+      def errorHandler = {errs -&#62; }
+      //Use a dedicated error handler
+      event(topic:"afterAfterLogout", onError:errs)
+   }
+}
+{docx}<p class="paragraph"/><h3>Non forked events</h3>
 If you want to reuse the current thread and force synchronous processing, use the fork param. Be aware that each exception will be directly propagated to caller even without using blocking methods except
-if <strong class="bold">onError</strong> parameter is used.<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10;   def logout()&#123;&#10;      def reply = event('logout', session.user, &#91;fork:false&#93;)&#10;      //block for processing&#10;&#10;      //no need to wait for reply since it has been populated on event call.&#10;      render reply.value&#10;   &#125;&#10;&#125;&#10;</pre><p class="paragraph"/><h3>Assigning a namespace</h3>
+if <strong class="bold">onError</strong> parameter is used.<p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/>   def logout(){
+      def reply = event('logout', session.user, &#91;fork:false&#93;)
+      //block for processing<p class="paragraph"/>      //no need to wait for reply since it has been populated on event call.
+      render reply.value
+   }
+}
+{docx}<p class="paragraph"/><h3>Assigning a namespace</h3>
 All listeners get a property called namespace which prevents topic naming collisions and undesired events. By default, they are all assigned to <strong class="bold">app</strong>.
- This is the same default used when you send an event, but what if you want to reach others namespaced listeners, like 'browser' ones if you use <strong class="bold">events-push</strong> plugin ? Simply use <strong class="bold">namespace</strong> argument or use <strong class="bold">for</strong> if you stick with Map notation.<p class="paragraph"/><pre class="brush: groovy;">&#10; class SomeController&#123;&#10;&#10;    def logout()&#123;&#10;        //we use the Map form, the namespace argument is identified by the 'for' key&#10;       event for:'browser', topic:'logout', data:session.user&#10;    &#125;&#10; &#125;&#10;</pre><p class="paragraph"/><blockquote class="warning">
+ This is the same default used when you send an event, but what if you want to reach others namespaced listeners, like 'browser' ones if you use <strong class="bold">events-push</strong> plugin ? Simply use <strong class="bold">namespace</strong> argument or use <strong class="bold">for</strong> if you stick with Map notation.<p class="paragraph"/>{docx}
+ class SomeController{<p class="paragraph"/>    def logout(){
+        //we use the Map form, the namespace argument is identified by the 'for' key
+       event for:'browser', topic:'logout', data:session.user
+    }
+ }
+{docx}<p class="paragraph"/><blockquote class="warning">
 It's mandatory to declare namespace when using events bus from a plugin in order to avoid any conflicts.
 </blockquote><p class="paragraph"/><h3>Wildcard support</h3>
-It's possible to call multiple topics/namespaces in a single shot using <strong class="bold">wildcard as the last character</strong>.<p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10;    def logout()&#123;&#10;        /&#42;&#10;          We send to every listeners starting with "chat&#45;"&#10;          on every namespaces starting with "role&#45;"&#10;        &#42;/&#10;        event for:'role&#45;&#42;', topic:'chat&#45;&#42;', data:session.user&#10;&#10;        //Here we can trigger every listeners in the default namespace 'app'&#10;        event '&#42;'&#10;    &#125;&#10;&#125;&#10;</pre><p class="paragraph"/><blockquote class="note">
+It's possible to call multiple topics/namespaces in a single shot using <strong class="bold">wildcard as the last character</strong>.<p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/>    def logout(){
+        /*
+          We send to every listeners starting with "chat-"
+          on every namespaces starting with "role-"
+        */
+        event for:'role-<strong class="bold">', topic:'chat-</strong>', data:session.user<p class="paragraph"/>        //Here we can trigger every listeners in the default namespace 'app'
+        event '*'
+    }
+}
+{docx}<p class="paragraph"/><blockquote class="note">
 This feature will probably evolve to a smarter implementation behaving like UrlMappings and authorizing substring captures
-</blockquote><p class="paragraph"/>
+</blockquote>
 
 
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                <div class="toc-item prev-left"><a href="../../guide/security.html">&lt;&lt; <strong>4</strong><span>Security API</span></a></div>
+                    <div class="toc-item prev-left"><a href="../../guide/security.html">&lt;&lt; <strong>4</strong><span>Security API</span></a></div>
                 
-                <div class="toc-item next-right"><a href="../../guide/nav.html"><strong>6</strong><span>Navigation API</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../../guide/nav.html"><strong>6</strong><span>Navigation API</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
@@ -170,275 +194,275 @@ This feature will probably evolve to a smarter implementation behaving like UrlM
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Beans</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/Beans/grailsConventions.html">grailsConventions</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Beans/grailsEvents.html">grailsEvents</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Beans/grailsInjection.html">grailsInjection</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Beans/grailsNavigation.html">grailsNavigation</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Beans/grailsPluginConfiguration.html">grailsPluginConfiguration</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Beans/grailsSecurity.html">grailsSecurity</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Beans/grailsUiExtensions.html">grailsUiExtensions</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Beans/grailsConventions.html">grailsConventions</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Beans/grailsEvents.html">grailsEvents</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Beans/grailsInjection.html">grailsInjection</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Beans/grailsNavigation.html">grailsNavigation</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Beans/grailsPluginConfiguration.html">grailsPluginConfiguration</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Beans/grailsSecurity.html">grailsSecurity</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Beans/grailsUiExtensions.html">grailsUiExtensions</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Events Methods</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/Events%20Methods/countListeners.html">countListeners</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Events%20Methods/event.html">event</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Events%20Methods/on.html">on</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Events%20Methods/removeListeners.html">removeListeners</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Events%20Methods/waitFor.html">waitFor</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Events%20Methods/countListeners.html">countListeners</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Events%20Methods/event.html">event</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Events%20Methods/on.html">on</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Events%20Methods/removeListeners.html">removeListeners</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Events%20Methods/waitFor.html">waitFor</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Global Properties</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/Global%20Properties/pluginConfig.html">pluginConfig</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Global%20Properties/pluginConfig.html">pluginConfig</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Navigation Tags</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/Navigation%20Tags/menu.html">menu</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Navigation%20Tags/primary.html">primary</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Navigation%20Tags/secondary.html">secondary</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Navigation%20Tags/set.html">set</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Navigation%20Tags/title.html">title</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Navigation%20Tags/menu.html">menu</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Navigation%20Tags/primary.html">primary</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Navigation%20Tags/secondary.html">secondary</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Navigation%20Tags/set.html">set</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Navigation%20Tags/title.html">title</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Plugin Conventions</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/Plugin%20Conventions/doWithConfig.html">doWithConfig</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Plugin%20Conventions/doWithConfigOptions.html">doWithConfigOptions</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Plugin%20Conventions/doWithConfig.html">doWithConfig</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Plugin%20Conventions/doWithConfigOptions.html">doWithConfigOptions</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Scripts</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/Scripts/update-header.html">update-header</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Scripts/update-header.html">update-header</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Security Methods</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Methods/userExists.html">userExists</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Methods/userHasAllRoles.html">userHasAllRoles</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Methods/userHasAnyRole.html">userHasAnyRole</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Methods/userIsAllowed.html">userIsAllowed</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Methods/withUser.html">withUser</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Methods/userExists.html">userExists</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Methods/userHasAllRoles.html">userHasAllRoles</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Methods/userHasAnyRole.html">userHasAnyRole</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Methods/userIsAllowed.html">userIsAllowed</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Methods/withUser.html">withUser</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Security Properties</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Properties/securityIdentity.html">securityIdentity</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Properties/securityInfo.html">securityInfo</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Properties/securityIdentity.html">securityIdentity</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Properties/securityInfo.html">securityInfo</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Security Tags</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Tags/createLoginLink.html">createLoginLink</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Tags/createLogoutLink.html">createLogoutLink</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Tags/createSignupLink.html">createSignupLink</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Tags/identity.html">identity</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Tags/ifLoggedIn.html">ifLoggedIn</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Tags/ifNotLoggedIn.html">ifNotLoggedIn</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Tags/ifNotPermitted.html">ifNotPermitted</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Tags/ifPermitted.html">ifPermitted</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Tags/info.html">info</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Tags/loginButton.html">loginButton</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Tags/logoutButton.html">logoutButton</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Security%20Tags/signupButton.html">signupButton</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Tags/createLoginLink.html">createLoginLink</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Tags/createLogoutLink.html">createLogoutLink</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Tags/createSignupLink.html">createSignupLink</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Tags/identity.html">identity</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Tags/ifLoggedIn.html">ifLoggedIn</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Tags/ifNotLoggedIn.html">ifNotLoggedIn</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Tags/ifNotPermitted.html">ifNotPermitted</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Tags/ifPermitted.html">ifPermitted</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Tags/info.html">info</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Tags/loginButton.html">loginButton</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Tags/logoutButton.html">logoutButton</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Security%20Tags/signupButton.html">signupButton</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">System Tags</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/System%20Tags/config.html">config</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/System%20Tags/requiresBean.html">requiresBean</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/System%20Tags/config.html">config</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/System%20Tags/requiresBean.html">requiresBean</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Ui Extension Methods</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Methods/displayFlashMessage.html">displayFlashMessage</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Methods/displayMessage.html">displayMessage</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Methods/displayFlashMessage.html">displayFlashMessage</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Methods/displayMessage.html">displayMessage</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Ui Extension Properties</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Properties/pluginFlash.html">pluginFlash</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Properties/pluginRequestAttributes.html">pluginRequestAttributes</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Properties/pluginSession.html">pluginSession</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Properties/pluginFlash.html">pluginFlash</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Properties/pluginRequestAttributes.html">pluginRequestAttributes</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Properties/pluginSession.html">pluginSession</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Ui Extension Tags</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/attrIfSet.html">attrIfSet</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/button.html">button</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/callTag.html">callTag</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/displayMessage.html">displayMessage</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/dummyText.html">dummyText</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/joinClasses.html">joinClasses</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/label.html">label</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/organization.html">organization</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/siteLink.html">siteLink</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/siteName.html">siteName</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/siteURL.html">siteURL</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/smartLink.html">smartLink</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/text.html">text</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/textScope.html">textScope</a>
-                        </div>
-                        
-                        <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/year.html">year</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/attrIfSet.html">attrIfSet</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/button.html">button</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/callTag.html">callTag</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/displayMessage.html">displayMessage</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/dummyText.html">dummyText</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/joinClasses.html">joinClasses</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/label.html">label</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/organization.html">organization</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/siteLink.html">siteLink</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/siteName.html">siteName</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/siteURL.html">siteURL</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/smartLink.html">smartLink</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/text.html">text</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/textScope.html">textScope</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Ui%20Extension%20Tags/year.html">year</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Utility Classes</h1><div class="menu-sub">
                         
-                        
-                        <div class="menu-item"><a href="../../ref/Utility%20Classes/TagLibUtils.html">TagLibUtils</a>
-                        </div>
-                        
-                    </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Utility%20Classes/TagLibUtils.html">TagLibUtils</a>
+                            </div>
+                            
+                            </div>
                     </div>
                     
                 </div>
@@ -448,7 +472,7 @@ This feature will probably evolve to a smarter implementation behaving like UrlM
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

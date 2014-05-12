@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Platform Core 1.0.RC3</title>
+    <title>Grails Platform Core 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../../css/shCore.js"></script>
-    <script type="text/javascript" src="../../css/shBrushGroovy.js"></script>
-    <script type="text/javascript" src="../../css/shBrushXml.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -83,7 +76,9 @@
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
-                <h1>s:createSignupLink</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Returns a URL that will take the user to a sign up / registration screen.<p class="paragraph"/>This gets the URL from the security provider that is installed.<p class="paragraph"/>To render a button that will take the user to this page, see <a href="../../ref/Security Tags/signupButton.html" class="securityTags">signupButton</a>.<p class="paragraph"/><h2>Example</h2><p class="paragraph"/><pre class="brush: xml;">&#10;&#60;s:createSignupLink/&#62;&#10;</pre><p class="paragraph"/><h2>Attributes</h2><p class="paragraph"/>None.
+                <h1>s:createSignupLink</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Returns a URL that will take the user to a sign up / registration screen.<p class="paragraph"/>This gets the URL from the security provider that is installed.<p class="paragraph"/>To render a button that will take the user to this page, see <a href="../../ref/Security Tags/signupButton.html" class="securityTags">signupButton</a>.<p class="paragraph"/><h2>Example</h2><p class="paragraph"/>{docx:xml}
+&#60;s:createSignupLink/&#62;
+{docx}<p class="paragraph"/><h2>Attributes</h2><p class="paragraph"/>None.
             </div>
         </td>
         <td id="col2">
@@ -402,7 +397,7 @@
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

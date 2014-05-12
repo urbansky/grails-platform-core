@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Platform Core 1.0.RC3</title>
+    <title>Grails Platform Core 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../../css/shCore.js"></script>
-    <script type="text/javascript" src="../../css/shBrushGroovy.js"></script>
-    <script type="text/javascript" src="../../css/shBrushXml.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -86,7 +79,27 @@
                 <h1>doWithConfig</h1><p class="paragraph"/>The doWithConfig closure in your plugin descriptor allows you to merge
 configuration values into the applications config, and to configure other
 plugins' declared configuration values safely.<p class="paragraph"/>The DSL takes the form of:
-<pre class="brush: groovy;">&#10;&#60;pluginName&#62; &#123;&#10;     &#60;config.path.here&#62; = &#60;value&#62;&#10;&#125;&#10;// optional if monkeying with legacy grails config&#10;application &#123;&#10;     &#60;config.path.here&#62; = &#60;value&#62;&#10;&#125;&#10;</pre><p class="paragraph"/>So for example:<p class="paragraph"/><pre class="brush: groovy;">&#10;def doWithConfig = &#123; config &#45;&#62;&#10;    platformUi &#123;&#10;        ui.Bootstrap.button.cssClass = 'btn'&#10;        ui.Bootstrap.tab.cssClass = 'tab&#45;pane'&#10;        ui.Bootstrap.field.cssClass = 'input'&#10;    &#125;&#10;    &#10;    application &#123;&#10;        // set something based on another config value that has already been&#10;        // by the application&#10;        grails.x.y = config.p.q == 'something' ? true : false&#10;    &#125;&#10;&#125;&#10;</pre><p class="paragraph"/>The above code configures values of the "platform-ui" plugin, and also changes some legacy Grails global config value called "grails.x.y".<p class="paragraph"/>The <code>config</code> argument passed in contains a reference to the ConfigObject of the grails application so that you can read existing values in order to set other values. Obviously the values read from here are dependent on plugin execution order.<p class="paragraph"/><blockquote class="note">
+{docx}
+&#60;pluginName&#62; {
+     &#60;config.path.here&#62; = &#60;value&#62;
+}
+// optional if monkeying with legacy grails config
+application {
+     &#60;config.path.here&#62; = &#60;value&#62;
+}
+{docx}<p class="paragraph"/>So for example:<p class="paragraph"/>{docx}
+def doWithConfig = { config -&#62;
+    platformUi {
+        ui.Bootstrap.button.cssClass = 'btn'
+        ui.Bootstrap.tab.cssClass = 'tab-pane'
+        ui.Bootstrap.field.cssClass = 'input'
+    }<p class="paragraph"/>    application {
+        // set something based on another config value that has already been
+        // by the application
+        grails.x.y = config.p.q == 'something' ? true : false
+    }
+}
+{docx}<p class="paragraph"/>The above code configures values of the "platform-ui" plugin, and also changes some legacy Grails global config value called "grails.x.y".<p class="paragraph"/>The <code>config</code> argument passed in contains a reference to the ConfigObject of the grails application so that you can read existing values in order to set other values. Obviously the values read from here are dependent on plugin execution order.<p class="paragraph"/><blockquote class="note">
 The Config API always gives the application developer the final say on the config values. So if 3 plugins try to change a value and the app Config.groovy also changes it, the app setting <strong class="bold">always</strong> wins.
 </blockquote>
 
@@ -408,7 +421,7 @@ The Config API always gives the application developer the final say on the confi
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

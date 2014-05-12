@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Platform Core 1.0.RC3</title>
+    <title>Grails Platform Core 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../../css/shCore.js"></script>
-    <script type="text/javascript" src="../../css/shBrushGroovy.js"></script>
-    <script type="text/javascript" src="../../css/shBrushXml.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -83,7 +76,11 @@
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
-                <h1>p:attrIfSet</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Writes out an HTML attribute only if the value for it is non-null.<p class="paragraph"/>Useful for keeping HTML output clean when some model or other attribute may be null and hence the attribute should not be written out at all.<p class="paragraph"/><h2>Example</h2><p class="paragraph"/><pre class="brush: xml;">&#10;&#60;img src="…" $&#123;p.attrIfSet(value:imgW, name:'width')&#125; &#10;    $&#123;p.attrIfSet(value:imgH, name:'height')&#125; &#10;    $&#123;p.attrIfSet(value:altText, name:'alt')&#125;/&#62;&#10;</pre><p class="paragraph"/><h2>Attributes</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th><strong class="bold">Purpose</strong></th></tr><tr class="table-odd"><td>name</td><td>Required - The name of the attribute</td></tr><tr class="table-even"><td>value</td><td>Required - The value of the attribute. Null values will mean nothing is written.</td></tr></table>
+                <h1>p:attrIfSet</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Writes out an HTML attribute only if the value for it is non-null.<p class="paragraph"/>Useful for keeping HTML output clean when some model or other attribute may be null and hence the attribute should not be written out at all.<p class="paragraph"/><h2>Example</h2><p class="paragraph"/>{docx:xml}
+&#60;img src="…" ${p.attrIfSet(value:imgW, name:'width')}
+    ${p.attrIfSet(value:imgH, name:'height')}
+    ${p.attrIfSet(value:altText, name:'alt')}/&#62;
+{docx}<p class="paragraph"/><h2>Attributes</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Name</strong></th><th><strong class="bold">Purpose</strong></th></tr><tr class="table-odd"><td>name</td><td>Required - The name of the attribute</td></tr><tr class="table-even"><td>value</td><td>Required - The value of the attribute. Null values will mean nothing is written.</td></tr></table>
 
             </div>
         </td>
@@ -403,7 +400,7 @@
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

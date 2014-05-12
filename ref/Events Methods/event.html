@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Platform Core 1.0.RC3</title>
+    <title>Grails Platform Core 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../../css/shCore.js"></script>
-    <script type="text/javascript" src="../../css/shBrushGroovy.js"></script>
-    <script type="text/javascript" src="../../css/shBrushXml.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -83,7 +76,16 @@
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
-                <h1>event(String topic &#91;, Object data, Map params&#93;)</h1><p class="paragraph"/> <em class="italic">Available in Controllers, Domains, Taglibs and Services</em> <p class="paragraph"/>This method returns <a href="../../api/org/grails/plugin/platform/events/EventReply.html" class="api">EventReply</a> if the current user has all of the roles listed.<p class="paragraph"/><h2>Usage</h2><p class="paragraph"/><pre class="brush: groovy;">&#10;class SomeController&#123;&#10;&#10;   def logout()&#123;&#10;      def reply = event("logout", session.user)&#10;      //doesn't wait for event execution&#10;&#10;      render reply.value  //wait and display value&#10;&#10;      event(topic:"afterLogout").waitFor()&#10;&#10;      //Only triggered when "afterLogout" finished&#10;      def errorHandler = &#123;errs &#45;&#62; &#125;&#10;      //Use a dedicated error handler&#10;      event(topic:"afterAfterLogout", onError:errs)&#10;   &#125;&#10;&#125;&#10;</pre><p class="paragraph"/><h2>Arguments</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Name</th><th>Mandatory</th><th>Default</th><th>Description</th></tr><tr class="table-odd"><td>topic</td><td>true</td><td>&#160;</td><td>A <strong class="bold">String</strong> which represents channel subscribed by listeners.</td></tr><tr class="table-even"><td>data</td><td>false</td><td>&#160;</td><td>An <strong class="bold">Object</strong> - <em class="italic">preferrably Serializable for IO facilities</em> - which represents the subject of your event such as a domain class.</td></tr><tr class="table-odd"><td>params</td><td>false</td><td> <em class="italic">See below for arguments defaults</em> </td><td>A <strong class="bold">Map</strong> which represents sending behaviors including <strong class="bold">namespace</strong>.</td></tr><tr class="table-even"><td>callbackClosure</td><td>false</td><td>&#160;</td><td>A <strong class="bold">Closure</strong> triggered after an event completion.</td></tr></table><p class="paragraph"/><strong class="bold">Params</strong> arguments :
+                <h1>event(String topic &#91;, Object data, Map params&#93;)</h1><p class="paragraph"/> <em class="italic">Available in Controllers, Domains, Taglibs and Services</em> <p class="paragraph"/>This method returns <a href="../../api/org/grails/plugin/platform/events/EventReply.html" class="api">EventReply</a> if the current user has all of the roles listed.<p class="paragraph"/><h2>Usage</h2><p class="paragraph"/>{docx}
+class SomeController{<p class="paragraph"/>   def logout(){
+      def reply = event("logout", session.user)
+      //doesn't wait for event execution<p class="paragraph"/>      render reply.value  //wait and display value<p class="paragraph"/>      event(topic:"afterLogout").waitFor()<p class="paragraph"/>      //Only triggered when "afterLogout" finished
+      def errorHandler = {errs -&#62; }
+      //Use a dedicated error handler
+      event(topic:"afterAfterLogout", onError:errs)
+   }
+}
+{docx}<p class="paragraph"/><h2>Arguments</h2><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th>Name</th><th>Mandatory</th><th>Default</th><th>Description</th></tr><tr class="table-odd"><td>topic</td><td>true</td><td>&#160;</td><td>A <strong class="bold">String</strong> which represents channel subscribed by listeners.</td></tr><tr class="table-even"><td>data</td><td>false</td><td>&#160;</td><td>An <strong class="bold">Object</strong> - <em class="italic">preferrably Serializable for IO facilities</em> - which represents the subject of your event such as a domain class.</td></tr><tr class="table-odd"><td>params</td><td>false</td><td> <em class="italic">See below for arguments defaults</em> </td><td>A <strong class="bold">Map</strong> which represents sending behaviors including <strong class="bold">namespace</strong>.</td></tr><tr class="table-even"><td>callbackClosure</td><td>false</td><td>&#160;</td><td>A <strong class="bold">Closure</strong> triggered after an event completion.</td></tr></table><p class="paragraph"/><strong class="bold">Params</strong> arguments :
 <table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Key</strong></th><th><strong class="bold">Type</strong></th><th><strong class="bold">Default</strong></th><th><strong class="bold">Description</strong></th></tr><tr class="table-odd"><td>fork</td><td><code>Boolean</code></td><td><code>false</code></td><td>Force the event to reuse the caller thread, therefore executing the method synchronously and propagating any errors.</td></tr><tr class="table-even"><td>namespace / for</td><td><code>String</code></td><td><code>'app'</code></td><td>Target a dedicated topic namespace. To avoid overlapping topic names, the events bus supports a scoping concept called namespace. E.g. 'gorm' is used by gorm events and 'browser' is used for Javascript listeners in <strong class="bold">events-push</strong> plugin.</td></tr><tr class="table-odd"><td>onReply</td><td><code>Closure&#123;EventReply reply&#125;</code></td><td>&#160;</td><td>Same behavior than  <em class="italic">callbackClosure</em>  argument, overrides it if both are defined.</td></tr><tr class="table-even"><td>onError</td><td><code>Closure&#123;List&#60;Exception&#62; errors&#125;</code></td><td>&#160;</td><td>If exceptions has been raised by listeners, this callback will be triggered. If undefined, exceptions will be propagated on EventReply.getValue(s).</td></tr><tr class="table-odd"><td>gormSession</td><td><code>Boolean</code></td><td><code>true</code></td><td>Opens a GORM session for the new thread which carries event execution.</td></tr><tr class="table-even"><td>timeout</td><td><code>Long</code></td><td>&#160;</td><td>Define a maximum time in millisecond for the event execution.</td></tr><tr class="table-odd"><td>headers</td><td><code>Map&#60;String, Serializable&#62;</code></td><td>&#160;</td><td>Additional headers for the event message enveloppe.</td></tr></table><p class="paragraph"/><h1>event(Map argument)</h1><p class="paragraph"/>The map notation allows you to reuse the same arguments than params plus <strong class="bold">topic</strong> for topic, <strong class="bold">data</strong> for data and <strong class="bold">for</strong> (shortcut for 'namespace'). If you specify <strong class="bold">params</strong>, it will use it for the <strong class="bold">params</strong> argument otherwise the first level map is used as <strong class="bold">params</strong>.
             </div>
         </td>
@@ -403,7 +405,7 @@
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 

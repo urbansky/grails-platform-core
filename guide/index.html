@@ -1,165 +1,158 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-    <title>Grails Platform Core 1.0.RC3</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
-    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
-    <script type="text/javascript" src="../css/shCore.js"></script>
-    <script type="text/javascript" src="../css/shBrushXml.js"></script>
-    <script type="text/javascript" src="../css/shBrushGroovy.js"></script>
-    <link type="text/css" rel="stylesheet" href="../css/shCoreMidnight.css"/>
+    <head>
+        <title>Grails Platform Core 1.0.0</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+        <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
-</head>
+    </head>
 
-<body class="body" onload="addJsClass();">
-<div id="navigation">
-    <ul>
-        <li>
-            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
-                <a href="../guide/index.html" class="button">Table of contents</a>
-                <div id="nav-summary-childs" style="display:none;">
-                    
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/overview.html"><strong>1</strong><span>Overview</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/gettingStarted.html"><strong>2</strong><span>Getting Started</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration API</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/security.html"><strong>4</strong><span>Security API</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/events.html"><strong>5</strong><span>Events Bus API</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/nav.html"><strong>6</strong><span>Navigation API</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/uiextension.html"><strong>7</strong><span>UI Extensions</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/injection.html"><strong>8</strong><span>Injection API</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/convention.html"><strong>9</strong><span>Convention API</span></a></div>
-                    
-                </div>
-            </div>
-        </li>
-        <li class="separator selected">
-            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
-        </li>
-    </ul>
-</div>
-<div id="header">
-    <div class="images clearfix">
-        
-        
-    </div>
-    <p>Provides the Platform Core APIs and Tags</p>
-</div>
-
-
-<table id="colset" border="0" cellpadding="0" cellspacing="0">
-    <tr>
-        <td id="col1">
-            <div id="main" class="corner-all">
-
-                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
-
-                <div class="project">
-                    <h1>Grails Platform Core - Reference Documentation</h1>
-                    <p><strong>Authors:</strong> Marc Palmer (marc@grailsrocks.com), Stéphane Maldini (smaldini@vmware.com)</p>
-                    <p><strong>Version:</strong> 1.0.RC3</p>
-                    
-                </div>
-
-                
-                <div id="table-of-content">
-                    <h2>Table of Contents</h2>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="../guide/overview.html"><strong>1</strong><span>Overview</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/overview.html#apis"><strong>1.1</strong><span>The APIs</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/overview.html#changelog"><strong>1.2</strong><span>Change log</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/overview.html#knownissues"><strong>1.3</strong><span>Known Issues</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="../guide/gettingStarted.html"><strong>2</strong><span>Getting Started</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration API</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/configuration.html#changing_config"><strong>3.1</strong><span>Changing Application and Plugin Config Values</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/configuration.html#declaring_configuration_options"><strong>3.2</strong><span>Declaring Configuration Options</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/configuration.html#accessing_plugin_config"><strong>3.3</strong><span>Accessing Plugin Config</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="../guide/security.html"><strong>4</strong><span>Security API</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/security.html#security_implementing_bridge"><strong>4.1</strong><span>Implementing a Security Bridge</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="../guide/events.html"><strong>5</strong><span>Events Bus API</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#sending"><strong>5.1</strong><span>Sending Events</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#listening"><strong>5.2</strong><span>Listening Events</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#replying"><strong>5.3</strong><span>Replying from Listeners</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#artifact"><strong>5.4</strong><span>Routing configuration -- The XxxEvents Artifact</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#gorm"><strong>5.5</strong><span>Listening GORM events</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#beans"><strong>5.6</strong><span>Spring Beans</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#secure"><strong>5.7</strong><span>Securing events</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#extensions"><strong>5.8</strong><span>Extensions</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#config"><strong>5.9</strong><span>Configuration properties</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="../guide/nav.html"><strong>6</strong><span>Navigation API</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#navigation_concepts"><strong>6.1</strong><span>Concepts</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#navigation_getting_started"><strong>6.2</strong><span>Getting Started</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#navigation_by_convention"><strong>6.3</strong><span>Navigation by convention</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#primary_navigation"><strong>6.4</strong><span>What is primary and secondary navigation?</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#menu_navigation"><strong>6.5</strong><span>Rendering other menus</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#using_navigation_dsl"><strong>6.6</strong><span>Using the Navigation DSL</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#navigation_tags"><strong>6.7</strong><span>The Navigation Tags</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="../guide/uiextension.html"><strong>7</strong><span>UI Extensions</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/uiextension.html#uix_tags"><strong>7.1</strong><span>Tags</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/uiextension.html#uix_properties"><strong>7.2</strong><span>Properties</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:10px"><a href="../guide/uiextension.html#uix_code"><strong>7.3</strong><span>Beans and utilities</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="../guide/injection.html"><strong>8</strong><span>Injection API</span></a></div>
-                    
-                    <div class="toc-item" style="margin-left:0px"><a href="../guide/convention.html"><strong>9</strong><span>Convention API</span></a></div>
-                    
-                    <div style="clear:both" ></div>
-                </div>
+    <body class="body" onload="addJsClass();">
+        <div id="navigation">
+            <ul>
+                <li>
+                    <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                        <a href="../guide/index.html" class="button">Table of contents</a>
+                        <div id="nav-summary-childs" style="display:none;">
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="../guide/overview.html"><strong>1</strong><span>Overview</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="../guide/gettingStarted.html"><strong>2</strong><span>Getting Started</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration API</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="../guide/security.html"><strong>4</strong><span>Security API</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="../guide/events.html"><strong>5</strong><span>Events Bus API</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="../guide/nav.html"><strong>6</strong><span>Navigation API</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="../guide/uiextension.html"><strong>7</strong><span>UI Extensions</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="../guide/injection.html"><strong>8</strong><span>Injection API</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="../guide/convention.html"><strong>9</strong><span>Convention API</span></a></div>
+                            
+                        </div>
+                    </div>
+                </li>
+                <li class="separator selected">
+                    <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+                </li>
+            </ul>
+        </div>
+        <div id="header">
+            <div class="images clearfix">
                 
                 
             </div>
-        </td>
-        <td id="col2">
+            <p>Provides the Platform Core APIs and Tags</p>
+        </div>
+
+
+        <table id="colset" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td id="col1">
+                    <div id="main" class="corner-all">
+
+                        <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                        <div class="project">
+                            <h1>Grails Platform Core - Reference Documentation</h1>
+                            <p><strong>Authors:</strong> Marc Palmer (marc@grailsrocks.com), Stéphane Maldini (smaldini@vmware.com)</p>
+                            <p><strong>Version:</strong> 1.0.0</p>
+                            
+                        </div>
+
+                        
+                        <div id="table-of-content">
+                            <h2>Table of Contents</h2>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="../guide/overview.html"><strong>1</strong><span>Overview</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/overview.html#apis"><strong>1.1</strong><span>The APIs</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/overview.html#changelog"><strong>1.2</strong><span>Change log</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/overview.html#knownissues"><strong>1.3</strong><span>Known Issues</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="../guide/gettingStarted.html"><strong>2</strong><span>Getting Started</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="../guide/configuration.html"><strong>3</strong><span>Configuration API</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/configuration.html#changing_config"><strong>3.1</strong><span>Changing Application and Plugin Config Values</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/configuration.html#declaring_configuration_options"><strong>3.2</strong><span>Declaring Configuration Options</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/configuration.html#accessing_plugin_config"><strong>3.3</strong><span>Accessing Plugin Config</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="../guide/security.html"><strong>4</strong><span>Security API</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/security.html#security_implementing_bridge"><strong>4.1</strong><span>Implementing a Security Bridge</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="../guide/events.html"><strong>5</strong><span>Events Bus API</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#sending"><strong>5.1</strong><span>Sending Events</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#listening"><strong>5.2</strong><span>Listening Events</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#replying"><strong>5.3</strong><span>Replying from Listeners</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#artifact"><strong>5.4</strong><span>Routing configuration -- The XxxEvents Artifact</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#gorm"><strong>5.5</strong><span>Listening GORM events</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#beans"><strong>5.6</strong><span>Spring Beans</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#secure"><strong>5.7</strong><span>Securing events</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#extensions"><strong>5.8</strong><span>Extensions</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/events.html#config"><strong>5.9</strong><span>Configuration properties</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="../guide/nav.html"><strong>6</strong><span>Navigation API</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#navigation_concepts"><strong>6.1</strong><span>Concepts</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#navigation_getting_started"><strong>6.2</strong><span>Getting Started</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#navigation_by_convention"><strong>6.3</strong><span>Navigation by convention</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#primary_navigation"><strong>6.4</strong><span>What is primary and secondary navigation?</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#menu_navigation"><strong>6.5</strong><span>Rendering other menus</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#using_navigation_dsl"><strong>6.6</strong><span>Using the Navigation DSL</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/nav.html#navigation_tags"><strong>6.7</strong><span>The Navigation Tags</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="../guide/uiextension.html"><strong>7</strong><span>UI Extensions</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/uiextension.html#uix_tags"><strong>7.1</strong><span>Tags</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/uiextension.html#uix_properties"><strong>7.2</strong><span>Properties</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="../guide/uiextension.html#uix_code"><strong>7.3</strong><span>Beans and utilities</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="../guide/injection.html"><strong>8</strong><span>Injection API</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="../guide/convention.html"><strong>9</strong><span>Convention API</span></a></div>
+                            
+                            <div style="clear:both" ></div>
+                        </div>
+                        
+                        
+                    </div>
+                </td>
+                <td id="col2">
             <div class="local clearfix">
                 <div class="local-title">
                     <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
@@ -191,7 +184,7 @@
                         <div class="menu-item"><a href="../ref/Beans/grailsUiExtensions.html">grailsUiExtensions</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Events Methods</h1><div class="menu-sub">
@@ -212,7 +205,7 @@
                         <div class="menu-item"><a href="../ref/Events%20Methods/waitFor.html">waitFor</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Global Properties</h1><div class="menu-sub">
@@ -221,7 +214,7 @@
                         <div class="menu-item"><a href="../ref/Global%20Properties/pluginConfig.html">pluginConfig</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Navigation Tags</h1><div class="menu-sub">
@@ -242,7 +235,7 @@
                         <div class="menu-item"><a href="../ref/Navigation%20Tags/title.html">title</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Plugin Conventions</h1><div class="menu-sub">
@@ -254,7 +247,7 @@
                         <div class="menu-item"><a href="../ref/Plugin%20Conventions/doWithConfigOptions.html">doWithConfigOptions</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Scripts</h1><div class="menu-sub">
@@ -263,7 +256,7 @@
                         <div class="menu-item"><a href="../ref/Scripts/update-header.html">update-header</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Security Methods</h1><div class="menu-sub">
@@ -284,7 +277,7 @@
                         <div class="menu-item"><a href="../ref/Security%20Methods/withUser.html">withUser</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Security Properties</h1><div class="menu-sub">
@@ -296,7 +289,7 @@
                         <div class="menu-item"><a href="../ref/Security%20Properties/securityInfo.html">securityInfo</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Security Tags</h1><div class="menu-sub">
@@ -338,7 +331,7 @@
                         <div class="menu-item"><a href="../ref/Security%20Tags/signupButton.html">signupButton</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">System Tags</h1><div class="menu-sub">
@@ -350,7 +343,7 @@
                         <div class="menu-item"><a href="../ref/System%20Tags/requiresBean.html">requiresBean</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Ui Extension Methods</h1><div class="menu-sub">
@@ -362,7 +355,7 @@
                         <div class="menu-item"><a href="../ref/Ui%20Extension%20Methods/displayMessage.html">displayMessage</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Ui Extension Properties</h1><div class="menu-sub">
@@ -377,7 +370,7 @@
                         <div class="menu-item"><a href="../ref/Ui%20Extension%20Properties/pluginSession.html">pluginSession</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Ui Extension Tags</h1><div class="menu-sub">
@@ -428,7 +421,7 @@
                         <div class="menu-item"><a href="../ref/Ui%20Extension%20Tags/year.html">year</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Utility Classes</h1><div class="menu-sub">
@@ -437,23 +430,23 @@
                         <div class="menu-item"><a href="../ref/Utility%20Classes/TagLibUtils.html">TagLibUtils</a>
                         </div>
                         
-                    </div>
+                        </div>
                     </div>
                     
                 </div>
             </div>
         </td>
-    </tr>
-</table>
+            </tr>
+        </table>
 
-<div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
-    Please contact the authors with any corrections or suggestions
-</div>
+        <div id="footer">
+            &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
+            Please contact the authors with any corrections or suggestions
+        </div>
 
 
 
 <script type="text/javascript" src="../js/docs.js"></script>
 
-</body>
+    </body>
 </html>

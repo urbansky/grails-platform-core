@@ -1,24 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>Grails Platform Core 1.0.RC3</title>
+    <title>Grails Platform Core 1.0.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
-    <script type="text/javascript" src="../../css/shCore.js"></script>
-    <script type="text/javascript" src="../../css/shBrushGroovy.js"></script>
-    <script type="text/javascript" src="../../css/shBrushXml.js"></script>
-    <link type="text/css" rel="stylesheet" href="../../css/shCoreMidnight.css"/>
     <script type="text/javascript">
-        SyntaxHighlighter.config.stripBrs = true;
-        SyntaxHighlighter.defaults['smart-tabs'] = true;
-        SyntaxHighlighter.all();
-        function addJsClass() {
-            var classes = document.body.className.split(" ");
-            classes.push("js");
-            document.body.className = classes.join(" ");
-        }
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
     </script>
 </head>
 
@@ -84,7 +77,14 @@
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 <h1>pluginSession</h1><p class="paragraph"/>This property is available to controllers and taglibs, to provide access to the session attributes for only the plugin that
-defines the controller or taglib.<p class="paragraph"/>Use this instead of <code>session&#91;xxxx&#93;</code> in your plugin code, to prevent keys accidentally clashing across plugins and apps:<p class="paragraph"/><pre class="brush: groovy;">&#10;class MyPluginController &#123;&#10;    def index = &#123;&#10;        pluginSession.message = &#10;            "This is safe, even if app or other plugin uses &#91;message&#93;"&#10;    &#125;&#10;&#125;&#10;</pre><p class="paragraph"/>The object returned is a <code>PropertyNamespacer</code> instance, which supports property access, keySet() and toMap() to return only the keys and data
+defines the controller or taglib.<p class="paragraph"/>Use this instead of <code>session&#91;xxxx&#93;</code> in your plugin code, to prevent keys accidentally clashing across plugins and apps:<p class="paragraph"/>{docx}
+class MyPluginController {
+    def index = {
+        pluginSession.message =
+            "This is safe, even if app or other plugin uses message"
+    }
+}
+{docx}<p class="paragraph"/>The object returned is a <code>PropertyNamespacer</code> instance, which supports property access, keySet() and toMap() to return only the keys and data
 that is provided by the plugin.<p class="paragraph"/>
             </div>
         </td>
@@ -404,7 +404,7 @@ that is provided by the plugin.<p class="paragraph"/>
 </table>
 
 <div id="footer">
-    &copy; 2012 Marc Palmer &amp; Stéphane Maldini
+    &copy; 2011-2013 Marc Palmer &amp; Stéphane Maldini
     Please contact the authors with any corrections or suggestions
 </div>
 
