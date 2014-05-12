@@ -31,5 +31,9 @@ grails.project.dependency.resolution = {
             export = false
         }
 
+        test(":hibernate:3.6.10.14") {
+            export = false
+        }
+
     }
 }

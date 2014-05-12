@@ -19,12 +19,12 @@ package org.grails.plugin.platform.config
 
 import grails.test.*
 import spock.lang.*
-import grails.plugin.spock.UnitSpec
-import org.codehaus.groovy.grails.plugins.PluginManagerHolder
+
+import grails.util.Holders
 import org.codehaus.groovy.grails.plugins.GrailsPluginManager
 import org.grails.plugin.platform.util.ClosureInvokingScript
 
-class PluginConfigurationSpec extends UnitSpec {
+class PluginConfigurationSpec extends Specification {
 
     @Unroll("Expected #resultPath set to #resultValue from a closure")
     def "closure config loads into a ConfigObject"() {
