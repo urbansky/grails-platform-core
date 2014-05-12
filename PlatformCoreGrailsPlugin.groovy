@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import org.codehaus.groovy.grails.plugins.PluginManagerHolder
+import grails.util.Holders
 import org.grails.plugin.platform.config.PluginConfigurationFactory
 import org.grails.plugin.platform.conventions.ConventionsImpl
 import org.grails.plugin.platform.events.EventsImpl
@@ -88,12 +88,12 @@ class PlatformCoreGrailsPlugin {
      * code that generates stuff in web.xml - for example Spring Security cannot be configured
      * via the Config API without this.
      */
-    void initPlatform(application) {
+    void initPlatform(application, pluginManager = Holders.pluginManager) {
 
         // The terrible things we have to do...
         def hackyInstance = org.grails.plugin.platform.config.PluginConfigurationFactory.instance
         hackyInstance.grailsApplication = application
-        hackyInstance.pluginManager = org.codehaus.groovy.grails.plugins.PluginManagerHolder.pluginManager
+        hackyInstance.pluginManager = pluginManager
         hackyInstance.applyConfig()
 
         // Trigger doPlatformBuildInit(pluginManager)
@@ -106,7 +106,7 @@ class PlatformCoreGrailsPlugin {
      * This happens only when building app, or in dev
      */
     def doWithWebDescriptor = { xml ->
-        initPlatform(application)
+        initPlatform(application, manager)
     }
 
     /**
@@ -115,7 +115,7 @@ class PlatformCoreGrailsPlugin {
     def doWithSpring = {
         xmlns task: "http://www.springframework.org/schema/task"
 
-        initPlatform(application)
+        initPlatform(application, manager)
         def config = application.config.plugin.platformCore
 
         // Config API
