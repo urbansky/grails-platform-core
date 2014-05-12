@@ -8,13 +8,6 @@ rm -rf *.zip
 
 filename=$(find . -name "grails-*.zip" | head -1)
 filename=$(basename $filename)
-plugin=${filename:7}
-plugin=${plugin/.zip/}
-plugin=${plugin/-SNAPSHOT/}
-version="${plugin#*-}"; 
-plugin=${plugin/"-$version"/}
-
-echo "Publishing plugin $plugin with version $version"
 
 if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_REPO_SLUG == "grails-plugins/grails-platform-core" && $TRAVIS_PULL_REQUEST == 'false' ]]; then
   git config --global user.name "$GIT_NAME"
