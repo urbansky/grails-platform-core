@@ -30,7 +30,7 @@ import org.grails.plugin.platform.security.SecurityImpl
 import org.grails.plugin.platform.ui.UiExtensions
 
 class PlatformCoreGrailsPlugin {
-    def version = "1.0-SNAPSHOT"
+    def version = "1.0.0"
     def grailsVersion = "1.3 > *"
     def pluginExcludes = [
             "grails-app/conf/Test*.groovy",
@@ -62,7 +62,7 @@ class PlatformCoreGrailsPlugin {
     def loadBefore = ['core'] // Before rest of beans are initialized
     def loadAfter = ['logging'] // After logging though, we need that
 
-    def documentation = "http://grails.org/plugin/platform-core"
+    def documentation = "http://grails-plugins.github.io/grails-platform-core/"
 
     def license = "APACHE"
 
@@ -70,7 +70,8 @@ class PlatformCoreGrailsPlugin {
 
     def developers = [
             [name: "Marc Palmer", email: "marc@grailsrocks.com"],
-            [name: "Stéphane Maldini", email: "smaldini@vmware.com"]
+            [name: "Graeme Rocher", email: "grocher@gopivotal.com"],
+            [name: "Stéphane Maldini", email: "smaldini@gopivotal.com"]
     ]
 
     def issueManagement = [system: "JIRA", url: "http://jira.grails.org/browse/GPPLATFORMCORE"]
