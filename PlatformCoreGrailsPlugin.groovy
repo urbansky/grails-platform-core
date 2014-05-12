@@ -30,7 +30,7 @@ import org.grails.plugin.platform.security.SecurityImpl
 import org.grails.plugin.platform.ui.UiExtensions
 
 class PlatformCoreGrailsPlugin {
-    def version = "1.0.0"
+    def version = "1.0.1-SNAPSHOT"
     def grailsVersion = "1.3 > *"
     def pluginExcludes = [
             "grails-app/conf/Test*.groovy",
