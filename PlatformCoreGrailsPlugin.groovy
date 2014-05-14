@@ -55,8 +55,14 @@ class PlatformCoreGrailsPlugin {
     def artefacts = [getNavigationArtefactHandler(), getEventsArtefactHandler()]
 
     def title = "Plugin Platform Core"
-    def author = "Marc Palmer"
-    def authorEmail = "marc@grailsrocks.com"
+    
+    
+
+	def author = "Grails Plugin Collective"
+	def authorEmail = "grails.plugin.collective@gmail.com"
+	
+	def organization = [name: 'Grails Plugin Collective', url: 'http://github.com/gpc']
+	
     def description = 'Grails Plugin Platform Core APIs'
 
     def loadBefore = ['core'] // Before rest of beans are initialized
@@ -65,8 +71,6 @@ class PlatformCoreGrailsPlugin {
     def documentation = "http://grails-plugins.github.io/grails-platform-core/"
 
     def license = "APACHE"
-
-    def organization = [name: "Grailsrocks", url: "http://grailsrocks.com/"]
 
     def developers = [
             [name: "Marc Palmer", email: "marc@grailsrocks.com"],
