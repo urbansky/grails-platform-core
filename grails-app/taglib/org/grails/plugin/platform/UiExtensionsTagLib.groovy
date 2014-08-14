@@ -275,7 +275,7 @@ class UiExtensionsTagLib {
                 if (log.debugEnabled) {
                     log.debug "Attempt to resolve scoped i18n message code [${namespacedCode}] yielded: ${msg}"
                 }
-                if (msg) {
+                if (msg != null) {
                     if (log.debugEnabled) {
                         log.debug "Resolved scoped i18n message code [${namespacedCode}] and returning ${msg}"
                     }
@@ -302,7 +302,7 @@ class UiExtensionsTagLib {
                 if (log.debugEnabled) {
                     log.debug "Attempt to resolve unscoped i18n message code [${code}] yielded: ${msg}"
                 }
-                if (msg) {
+                if (msg != null) {
                     return msg
                 }
             }
