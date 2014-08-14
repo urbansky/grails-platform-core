@@ -15,13 +15,12 @@ import spock.lang.Specification
 @TestFor(UiExtensionsTagLib)
 class UIExtensionsTagLibSpec extends Specification {
     @Shared def messageSource = new StaticMessageSource()
-    @Shared Locale defaultLocale = Locale.ENGLISH
 
     def setupSpec() {
         messageSource.useCodeAsDefaultMessage = true
         //i18n demo data
-        messageSource.addMessage("plugin.test.test.message", defaultLocale, "test msg")
-        messageSource.addMessage("plugin.test.empty.message", defaultLocale, "")
+        messageSource.addMessage("plugin.test.test.message", Locale.ENGLISH, "test msg")
+        messageSource.addMessage("plugin.test.empty.message", Locale.ENGLISH, "")
     }
 
     def setup() {
@@ -39,7 +38,7 @@ class UIExtensionsTagLibSpec extends Specification {
 
     static void mockMessageTag(artefact, MessageSource messageSource) {
         artefact.metaClass.g = [message: { attrs ->
-            messageSource.getMessage(attrs.code, attrs.args as Object[], defaultLocale)
+            messageSource.getMessage(attrs.code, attrs.args as Object[], Locale.ENGLISH)
         }]
     }
 }
