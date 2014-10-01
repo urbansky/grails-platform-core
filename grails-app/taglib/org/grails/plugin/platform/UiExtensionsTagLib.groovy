@@ -176,6 +176,7 @@ class UiExtensionsTagLib {
     def joinClasses = { attrs ->
         StringBuilder res = new StringBuilder()
         def first = true
+        attrs.values.unique()
         attrs.values?.each { v ->
             if (v) {
                 if (!first) {
