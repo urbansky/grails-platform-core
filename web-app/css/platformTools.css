@@ -1,3 +1,12 @@
+/*
+* This is a manifest file that'll be compiled into platformTools.css,
+* which will include all the files listed below.
+*
+* Any CSS file within this directory can be referenced here using a relative path.
+*
+*= require platformTools/bootstrap.min
+*= require_self
+*/
 body {
     padding-top: 40px;
 }
@@ -11,4 +20,3 @@ body {
     padding: 4px;
     background-color: #eee;
 }
-
