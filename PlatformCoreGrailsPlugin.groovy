@@ -55,14 +55,14 @@ class PlatformCoreGrailsPlugin {
     def artefacts = [getNavigationArtefactHandler(), getEventsArtefactHandler()]
 
     def title = "Plugin Platform Core"
-    
-    
 
-	def author = "Grails Plugin Collective"
-	def authorEmail = "grails.plugin.collective@gmail.com"
-	
-	def organization = [name: 'Grails Plugin Collective', url: 'http://github.com/gpc']
-	
+
+
+    def author = "Grails Plugin Collective"
+    def authorEmail = "grails.plugin.collective@gmail.com"
+
+    def organization = [name: 'Grails Plugin Collective', url: 'http://github.com/gpc']
+
     def description = 'Grails Plugin Platform Core APIs'
 
     def loadBefore = ['core'] // Before rest of beans are initialized
@@ -84,7 +84,7 @@ class PlatformCoreGrailsPlugin {
 
     boolean platformInitialized
 
-    /* 
+    /*
      * Initialize the Configuration API instance
      * We have to do this before anything else runs, e.g. to make sure correct
      * config is available when web.xml is generated, which normally happens before
