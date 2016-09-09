@@ -137,11 +137,11 @@ class NavigationTagLib {
 
         def scopeNode = grailsNavigation.nodeForId(scope)
         if (scopeNode) {
-            out << "<ul${id}"
-            if (cssClass) {
-                out << " class=\"${cssClass.encodeAsHTML()}\""
-            }
-            out << ">"
+//            out << "<ul${id}"
+//            if (cssClass) {
+//                out << " class=\"${cssClass.encodeAsHTML()}\""
+//            }
+//            out << ">"
             if (log.debugEnabled) {
                 log.debug "Rendering menu for scope [${scope}] which has children ${scopeNode.children.name}"
             }
@@ -178,7 +178,7 @@ class NavigationTagLib {
                     }
                 }
             }
-            out << "</ul>"
+//            out << "</ul>"
         } else if (log.debugEnabled) {
             log.debug "Attempt to render menu for scope [${scope}] but there was no navigation node found for that scope."
         }
