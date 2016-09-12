@@ -6,3 +6,4 @@ target
 .settings
 *.zip
 web-app/WEB-INF
+.idea
